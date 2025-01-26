@@ -1,0 +1,97 @@
+:root {
+    --color-label-bg: white;
+    --color-label-fg: black;
+}
+
+.label, 
+.label dl.kv-horizontal, 
+.label dl.kv-vertical, 
+.label .icon-list {
+    padding: 0;
+    width: 100%;
+    background-color: var(--color-label-bg);
+    color: var(--color-label-fg);
+    gap: 1px;
+    > *:not(table, thead, tbody, tr, th, td) {
+        box-shadow: 0 0 0 1px  var(--color-label-fg);
+    }
+    > span, > dl dd, > dl dt, > .content, th, td {
+        padding: 3px 6px;
+        > :first-child {
+            margin-top: 0px;
+        }
+    }
+}
+
+
+dl.kv-vertical {
+    margin: 0;
+    display: grid;
+    grid-template-columns: max-content 1fr; /* Keys take minimal width, values fill remaining space */
+    dt {
+        font-weight: bold;
+        text-align: left;
+    }    
+    dd {
+        margin: 0;
+    }
+}
+
+dl.kv-horizontal {
+    margin: 0;
+    display: flex;
+    dt {
+        font-weight: bold;
+        text-align: left;
+        flex: 0 0 auto;
+    }    
+    dd {
+        margin: 0;
+        flex: 1 0 auto;
+    }
+}
+
+ul.icon-list, ol.icon-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    li {
+        flex: 1 0 auto;
+        a {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            img {
+                width: 30px;
+                height: 30px;
+                margin-right: 10px;
+            }
+        }
+    }
+}
+
+table.label {
+    border-collapse: collapse;
+    th, td {
+        text-align: left;
+        border: 1px solid var(--color-label-fg);
+        box-shadow: none;
+        &:first-child { border-left: none }
+        &:last-child { border-right: none }
+    }
+    tr:first-child td, tr:first-child th { border-top: none }
+    tr:last-child td, tr:first-child th { border-bottom: none }
+    tbody, thead {
+        box-shadow: none;
+        border: none;
+    }
+}
+
+.label.vertical-stack {
+    display: flex;
+    flex-flow: column;
+}

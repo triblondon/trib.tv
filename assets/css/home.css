@@ -1,0 +1,120 @@
+
+
+section.hero {
+    background: url(/assets/images/hero3.jpeg);
+    background-size: cover;
+    box-shadow: 0px 0px 40px 20px inset var(--color-bg);
+    aspect-ratio: 16/9;
+    color: white;
+    position: relative;
+    h1 {
+        position: absolute;
+        left: 10%;
+        top: 16%;
+        font-size: min(5vw, 3.5em);
+        font-family: "Geo";
+        font-weight: 500;
+        border-left: 1px dotted white;
+        margin: 0;
+        padding-left: 0.5em;
+        .fly {
+            font-size: 70%;
+            color: #ccc;
+            font-weight: 400;
+        }
+    }
+}
+
+.leaflet-tile-pane {
+    filter: invert(1);
+}
+
+.hero-labels {
+    list-style-type: none;
+}
+.hero-labels > .label {
+    --color-label-bg: black;
+    --color-label-fg: white;
+    position: absolute;
+    font-family: "Geo";
+    font-size: 0.8em;
+    display: grid;
+    grid-template-columns: auto;
+    width: auto;
+    .descr {
+        font-family: "Lato";
+        text-transform: uppercase;
+    }
+    .fig dt {
+        letter-spacing: 0.5px;
+        text-decoration: underline;
+        text-decoration-thickness: 1px;
+        font-size: 0.6em;
+    }
+}
+
+.about-label {
+    display: grid;
+    grid-template-columns: min-content auto;
+    grid-template-rows: auto min-content auto;
+    grid-template-areas: 
+        "divider divider"
+        "qr info-head"
+        "qr info"
+        "data data"
+        "map map"
+    ;
+    .qr {
+        grid-area: qr;
+        text-align: center;
+        img {
+            margin: auto;
+            width: 150px;
+            padding: 10px;
+            height: auto;
+        }
+    }
+    .info-head {
+        grid-area: info-head;
+    }
+    .info {
+        grid-area: info;
+    }
+    .map {
+        grid-area: map;
+        height: 450px;
+    }
+    .data {
+        grid-area: data;
+    }
+    .divider {
+        grid-area: divider;
+        height: 14px;
+        background: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
+    }
+}
+
+
+
+.blog-list {
+    display: grid;
+    grid-template-columns: min-content auto min-content min-content;
+    grid-template-rows: auto;
+
+    .blog-item {
+        display: contents; /* Allow each blog post to behave like a single unit */
+        > div {
+            padding: 18px 12px 8px 12px;
+        }
+        .meta {
+            white-space: nowrap;
+        }
+        .summary {
+            grid-column: 1 / -1; /* Span all columns */
+            padding: 0px 12px 18px 12px;
+        }
+        &:not(:last-child) .summary {
+            border-bottom: 1px dashed black;
+        }
+    }
+}
