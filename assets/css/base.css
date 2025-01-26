@@ -8,14 +8,13 @@ html {
 }
 
 body {
-    background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #222 1000px);
+    background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
     color: var(--color-text-body);
     min-height: 100%;
     font-family: "Lato";
 }
 
 section {
-    background-color: var(--color-bg-content);
     width: 100%;
     max-width: 1200px;
     margin: 20px auto;

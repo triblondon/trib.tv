@@ -21,6 +21,12 @@
             margin-top: 0px;
         }
     }
+    > .padded {
+        padding: 12px;
+        > :first-child {
+            margin-top: 0px;
+        }
+    }
 }
 
 
