@@ -90,7 +90,7 @@ table.label {
         &:last-child { border-right: none }
     }
     tr:first-child td, tr:first-child th { border-top: none }
-    tr:last-child td, tr:first-child th { border-bottom: none }
+    tr:last-child td, tr:last-child th { border-bottom: none }
     tbody, thead {
         box-shadow: none;
         border: none;
