@@ -17,16 +17,10 @@ section.hero {
         border-left: 1px dotted white;
         margin: 0;
         padding-left: 0.5em;
-        .fly {
-            font-size: 70%;
-            color: #ccc;
-            font-weight: 400;
+        img {
+            width: min(20vw, 225px);
         }
     }
-}
-
-.leaflet-tile-pane {
-    filter: invert(1);
 }
 
 .hero-labels {
@@ -50,6 +44,11 @@ section.hero {
         text-decoration: underline;
         text-decoration-thickness: 1px;
         font-size: 0.6em;
+    }
+}
+@media (max-width: 700px) {
+    .hero-labels {
+        display: none;
     }
 }
 
@@ -98,16 +97,23 @@ section.hero {
 
 .blog-list {
     display: grid;
-    grid-template-columns: min-content auto min-content min-content;
+    grid-template-columns: min-content auto min-content;
     grid-template-rows: auto;
 
     .blog-item {
-        display: contents; /* Allow each blog post to behave like a single unit */
+        display: contents; /* Fill the grid with the individual elements of each blog post, not the blog-item. */
         > div {
             padding: 18px 12px 8px 12px;
         }
+        > div.title {
+            padding-top: 17px;
+        }
         .meta {
             white-space: nowrap;
+            display: flex;
+            flex-flow: row wrap;
+            gap: 8px 24px;
+            align-content: flex-start;
         }
         .summary {
             grid-column: 1 / -1; /* Span all columns */
@@ -118,20 +124,13 @@ section.hero {
         }
     }
 }
+@media (min-width: 700px) {
+    .blog-list .blog-item .meta {
+        flex-wrap: nowrap;
+    }
+}
 
 .social {
     padding: 11px;
-    background: var(--color-label-bg);
-        --s: 10px; /* control the size*/
-        --c1: #000000;
-        --c2: #ffffff;
-        
-        --g:at calc(100%/3) 25%,#0000 75%,;
-        background:
-          conic-gradient(var(--g)var(--c1) 0),
-          conic-gradient(var(--g)var(--c2) 0) 0 var(--s),
-          repeating-conic-gradient(at calc(200%/3),
-            var(--c1) 0 25%,var(--c2) 0 50%);
-        background-size: var(--s) calc(4*var(--s)/3);
-      
+    background: repeating-linear-gradient(110deg, #ffffff, #ffffff 2px, #000000 3px, #000000 4px)
 }

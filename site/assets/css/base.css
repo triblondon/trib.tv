@@ -20,8 +20,20 @@ section {
     margin: 20px auto;
 }
 
+aside {
+    color: #666;
+    font-size: 80%;
+    overflow: hidden;
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    white-space: nowrap;
+}
+
 section.footer {
     margin: 30px auto;
+    padding: 10px 20px;
     display: grid;
     grid-template-columns: auto min-content;
     div > :first-child {
@@ -55,9 +67,11 @@ a.block-link, .block-links a {
     }
 }
 
-h1, h2, h3, h4, h5, h6 {
+h2, h3, h4, h5, h6 {
     margin: 0;
     text-transform: uppercase;
+}
+h2 {
     color: white;
     background-color: black;
     display: inline-block;

@@ -12,7 +12,7 @@
     background-color: var(--color-label-bg);
     color: var(--color-label-fg);
     gap: 1px;
-    > *:not(table, thead, tbody, tr, th, td) {
+    > *:not(table, thead, tbody, tr, th, td), > div dt, > div dd {
         box-shadow: 0 0 0 1px  var(--color-label-fg);
     }
     > span, > dl dd, > dl dt, > .content, th, td {
@@ -46,14 +46,20 @@ dl.kv-vertical {
 dl.kv-horizontal {
     margin: 0;
     display: flex;
-    dt {
-        font-weight: bold;
-        text-align: left;
-        flex: 0 0 auto;
-    }    
-    dd {
-        margin: 0;
+    flex-flow: row wrap;
+    > div {
         flex: 1 0 auto;
+        display: flex;
+        flex-flow: row nowrap;
+        dt {
+            font-weight: bold;
+            text-align: left;
+            flex: 0 0 auto;
+        }    
+        dd {
+            margin: 0;
+            flex: 1 0 auto;
+        }
     }
 }
 
