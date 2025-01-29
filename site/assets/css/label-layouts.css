@@ -16,10 +16,13 @@
         box-shadow: 0 0 0 1px  var(--color-label-fg);
         gap: 1px; /* In case label containers are also labels */
     }
-    > span, > dl dd, > dl dt, > .content, th, td {
+    > span, > dd, > dt, > dl dd, > dl dt, > .content, th, td {
         padding: 3px 6px;
         > :first-child {
             margin-top: 0px;
+        }
+        > :last-child {
+            margin-bottom: 0px;
         }
     }
     > .padded {
@@ -27,6 +30,15 @@
         > :first-child {
             margin-top: 0px;
         }
+        > :last-child {
+            margin-bottom: 0px;
+        }
+    }
+    .divider-diagonal {
+        background: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
+    }
+    .divider-straight {
+        background: repeating-linear-gradient(-90deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
     }
 }
 
@@ -34,6 +46,7 @@
 dl.kv-vertical {
     margin: 0;
     display: grid;
+    gap: 1px;
     grid-template-columns: max-content 1fr; /* Keys take minimal width, values fill remaining space */
     dt {
         font-weight: bold;
@@ -81,7 +94,9 @@ ul.icon-list, ol.icon-list {
             img {
                 width: 30px;
                 height: 30px;
-                margin-right: 10px;
+            }
+            span {
+                margin-left: 10px;
             }
         }
     }
@@ -105,7 +120,38 @@ table.label {
     thead { border-bottom: 1px solid var(--color-label-fg); }
 }
 
-.label.vertical-stack {
+.label.vertical-stack, .label-vertical {
     display: flex;
-    flex-flow: column;
+    flex-flow: column nowrap;
+}
+.label-horizontal {
+    display: flex;
+    flex-flow: row nowrap;
+}
+
+.label-edge-top {
+    position: relative;
+}
+.label-edge-top::before {
+    --radius: 6px;
+    --padding: 5px;
+    content: " ";
+
+    height: calc(var(--radius) + var(--padding));
+    width: 100%;
+
+    position: absolute;
+    top: calc((var(--radius) + var(--padding) - 3px) * -1);
+    
+    background-color: transparent;
+    background-image: 
+        radial-gradient(var(--radius), transparent 98%, white),
+        linear-gradient(white 0 0);
+    background-repeat: round no-repeat, no-repeat;
+    background-position:
+        calc(var(--radius) * -1.5) calc(var(--radius) * -1.5),
+        0 var(--radius);
+    background-size:
+        calc(var(--radius) * 3) calc(var(--radius) * 3),
+        100% calc(100% - (var(--radius) * 1.5));
 }

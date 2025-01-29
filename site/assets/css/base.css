@@ -4,14 +4,55 @@
 }
 html {
     --color-bg-content: #1f1f1f;
-    --color-text-body: #ddd;
 }
 
 body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
-    color: var(--color-text-body);
     min-height: 100%;
+    line-height: 1.5;
     font-family: "Lato";
+    color: white;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    img {
+        height: 10px;
+        width: 173px;
+    }
+    h1 {
+        font-family: "Geo";
+        font-weight: 500;
+        padding-left: 10px;
+        margin-left: 10px;
+        border-left: 1px dotted white;
+    }
+    ul {
+        list-style-type: none;
+        display: flex;
+        flex-flow: row wrap;
+        gap: 5px;
+        a {
+            font-family: Geo;
+            font-size: 1.1em;
+            padding: 5px 10px 5px 30px;
+            background-image: url(/assets/images/icons/checkbox.svg);
+            background-position: left center;
+            background-repeat: no-repeat;
+            background-size: 26px;
+        }
+        li.current a {
+            background-image: url(/assets/images/icons/checkbox-checked.svg);
+            font-weight: bold;
+            pointer-events: none;
+        }
+    }
 }
 
 section {
@@ -51,7 +92,7 @@ section.footer {
 a {
     color: var(--color-accent);
     &:hover {
-        background: var(--color-accent);
+        background-color: var(--color-accent);
         color: #fff;
     }
 }
@@ -62,7 +103,7 @@ a.block-link, .block-links a {
     height: 100%;
     text-decoration: none;
     &:hover, &:hover > * {
-        background: var(--color-accent);
+        background-color: var(--color-accent);
         color: #fff;     
     }
 }
