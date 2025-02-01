@@ -1,0 +1,319 @@
+---
+import "../styles/reset.css";
+import "../styles/base.css";
+import "../styles/label-layouts.css";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from 'astro:assets';
+
+import vcardQrImg from '../assets/images/vcard-qr.png';
+import barCodeImage from '../assets/images/barcode.svg';
+import IconList from "../components/label/IconList.astro";
+import Marquee from "../components/Marquee.astro";
+
+const MAX_POSTS = 5;
+
+const allPosts = Object.values(import.meta.glob('./posts/**/*.md', { eager: true }));
+
+const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" : "Long"
+---
+
+<BaseLayout showHeader={false}>
+    <style>
+        section.hero {
+            background: url(/assets/images/hero3.jpeg);
+            background-size: cover;
+            box-shadow: 0px 0px 40px 20px inset var(--color-bg);
+            aspect-ratio: 16/9;
+            color: white;
+            position: relative;
+            h1 {
+                position: absolute;
+                left: 10%;
+                top: 16%;
+                font-size: min(5vw, 3.5em);
+                font-family: "Geo";
+                font-weight: 500;
+                border-left: 1px dotted white;
+                margin: 0;
+                padding-left: 0.5em;
+                img {
+                    width: min(20vw, 225px);
+                    height: min(5vw, 61px);
+                }
+            }
+        }
+
+        .hero-labels {
+            list-style-type: none;
+        }
+        .hero-labels > .label {
+            --color-label-bg: black;
+            --color-label-fg: white;
+            position: absolute;
+            font-family: "Geo";
+            font-size: 0.8em;
+            display: grid;
+            grid-template-columns: auto;
+            width: auto;
+            .descr {
+                font-family: "Lato";
+                text-transform: uppercase;
+            }
+            .fig dt {
+                letter-spacing: 0.5px;
+                text-decoration: underline;
+                text-decoration-thickness: 1px;
+                font-size: 0.6em;
+            }
+        }
+        @media (max-width: 700px) {
+            .hero-labels {
+                display: none;
+            }
+        }
+
+        .about-label {
+            display: grid;
+            grid-template-columns: min-content auto;
+            grid-template-rows: auto min-content auto;
+            grid-template-areas:
+                "divider divider"
+                "qr info-head"
+                "qr info"
+                "data data"
+                "map map";
+            .qr {
+                grid-area: qr;
+                text-align: center;
+                img {
+                    margin: auto;
+                    width: 150px;
+                    padding: 10px;
+                    height: auto;
+                }
+            }
+            .info-head {
+                grid-area: info-head;
+            }
+            .info {
+                grid-area: info;
+            }
+            .map {
+                grid-area: map;
+                height: 450px;
+            }
+            .data {
+                grid-area: data;
+            }
+            .divider-diagonal {
+                grid-area: divider;
+            }
+        }
+
+        .blog-list {
+            display: grid;
+            grid-template-columns: min-content auto min-content;
+            grid-template-rows: auto;
+
+            .blog-item {
+                display: contents; /* Fill the grid with the individual elements of each blog post, not the blog-item. */
+                > div {
+                    padding: 18px 12px 8px 12px;
+                }
+                > div.title {
+                    padding-top: 17px;
+                }
+                .meta {
+                    white-space: nowrap;
+                    display: flex;
+                    flex-flow: row wrap;
+                    gap: 8px 24px;
+                    align-content: flex-start;
+                }
+                .summary {
+                    grid-column: 1 / -1; /* Span all columns */
+                    padding: 0px 12px 18px 12px;
+                }
+                &:not(:last-child) .summary {
+                    border-bottom: 1px dashed black;
+                }
+            }
+        }
+        @media (min-width: 700px) {
+            .blog-list .blog-item .meta {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .social {
+            padding: 11px;
+            background: repeating-linear-gradient(
+                110deg,
+                #ffffff,
+                #ffffff 2px,
+                #000000 3px,
+                #000000 4px
+            );
+        }
+    </style>
+
+    <section class="hero">
+        <h1>
+            <Image
+                src={barCodeImage}
+                alt="My phone number as a Code-128 barcode"
+                title="If you can scan this, you can call me"
+            />
+            <div class="name">Andrew Betts</div>
+        </h1>
+        <ol class="hero-labels">
+            <li class="label" style="top: 76%; right: 83%">
+                <span class="descr">Mixes drinks</span>
+                <dl class="kv-horizontal fig">
+                    <div><dt>Fig I</dt><dd>Manhattan</dd></div>
+                </dl>
+            </li>
+            <li class="label" style="top: 56%; left: 23%">
+                <span class="descr">Wears hats</span>
+                <dl class="kv-horizontal fig">
+                    <div><dt>Fig II</dt><dd>Fedora</dd></div>
+                </dl>
+            </li>
+            <li class="label" style="top: 68%; left: 38%;">
+                <span class="descr">Writes code</span>
+                <dl class="kv-horizontal fig">
+                    <div><dt>Fig III</dt><dd>Laptop</dd></div>
+                </dl>
+            </li>
+            <li class="label" style="top: 6%; right: 15%;">
+                <span class="descr">Knows things</span>
+                <dl class="kv-horizontal fig">
+                    <div><dt>Fig IV</dt><dd>Experience</dd></div>
+                </dl>
+            </li>
+        </ol>
+    </section>
+
+    <section class="label about-label label-edge-top">
+        <div class="divider-diagonal"></div>
+        <div class="qr">
+            <Image
+                src={vcardQrImg}
+                title="Scan to add me to your contacts"
+                alt="QR code of my VCARD"
+            />
+        </div>
+        <div class="info-head padded"><h2>About</h2></div>
+        <div class="info content">
+            <p>
+                I like making things, standards, open source, and helping people
+                solve problems.<br />Read more about my career and experience in
+                my <a href="/cv">resume</a>.<br />Scan the QR code for my
+                contact card!
+            </p>
+        </div>
+        <dl class="data kv-horizontal">
+            <div><dt>Origin</dt><dd>GB</dd></div>
+            <div><dt>Current location</dt><dd>GB</dd></div>
+            <div><dt>Local time</dt><dd>15:49</dd></div>
+            <div><dt>Time zone</dt><dd>Europe/London</dd></div>
+        </dl>
+        <div id="map" class="map"></div>
+    </section>
+
+    <!-- https://github.com/tony-xlh/MRZ-dataset/tree/gh-pages/benchmark/dataset/Passports -->
+    <Marquee duration="120s" direction="left" title="The passport Machine-readable zone (MRZ) has been speeding up travel through international borders since the 1980s!">
+        &lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;OF7OBGJ686BLR6606161F3305061&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04P&lt;GBRBETTS&lt;&lt;ANDREW&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;LQAMTJFS04GBR3512089F3209295&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04
+    </Marquee>
+
+    <section class="social">
+        <IconList items={[
+            { icon: "google-maps", title: "Google Maps", href: 'https://www.google.com/maps/contrib/109173169886918387030' },
+            { icon: "linkedin", title: "LinkedIn", href: 'https://www.linkedin.com/in/andrewbetts/' },
+            { icon: "line", title: "LINE", href: 'https://line.me/ti/p/TOy3w-bGPR' },
+            { icon: "bluesky", title: "BlueSky", href: 'https://bsky.app/profile/triblondon.trib.tv' },
+            { icon: "github", title: "GitHub", href: 'https://github.com/triblondon' },
+            { icon: "instagram", title: "Instagram", href: 'https://www.instagram.com/triblondon' },
+        ]} />
+    </section>
+
+    <!-- https://github.com/tony-xlh/MRZ-dataset/tree/gh-pages/benchmark/dataset/Passports -->
+    <Marquee duration="120s" direction='right' title="The passport Machine-readable zone (MRZ) has been speeding up travel through international borders since the 1980s!">
+        P&lt;GBRBETTS&lt;&lt;ANDREW&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;LQAMTJFS04GBR3512089F3209295&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04P&lt;BLRBETTS&lt;&lt;ANDREW&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;OF7OBGJ686BLR6606161F3305061&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;04
+    </Marquee>
+
+    <section class="label vertical-stack">
+        <div class="padded">
+            <h2>Recent posts</h2>
+        </div>
+        <div class="blog-list block-links">
+            {allPosts.reverse().slice(0, MAX_POSTS).map((post: any, idx) => (
+                <a href={post.url} class="blog-item">
+                    <div class="seq">{allPosts.length - idx}</div>
+                    <div class="title">
+                        <h3>{post.frontmatter.title}</h3>
+                    </div>
+                    <div class="meta">
+                        <span>{formatDate(post.frontmatter.pubDate)}</span>
+                        <span>{formatLength(post.frontmatter.readingTime.words)}</span>
+                    </div>
+                    <div class="summary">
+                        {post.frontmatter.description}
+                    </div>
+                </a>
+            ))}
+        </div>
+        <div class="padded" style="text-align: center">
+            <a href="/posts">More posts</a>
+        </div>
+    </section>
+
+    <!-- https://www.iban.com/structure -->
+    <Marquee duration="120s" title="IBAN numbers allow transfers of money between accounts in different countries with a single identifier!">
+        MU43BOMM0101123456789101000MUR&gt;KW81CBKU0000000000001234560101&gt;&gt;&gt;AL35202111090000000001234567&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;ES7921000813610123456789&gt;&gt;GB33BUKB20201555555555&gt;&gt;&gt;FR7630006000011234567890189
+    </Marquee>
+
+    <section class="label vertical-stack">
+        <div class="padded">
+            <h2>Where I've been</h2>
+        </div>
+        <table class="label">
+            <thead
+                ><tr>
+                    <th>ISO</th>
+                    <th>Conventional short name</th>
+                    <th>Count</th>
+                    <th>Last</th>
+                </tr></thead
+            >
+            <tbody>
+                <tr
+                    ><td>GB</td><td>United Kingdom</td><td>37</td><td>2024</td
+                    ></tr
+                >
+                <tr><td>FR</td><td>France</td><td>5</td><td>2022</td></tr>
+                <tr><td>PT</td><td>Portugal</td><td>9</td><td>2025</td></tr>
+            </tbody>
+        </table>
+        <div class="padded" style="text-align: center">
+            <p>
+                Current and historical location data powered by <a
+                    href="https://home-assistant.io/">Home Assistant</a
+                >. Location updates lag real time by 8 hours.
+            </p>
+        </div>
+    </section>
+
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""></script>
+    <script>
+        import "../scripts/map.js";
+    </script>
+</BaseLayout>

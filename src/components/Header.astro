@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import barCodeImage from '../assets/images/barcode.svg';
+import checkboxChecked from '../assets/images/icons/checkbox-checked.svg';
+import checkboxUnChecked from '../assets/images/icons/checkbox.svg';
+
+const links = [
+    { path: '/', title: "Home" },
+    { path: '/cv', title: "Resume" },
+    { path: '/posts', title: "Posts", includeSubPaths: true }
+]
+
+const isActivePath = (pathStr: string, includeSubPaths?: boolean) => (pathStr === Astro.url.pathname || (includeSubPaths && Astro.url.pathname.startsWith(pathStr+'/')))
+
+---
+<style>
+header {
+    width: 100%;
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 0 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: space-between;
+    h1 {
+        font-family: "Geo";
+        font-weight: 500;
+        padding-left: 10px;
+        margin-left: 10px;
+        border-left: 1px dotted white;
+        line-height: 1;
+        img {
+            height: 10px;
+            width: 173px;
+            margin-bottom: 10px;
+            display: block;
+        }
+    }
+    ul {
+        list-style-type: none;
+        display: flex;
+        flex-flow: row wrap;
+        gap: 5px;
+        a, div {
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            font-family: Geo;
+            font-size: 1.1em;
+            padding: 5px 10px;
+            img {
+                width: 26px;
+                height: 26px;
+                margin-right: 5px;
+            }
+        }
+        li.current {
+            font-weight: bold;
+            text-decoration: underline;
+        }
+    }
+}
+</style>
+<header class="block-links">
+    <h1>
+        <Image src={barCodeImage} alt="My phone number as a Code-128 barcode" title="If you can scan this, you can call me" />
+        <a class='name' href="/">Andrew Betts</a>
+    </h1>
+    <ul>
+        {links.map(link => isActivePath(link.path, link.includeSubPaths) ? (
+            <li class="current"><div><Image src={checkboxChecked} alt=""/>{link.title}</div></li>
+        ) : (
+            <li><a href={link.path}><Image src={checkboxUnChecked} alt=""/>{link.title}</a></li>
+        ))}
+    </ul>
+</header>
+

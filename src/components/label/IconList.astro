@@ -1,0 +1,48 @@
+---
+const iconFiles = import.meta.glob("../../assets/images/icons/*.svg", { eager: true });
+const icons = Object.entries(iconFiles).reduce((acc, [k, v]) => {
+    if (typeof v == 'object' && 'default' in v && typeof v.default === 'object' && 'src' in v.default) {
+        acc[k.replace(/^.*?\/([^\/]+)\.svg$/, "$1")] = v.default.src;
+    }
+    return acc;
+}, {});
+
+const { items } = Astro.props;
+---
+<style>
+ul {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-flow: row wrap;
+    list-style-type: none;
+    gap: 1px;
+    li {
+        flex: 1 0 auto;
+        a, div {
+            padding: 8px 12px;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            justify-content: center;
+        }
+        img {
+            width: 30px;
+            height: 30px;
+        }
+        span {
+            margin-left: 10px;
+        }
+    }
+}
+</style>
+<ul class="block-links label">
+    {items.filter(item => (item.icon in icons)).map(item => {
+        const img = (<img src={icons[item.icon]} alt={`${item.icon} icon`} />)
+        return item.href ? (
+            <li><a href={item.href}>{img}{item.title && (<span>{item.title}</span>)}</a></li>
+        ) : (
+            <li><div>{img}{item.title && (<span>{item.title}</span>)}</div></li>
+        )
+    })}
+</ul>

@@ -1,0 +1,16 @@
+{
+  "name": "tribtv",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview"
+  },
+  "author": "Andrew Betts <andrew@trib.tv> (https://trib.tv/)",
+  "dependencies": {
+    "astro": "^5.1.10",
+    "mdast-util-to-string": "^4.0.0",
+    "reading-time": "^1.5.0"
+  }
+}

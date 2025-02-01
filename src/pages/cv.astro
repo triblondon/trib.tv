@@ -1,0 +1,48 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import '../styles/reset.css';
+import '../styles/base.css';
+import '../styles/label-layouts.css';
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout>
+
+<section class='label label-post label-edge-top'>
+    <div class="post-title padded">
+        <h2>Managing a core service so people don’t hate it</h2>
+    </div>
+    <div class="post-standfirst padded">
+        <p>If you work for a company with more than a few hundred employees, there will probably be some
+            standardised process or system that you’re expected to use, is widely reviled, and yet never improves.
+            Often it’s a design system, template, hosting platform or scheduling tool. Why is it so hard to make
+            these things work well?</p>
+    </div>
+    <div class="divider-straight"></div>
+    <div class="label post-meta">
+        <dl class="label kv-vertical">
+            <dt>Date</dt>
+            <dd>3 January 2020</dd>
+            <dt>Tags</dt>
+            <dd>Featured, Management</dd>
+            <dt>Length</dt>
+            <dd>235 words</dd>
+            <dt>Reading time</dt>
+            <dd>5 minutes</dd>
+        </dl>
+        <ul class="label icon-list block-links">
+            <li><a href='xxxxxx'><img src='assets/images/icons/linkedin.svg' alt='LinkedIn icon' /></a></li>
+            <li><a href='xxxxxx'><img src='assets/images/icons/bluesky.svg' alt='BlueSky icon' /></a></li>
+            <li><a href='xxxxxx'><img src='assets/images/icons/instagram.svg' alt='Instagram icon' /></a></li>
+        </ul>
+    </div>
+    <div class="post-body padded">
+        
+    </div>
+    <div class="post-foot padded">
+        I don't have comments enabled on this blog, but if you want to respond feel free to send me a
+        tweet!.
+    </div>
+</section>
+
+</BaseLayout>

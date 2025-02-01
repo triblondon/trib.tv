@@ -1,0 +1,134 @@
+---
+import IconList from "../components/label/IconList.astro";
+import BaseLayout from "./BaseLayout.astro";
+const { frontmatter } = Astro.props;
+---
+
+<BaseLayout pageTitle={frontmatter.title}>
+    <style>
+        .label-post {
+            display: grid;
+            grid-template-columns: auto;
+            grid-template-rows: auto;
+            gap: 1px;
+            .divider-straight {
+                height: 12px;
+            }
+        }
+        @media (min-width: 700px) {
+            .label-post {
+                grid-template-columns: minmax(min-content, 30%) auto;
+                grid-template-areas:
+                    "pre-divider pre-divider"
+                    "title title"
+                    "standfirst standfirst"
+                    "divider divider"
+                    "meta body"
+                    "meta foot";
+                .divider-straight {
+                    grid-area: divider;
+                }
+                .post-title {
+                    grid-area: title;
+                }
+                .post-standfirst {
+                    grid-area: standfirst;
+                }
+                .post-meta {
+                    grid-area: meta;
+                }
+                .post-body {
+                    grid-area: body;
+                }
+                .post-foot {
+                    grid-area: foot;
+                }
+            }
+        }
+
+        .post-standfirst {
+            font-size: 120%;
+        }
+
+        .post-body {
+            line-height: 1.7;
+            * {
+                max-width: 100%;
+            }
+            h3,
+            h4 {
+                margin-top: 1.5em;
+            }
+            table {
+                border-collapse: collapse;
+                border: 1px solid black;
+                width: 100%;
+                th,
+                td {
+                    text-align: left;
+                    border: 1px solid black;
+                    color: black;
+                }
+            }
+            blockquote {
+                display: flex;
+                margin: 1em 2em;
+                font-style: italic;
+                &::before {
+                    content: " ";
+                    width: 30px;
+                    margin-right: 20px;
+                    background-image: linear-gradient(
+                            45deg,
+                            #808080 25%,
+                            transparent 25%
+                        ),
+                        linear-gradient(-45deg, #808080 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #808080 75%),
+                        linear-gradient(-45deg, transparent 75%, #808080 75%);
+                    background-size: 6px 6px;
+                    background-position:
+                        0 0,
+                        0 5px,
+                        5px -5px,
+                        -5px 0px;
+                }
+            }
+        }
+    </style>
+    <section class="label label-post label-edge-top">
+        <div class="post-title padded">
+            <h2>{frontmatter.title}</h2>
+        </div>
+        <div class="post-standfirst padded">
+            <p>{frontmatter.description}</p>
+        </div>
+        <div class="divider-straight"></div>
+        <div class="label post-meta">
+            <dl class="label kv-vertical">
+                <dt>Date</dt>
+                <dd>{frontmatter.pubDate.toString().slice(0, 10)}</dd>
+                <dt>Tags</dt>
+                <dd>
+                    {frontmatter.tags.map((tagStr) => <div>{tagStr}</div>)}
+                </dd>
+                <dt>Length</dt>
+                <dd>{frontmatter.readingTime.wordsFormatted} words</dd>
+                <dt>Reading time</dt>
+                <dd>{frontmatter.readingTime.text}</dd>
+            </dl>
+            <IconList items={[
+                { icon: "linkedin", href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + Astro.url.toString() },
+                { icon: "bluesky", href: 'https://bsky.app/intent/compose?text=' + Astro.url.toString() },
+                { icon: "instagram" },
+            ]} />
+        </div>
+        <div class="post-body padded">
+            <slot />
+        </div>
+        <div class="post-foot padded">
+            I don't have comments enabled on this blog, but if you want to
+            respond feel free to send me a tweet!.
+        </div>
+    </section>
+</BaseLayout>

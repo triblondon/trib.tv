@@ -77,30 +77,6 @@ dl.kv-horizontal {
     }
 }
 
-ul.icon-list, ol.icon-list {
-    margin: 0;
-    padding: 0;
-    display: flex;
-    flex-flow: row wrap;
-    list-style-type: none;
-    li {
-        flex: 1 0 auto;
-        a {
-            display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
-            justify-content: center;
-            padding: 8px 12px;
-            img {
-                width: 30px;
-                height: 30px;
-            }
-            span {
-                margin-left: 10px;
-            }
-        }
-    }
-}
 
 table.label {
     border-collapse: collapse;

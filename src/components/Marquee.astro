@@ -1,0 +1,42 @@
+---
+const duration = Astro.props.duration || '60s';
+const direction = Astro.props.direction || 'left';
+const start = direction === 'left' ? '0' : '-100%';
+const end = direction === 'left' ? '-100%' : '0';
+---
+
+<style define:vars={{ duration, start, end }}>
+    .marquee {
+        display: flex;
+        overflow: hidden;
+        user-select: none;
+        color: #666;
+        font-size: 80%;
+        overflow: hidden;
+        text-align: center;
+        width: 100%;
+        max-width: 1200px;
+        margin: 20px auto;
+        .group {
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            min-width: 100%;
+            animation: scroll-x var(--duration) linear infinite;
+        }
+    }
+    @keyframes scroll-x {
+        from {
+            transform: translateX(var(--start));
+        }
+        to {
+            transform: translateX(var(--end));
+        }
+    }
+</style>
+
+<div aria-hidden="true" class="marquee">
+    <div class="group"><slot /></div>
+    <div class="group"><slot /></div>
+</div>
