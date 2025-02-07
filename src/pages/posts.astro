@@ -1,0 +1,95 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { Image } from 'astro:assets';
+
+import IconList from "../components/label/IconList.astro";
+
+const POSTS_PER_PAGE = 20;
+
+const allPosts = Object.values(import.meta.glob('./posts/**/*.md', { eager: true }));
+
+const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" : "Long"
+---
+
+<BaseLayout>
+    <style>
+
+        .blog-list {
+            display: grid;
+            grid-template-columns: min-content auto min-content;
+            grid-template-rows: auto;
+
+            .blog-item {
+                display: contents; /* Fill the grid with the individual elements of each blog post, not the blog-item. */
+                > div {
+                    padding: 18px 12px 8px 12px;
+                }
+                > div.title {
+                    padding-top: 17px;
+                }
+                .meta {
+                    white-space: nowrap;
+                    display: flex;
+                    flex-flow: row wrap;
+                    gap: 8px 24px;
+                    align-content: flex-start;
+                }
+                .summary {
+                    grid-column: 1 / -1; /* Span all columns */
+                    padding: 0px 12px 18px 12px;
+                }
+                &:not(:last-child) .summary {
+                    border-bottom: 1px dashed black;
+                }
+            }
+        }
+        @media (min-width: 700px) {
+            .blog-list .blog-item .meta {
+                flex-wrap: nowrap;
+            }
+        }
+
+        .social {
+            padding: 11px;
+            background: repeating-linear-gradient(
+                110deg,
+                #ffffff,
+                #ffffff 2px,
+                #000000 3px,
+                #000000 4px
+            );
+        }
+    </style>
+
+
+    <section class="label vertical-stack">
+        <div class="padded">
+            <h2>Recent posts</h2>
+        </div>
+        <div class="blog-list block-links">
+            {allPosts.reverse().slice(0, POSTS_PER_PAGE).map((post: any, idx) => (
+                <a href={post.url} class="blog-item">
+                    <div class="seq">{allPosts.length - idx}</div>
+                    <div class="title">
+                        <h3>{post.frontmatter.title}</h3>
+                    </div>
+                    <div class="meta">
+                        <span>{formatDate(post.frontmatter.pubDate)}</span>
+                        <span>{formatLength(post.frontmatter.readingTime.words)}</span>
+                    </div>
+                    <div class="summary">
+                        {post.frontmatter.description}
+                    </div>
+                </a>
+            ))}
+        </div>
+        <div class="padded" style="text-align: center">
+            <a href="/posts">More posts</a>
+        </div>
+    </section>
+</BaseLayout>

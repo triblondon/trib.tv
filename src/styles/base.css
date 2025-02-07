@@ -1,16 +1,32 @@
 :root {
     --color-bg: #000000;
     --color-accent: #29f;
-}
-html {
-    --color-bg-content: #1f1f1f;
+
+    --bg-mash-background-image: linear-gradient(
+            45deg,
+            #808080 25%,
+            transparent 25%
+        ),
+        linear-gradient(-45deg, #808080 25%, transparent 25%),
+        linear-gradient(45deg, transparent 75%, #808080 75%),
+        linear-gradient(-45deg, transparent 75%, #808080 75%)
+    ;
+    --bg-mash-background-size: 6px 6px;
+    --bg-mash-background-position:
+        0 0,
+        0 5px,
+        5px -5px,
+        -5px 0px
+    ;
+
+    --bg-diagonals-background-image: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
 }
 
 body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
     min-height: 100%;
     line-height: 1.5;
-    font-family: "Lato";
+    font-family: "Manrope";
     color: white;
 }
 
@@ -48,4 +64,8 @@ h2 {
     background-color: black;
     display: inline-block;
     padding: 1px 6px;
+}
+
+ul, ol {
+    list-style-type: square;
 }

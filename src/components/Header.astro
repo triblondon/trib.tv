@@ -3,6 +3,7 @@ import { Image } from 'astro:assets';
 import barCodeImage from '../assets/images/barcode.svg';
 import checkboxChecked from '../assets/images/icons/checkbox-checked.svg';
 import checkboxUnChecked from '../assets/images/icons/checkbox.svg';
+import TickBoxItem from './TickBoxItem.astro';
 
 const links = [
     { path: '/', title: "Home" },
@@ -42,19 +43,8 @@ header {
         display: flex;
         flex-flow: row wrap;
         gap: 5px;
-        a, div {
-            display: flex;
-            flex-flow: row nowrap;
-            align-items: center;
-            font-family: Geo;
-            font-size: 1.1em;
-            padding: 5px 10px;
-            img {
-                width: 26px;
-                height: 26px;
-                margin-right: 5px;
-            }
-        }
+        font-family: "Geo";
+        font-size: 1.1em;
         li.current {
             font-weight: bold;
             text-decoration: underline;
@@ -69,9 +59,9 @@ header {
     </h1>
     <ul>
         {links.map(link => isActivePath(link.path, link.includeSubPaths) ? (
-            <li class="current"><div><Image src={checkboxChecked} alt=""/>{link.title}</div></li>
+            <li class="current"><TickBoxItem isChecked>{link.title}</TickBoxItem></li>
         ) : (
-            <li><a href={link.path}><Image src={checkboxUnChecked} alt=""/>{link.title}</a></li>
+            <li><TickBoxItem href={link.path}>{link.title}</TickBoxItem></li>
         ))}
     </ul>
 </header>

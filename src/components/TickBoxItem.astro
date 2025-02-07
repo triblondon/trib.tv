@@ -1,0 +1,24 @@
+---
+import CheckboxChecked from '../assets/images/icons/checkbox-checked.svg';
+import CheckboxUnChecked from '../assets/images/icons/checkbox.svg';
+
+const { href, isChecked } = Astro.props;
+const CheckBox = isChecked ? CheckboxChecked : CheckboxUnChecked;
+---
+<style>
+.item {
+    display: flex !important;
+    flex-flow: row nowrap;
+    padding: 5px 10px;
+    svg {
+        width: 1.5em;
+        height: 1.5em;
+        margin-right: 0.3em;
+    }
+}
+</style>
+{href ? (
+    <a class='item block-link' href={href}><CheckBox stroke="currentColor" fill="currentColor" /><div><slot /></div></a>
+) : (
+    <div class='item'><CheckBox stroke="currentColor" fill="currentColor" /><div><slot /></div></div>
+)}

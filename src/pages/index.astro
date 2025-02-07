@@ -1,7 +1,4 @@
 ---
-import "../styles/reset.css";
-import "../styles/base.css";
-import "../styles/label-layouts.css";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { Image } from 'astro:assets';
 
@@ -55,16 +52,15 @@ const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" :
             --color-label-bg: black;
             --color-label-fg: white;
             position: absolute;
-            font-family: "Geo";
             font-size: 0.8em;
             display: grid;
             grid-template-columns: auto;
             width: auto;
             .descr {
-                font-family: "Lato";
                 text-transform: uppercase;
             }
             .fig dt {
+                font-family: "Geo";
                 letter-spacing: 0.5px;
                 text-decoration: underline;
                 text-decoration-thickness: 1px;
@@ -174,25 +170,25 @@ const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" :
         <ol class="hero-labels">
             <li class="label" style="top: 76%; right: 83%">
                 <span class="descr">Mixes drinks</span>
-                <dl class="kv-horizontal fig">
+                <dl class="label kv-horizontal fig">
                     <div><dt>Fig I</dt><dd>Manhattan</dd></div>
                 </dl>
             </li>
             <li class="label" style="top: 56%; left: 23%">
                 <span class="descr">Wears hats</span>
-                <dl class="kv-horizontal fig">
+                <dl class="label kv-horizontal fig">
                     <div><dt>Fig II</dt><dd>Fedora</dd></div>
                 </dl>
             </li>
             <li class="label" style="top: 68%; left: 38%;">
                 <span class="descr">Writes code</span>
-                <dl class="kv-horizontal fig">
+                <dl class="label kv-horizontal fig">
                     <div><dt>Fig III</dt><dd>Laptop</dd></div>
                 </dl>
             </li>
             <li class="label" style="top: 6%; right: 15%;">
                 <span class="descr">Knows things</span>
-                <dl class="kv-horizontal fig">
+                <dl class="label kv-horizontal fig">
                     <div><dt>Fig IV</dt><dd>Experience</dd></div>
                 </dl>
             </li>
@@ -217,7 +213,7 @@ const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" :
                 contact card!
             </p>
         </div>
-        <dl class="data kv-horizontal">
+        <dl class="label kv-horizontal data">
             <div><dt>Origin</dt><dd>GB</dd></div>
             <div><dt>Current location</dt><dd>GB</dd></div>
             <div><dt>Local time</dt><dd>15:49</dd></div>

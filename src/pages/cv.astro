@@ -1,47 +1,177 @@
 ---
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import '../styles/reset.css';
-import '../styles/base.css';
-import '../styles/label-layouts.css';
 import BaseLayout from '../layouts/BaseLayout.astro';
+import { Image } from 'astro:assets';
+
+import vcardQrImg from '../assets/images/vcard-qr.png';
+import edgeConfImg from '../assets/images/edge-conf-crowd.jpg';
+import TickBoxItem from '../components/TickBoxItem.astro';
 ---
+<style>
+    .intro1 {
+        font-size: 140%;
+    }
+    .intro1, .intro2 {
+        padding: 30px;
+    }
+    .heroimg img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    .tick-footnote {
+        font-size: 80%;
+    }
+    @media (min-width: 700px) {
+        .label-cv {
+            display: grid;
+            grid-template-columns: 30% 70%;
+            grid-template-rows: auto;
+        }
+        .intro1, .intro2, .heroimg {
+            grid-column: 1 / -1; /* Span all columns */
+        }
+        .divider {
+            grid-column: 1 / -1; /* Span all columns */
+            height: 12px;
+            background-image: var(--bg-mash-background-image);
+            background-position: var(--bg-mash-background-position);
+            background-size: var(--bg-mash-background-size);
+        }
+    }
+</style>
+
 <BaseLayout>
 
-<section class='label label-post label-edge-top'>
-    <div class="post-title padded">
-        <h2>Managing a core service so people don’t hate it</h2>
+<section class='label label-cv label-edge-top'>
+    <div class="intro1">
+        <p>I'm an <strong>experienced engineering leader</strong> passionate about using technology to connect, empower and inspire. My consultancy was acquired by the <a href="https://www.ft.com">Financial Times</a>, I moved to Japan to advise <a href="https://www.nikkei.com">Nikkei</a> on digital transformation, I have been elected to the <a href="https://tag.w3.org">W3C's Technical Architecture Group</a> and most recently I created the developer relations organisation at <a href="https://www.fastly.com">Fastly</a>.</p>
     </div>
-    <div class="post-standfirst padded">
-        <p>If you work for a company with more than a few hundred employees, there will probably be some
-            standardised process or system that you’re expected to use, is widely reviled, and yet never improves.
-            Often it’s a design system, template, hosting platform or scheduling tool. Why is it so hard to make
-            these things work well?</p>
+    <div class="intro2">
+        <p>Along the way I've hand-coded a logistics system in Zimbabwe, modelled for a <a href="https://www.neighborhood.jp/">Japanese menswear brand</a>, founded and curated the respected <a href="https://www.edgeconf.com">Edge web conference</a>, served as co-chair of <a href="https://ldnwebperf.org/">London Web Performance</a>, and was working in <a href="https://ldnwebperf.org/">Air Traffic Control</a> on 9/11.</p>
+        <p>I’m a believer in the web and open standards, and love sharing that enthusiasm with others.  Read on to learn more.</p>
     </div>
-    <div class="divider-straight"></div>
-    <div class="label post-meta">
-        <dl class="label kv-vertical">
-            <dt>Date</dt>
-            <dd>3 January 2020</dd>
-            <dt>Tags</dt>
-            <dd>Featured, Management</dd>
-            <dt>Length</dt>
-            <dd>235 words</dd>
-            <dt>Reading time</dt>
-            <dd>5 minutes</dd>
-        </dl>
-        <ul class="label icon-list block-links">
-            <li><a href='xxxxxx'><img src='assets/images/icons/linkedin.svg' alt='LinkedIn icon' /></a></li>
-            <li><a href='xxxxxx'><img src='assets/images/icons/bluesky.svg' alt='BlueSky icon' /></a></li>
-            <li><a href='xxxxxx'><img src='assets/images/icons/instagram.svg' alt='Instagram icon' /></a></li>
+    <div class="heroimg">
+        <Image src={edgeConfImg} alt="Me addressing a crowd at Edge Conference, which I organised" />
+    </div>
+    <div class="padded"><h2>Key skills</h2></div>
+    <div>
+        <ul class="label label-grid">
+            <li><TickBoxItem isChecked>Eng. leadership</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Developer relations</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Advocacy</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Mentoring</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Product management</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Web strategy</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Writing</TickBoxItem></li>
+            <li><TickBoxItem isChecked>User experience</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Product development</TickBoxItem></li>
+            <li><TickBoxItem isChecked>Data analysis</TickBoxItem></li>
+            <li><TickBoxItem isChecked>JavaScript</TickBoxItem></li>
+            <li><TickBoxItem isChecked>HTML</TickBoxItem></li>
+            <li><TickBoxItem isChecked>CSS</TickBoxItem></li>
+            <li><TickBoxItem isChecked>HTTP</TickBoxItem></li>
         </ul>
     </div>
-    <div class="post-body padded">
-        
+    <div class="divider"></div>
+    <div class="padded"><h2>Experience</h2></div>
+    <div class="padded">
+        <ol>
+            <li>
+                <h3>Fastly / Developer Relations strategy lead / London / 2017-2024</h3>
+                <p>At Fastly I led the developer relations operation, and helped developers around the world to make their websites fast, secure and engaging. I owned the developer docs, and our entire line of developer tooling, along with our developer engagement and community programmes.</p>
+            </li>
+            <li>
+                <h3>W3C / Technical Architecture Group / Worldwide / 2016-2018</h3>
+                <p>I was an elected member of the World Wide Web Consortium's Technical Architecture Group, a nine-member body responsible for guiding the development of the World Wide Web. TAG reviews specification proposals and considers the future development of the web platform for the benefit of developers and users across the world.</p>
+            </li>
+            <li>
+                <h3>Financial Times, Senior Director (Tokyo, 2016-2017)</h3>
+                <p>On temporary assignment in Tokyo, Japan, assisting Nikkei Inc (the parent company of the FT) in their digital transformation plans. My work encompassed digital strategy, outcome planning and technical architecture.</p>
+            </li>
+            <li>
+                <h3>Financial Times, Director of FT Labs (London, 2011-2016)</h3>
+                <p>I led the FT Labs division. The FT Web App grew to handle over 60% of the FT’s subscriber article consumption, and FT Labs has launched new initiatives such as Origami, a design system for all FT products, and numerous open source projects including one that was adopted by over 100,000 websites.</p>
+            </li>
+            <li>
+                <h3>Assanka, Founder (London, 2003-2011)</h3>
+                <p>I started Assanka to experiment with web technologies. We built one of the first real time live blogging sites, which won two Webby awards in 2008. In 2011, we released the world’s first major "HTML5" newspaper site for the Financial Times. In this role I wrote the original version of what became FT data squasher, widely regarded as one of the craziest hacks to improve offline storage capacity in the browser before blob storage support was available on mobile browsers.</p>
+            </li>
+            <li>
+                <h3>OnOneMap, Founder (London, 2005-2008)</h3>
+                <p>I created an app combining property data from UK property marketing sites with the then-new Google Maps API. OnOneMap proved a successful concept, and was incorporated as a business. It was featured across the national press (BBC Radio 2, The Guardian, PC Pro, CNN, and many others) and was successfully acquired by dotHomes in 2008.</p>
+            </li>
+            <li>
+                <h3>UK Air Traffic Control Service (NATS), Developer (London, 2001-2002)</h3>
+                <p>I worked for the British air traffic control service for a year from the summer of 2001 and saw the events of <a href="https://en.wikipedia.org/wiki/September_11_attacks">September 11, 2001</a> happen in real time from the inside of the aviation world. I created tools to replace legacy communications technology and improved workflows for geographically disparate colleagues at remote radar stations.</p>
+            </li>
+            <li>
+                <h3>Reapers, Developer (Zimbabwe, 2001)</h3>
+                <p>Travelling across Africa and working with with local suppliers and users, I designed and built a simple, inexpensive distributed system, with no single point of failure, to manage national inventory and logistics. Tolerant to unreliable infrastructure, power outages, and designed to be accessible and efficient for low literacy users, it was still in use until 2010.</p>
+            </li>
+        </ol>
     </div>
-    <div class="post-foot padded">
-        I don't have comments enabled on this blog, but if you want to respond feel free to send me a
-        tweet!.
+    <div class="divider"></div>
+    <div class="padded"><h2>Speaking and writing</h2></div>
+    <div>
+        <div class="label">
+            <div class="padded"><p>I have spoken regularly at conferences and developer events. Events I have presented at include:</p></div>
+            <div>
+                <ul class="label label-grid">
+                    <li><TickBoxItem href="https://perfnow.nl" isChecked>Perf.now<div class="tick-footnote">Netherlands</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://heypresents.com/people/andrew-betts" isChecked>AllDayHey<div class="tick-footnote">UK</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://devopscon.io/speaker/andrew-betts/" isChecked>DevOpsCon<div class="tick-footnote">Germany</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://www.phpconference.co.uk/" isChecked>PHP UK Conference<div class="tick-footnote">UK</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://en.wikipedia.org/wiki/Over_the_Air" isChecked>OverTheAir<div class="tick-footnote">UK</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://ffconf.org/talks/offline-rules-using-new-browser-technologies-to-make-sites-work-offline-and-be-more-awesome-online/" isChecked>FFConf<div class="tick-footnote">UK</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://webdirections.org/resources/making-web-apps-as-smooth-as-native-video-presentation-by-andrew-betts/" isChecked>Web Directions South<div class="tick-footnote">Australia</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://conferences.oreilly.com/velocity/vl-ny-2017/public/schedule/speaker/137186.html" isChecked>O'Reilly Velocity<div class="tick-footnote">US, UK, Spain</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://qconlondon.com/london-2014/london-2014/speaker/Andrew+Betts.html" isChecked>QCon<div class="tick-footnote">US, UK, China, Japan</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://conferences.oreilly.com/fluent/fl-ca/public/content/about.html" isChecked>Fluent<div class="tick-footnote">US</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://www.fastly.com/altitude" isChecked>Fastly Altitude<div class="tick-footnote">US, UK, Japan</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://developers.cyberagent.co.jp/blog/archives/14482/" isChecked>Inside Frontend<div class="tick-footnote">Japan</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://2017.webconf.asia/speakers" isChecked>WebConf Asia<div class="tick-footnote">Hong Kong</div></TickBoxItem></li>
+                    <li><TickBoxItem href="https://nordicjs.com/2018/speakers" isChecked>Nordic JS<div class="tick-footnote">Stockholm</div></TickBoxItem></li>
+                </ul>
+            </div>
+            <div class="padded">
+                <p>I have also written articles for a number of blogs (eg Smashing magazine, Mozilla Hacks, Perf calendar) and industry magazines (eg ISO), and served on programme committees for web related conferences.</p>
+            </div>
+        </div>
+    </div>
+    <div class="divider"></div>
+    <div class="padded"><h2>Honours and awards</h2></div>
+    <div class="padded">
+        <ul>
+            <li>12th Annual Webby Awards</li>
+            <li>Who’s Who, Young Business Leaders 2008</li>
+            <li>British Computer Society technical excellence</li>
+            <li>Brunel Diploma in professional development</li>
+            <li>Best onboarding experience, DevPortal awards, 2022</li>
+        </ul>
+    </div>
+    <div class="divider"></div>
+    <div class="padded"><h2>Education</h2></div>
+    <div class="padded">
+        <ol>
+            <li>BSc Information Systems (1st class hons) Brunel University, 2003</li>
+            <li>Brunel Diploma of Professional Development (distinction), 2002</li>
+            <li>A-levels in Physics, Maths and Economics</li>
+        </ol>
+    </div>
+    <div class="divider"></div>
+    <div class="padded"><h2>Interests  and voluntary</h2></div>
+    <div class="padded">
+        <p>In my spare time I enjoy making LED art, automating my home, hiking, running, swimming, cooking, making gin-based cocktails, going to the gym and then consuming chocolate to make up for it.  Here are some of the other random things I've done.</p>
+        <ul>
+            <li>
+                <h3>Littlefriends management, Menswear model (Tokyo, 2016)</h3>
+                <p>I was scouted to model for Little Friends when I was in Japan, and ended up as the face and body of Neighborhood’s 2017 spring menswear collection.</p>
+            </li>
+            <li>
+                <h3>Metropolitan Police, Special Constable (London, 2006-2007)</h3>
+                <p>For something different I worked as a volunteer officer in London’s Met Police on Friday and Saturday nights. This required full police training and gave me a much better understanding of the law, first aid and self-defence.</p>
+            </li>
+        </ul>
     </div>
 </section>
 

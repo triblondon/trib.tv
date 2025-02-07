@@ -3,42 +3,32 @@
     --color-label-fg: black;
 }
 
-.label, 
-.label dl.kv-horizontal, 
-.label dl.kv-vertical, 
-.label .icon-list {
+.label {
     padding: 0;
     width: 100%;
     background-color: var(--color-label-bg);
     color: var(--color-label-fg);
     gap: 1px;
-    > div dt, > div dd, > *:not(table, thead, tbody, tr, th, td) {
+    display: flex;
+    flex-flow: column;
+    > *:not(thead, tbody), > div dt, > div dd {
         box-shadow: 0 0 0 1px  var(--color-label-fg);
         gap: 1px; /* In case label containers are also labels */
-    }
-    > span, > dd, > dt, > dl dd, > dl dt, > .content, th, td {
-        padding: 3px 6px;
+        list-style-type: none;
         > :first-child {
             margin-top: 0px;
+            overflow: hidden;
         }
         > :last-child {
             margin-bottom: 0px;
+            overflow: hidden;
         }
+    }
+    > span, > dd, > dt, > div dd, > div dt, > .content, th, td {
+        padding: 3px 6px;
     }
     > .padded {
         padding: 12px;
-        > :first-child {
-            margin-top: 0px;
-        }
-        > :last-child {
-            margin-bottom: 0px;
-        }
-    }
-    .divider-diagonal {
-        background: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
-    }
-    .divider-straight {
-        background: repeating-linear-gradient(-90deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
     }
 }
 
@@ -79,12 +69,13 @@ dl.kv-horizontal {
 
 
 table.label {
+    display: table;
     border-collapse: collapse;
     th, td {
         text-align: left;
         border: 1px solid var(--color-label-fg);
         box-shadow: none;
-        &:first-child { border-left: none; }
+        &:first-child { border-left: none; } /* TODO: off by 1px interaction of border and box-shadow on other items */
         &:last-child { border-right: none; }
     }
     tbody, thead {
@@ -94,6 +85,12 @@ table.label {
     tr:first-child td, tr:first-child th { border-top: none; }
     tr:last-child td, tr:last-child th { border-bottom: none; }
     thead { border-bottom: 1px solid var(--color-label-fg); }
+}
+
+.label-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
 }
 
 .label.vertical-stack, .label-vertical {
