@@ -1,6 +1,8 @@
 :root {
     --color-bg: #000000;
     --color-accent: #29f;
+    --padding-item: 6px;
+    --padding-body: 12px;
 
     --bg-mash-background-image: linear-gradient(
             45deg,

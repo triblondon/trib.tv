@@ -25,10 +25,10 @@
         }
     }
     > span, > dd, > dt, > div dd, > div dt, > .content, th, td {
-        padding: 3px 6px;
+        padding: 3px var(--padding-item);
     }
     > .padded {
-        padding: 12px;
+        padding: var(--padding-body);
     }
 }
 
@@ -89,9 +89,20 @@ table.label {
 
 .label-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto;
 }
+@media (min-width: 800px) {
+    .label-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1000px) {
+    .label-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
 
 .label.vertical-stack, .label-vertical {
     display: flex;

@@ -11,7 +11,8 @@ const links = [
     { path: '/posts', title: "Posts", includeSubPaths: true }
 ]
 
-const isActivePath = (pathStr: string, includeSubPaths?: boolean) => (pathStr === Astro.url.pathname || (includeSubPaths && Astro.url.pathname.startsWith(pathStr+'/')))
+const thisPath = Astro.url.pathname.replace(/\/$/, '');
+const isActivePath = (pathStr: string, includeSubPaths?: boolean) => (pathStr === thisPath || (includeSubPaths && thisPath.startsWith(pathStr+'/')))
 
 ---
 <style>

@@ -21,6 +21,32 @@ import TickBoxItem from '../components/TickBoxItem.astro';
     .tick-footnote {
         font-size: 80%;
     }
+    .role-list li {
+        padding: var(--padding-body);
+        .role-head {
+            display: flex;
+            flex-flow: row wrap;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 0.3em;
+        }
+        p {
+            margin-top: 0.5em;
+        }
+        .role-meta {
+            background: #DDD;
+            display: inline-block;
+            text-transform: uppercase;
+            padding: 1px 6px;
+            font-weight: bold;
+            font-size: 70%;
+        }
+    }
+    .org {
+        color: white;
+        background: black;
+        padding: 0 3px;
+    }
     @media (min-width: 700px) {
         .label-cv {
             display: grid;
@@ -44,10 +70,10 @@ import TickBoxItem from '../components/TickBoxItem.astro';
 
 <section class='label label-cv label-edge-top'>
     <div class="intro1">
-        <p>I'm an <strong>experienced engineering leader</strong> passionate about using technology to connect, empower and inspire. My consultancy was acquired by the <a href="https://www.ft.com">Financial Times</a>, I moved to Japan to advise <a href="https://www.nikkei.com">Nikkei</a> on digital transformation, I have been elected to the <a href="https://tag.w3.org">W3C's Technical Architecture Group</a> and most recently I created the developer relations organisation at <a href="https://www.fastly.com">Fastly</a>.</p>
+        <p>I'm an <strong>experienced engineering leader</strong> passionate about using technology to connect, empower and inspire. The consultancy I founded was acquired by the <a href="https://www.ft.com">Financial Times</a>, I moved to Japan to advise <a href="https://www.nikkei.com">Nikkei</a> on digital transformation, I have been elected to the <a href="https://tag.w3.org">W3C's Technical Architecture Group</a> and most recently I created the developer relations organisation at <a href="https://www.fastly.com">Fastly</a>.</p>
     </div>
     <div class="intro2">
-        <p>Along the way I've hand-coded a logistics system in Zimbabwe, modelled for a <a href="https://www.neighborhood.jp/">Japanese menswear brand</a>, founded and curated the respected <a href="https://www.edgeconf.com">Edge web conference</a>, served as co-chair of <a href="https://ldnwebperf.org/">London Web Performance</a>, and was working in <a href="https://ldnwebperf.org/">Air Traffic Control</a> on 9/11.</p>
+        <p>Along the way I've single-handedly coded a logistics system in Zimbabwe, modelled for a <a href="https://www.neighborhood.jp/">Japanese menswear brand</a>, founded and curated the respected <a href="https://www.edgeconf.com">Edge web conference</a>, served as co-chair of <a href="https://ldnwebperf.org/">London Web Performance</a>, and was working in <a href="https://ldnwebperf.org/">Air Traffic Control</a> on 9/11.</p>
         <p>I’m a believer in the web and open standards, and love sharing that enthusiasm with others.  Read on to learn more.</p>
     </div>
     <div class="heroimg">
@@ -74,38 +100,62 @@ import TickBoxItem from '../components/TickBoxItem.astro';
     </div>
     <div class="divider"></div>
     <div class="padded"><h2>Experience</h2></div>
-    <div class="padded">
-        <ol>
+    <div>
+        <ol class="role-list label">
             <li>
-                <h3>Fastly / Developer Relations strategy lead / London / 2017-2024</h3>
-                <p>At Fastly I led the developer relations operation, and helped developers around the world to make their websites fast, secure and engaging. I owned the developer docs, and our entire line of developer tooling, along with our developer engagement and community programmes.</p>
+                <div class="role-head">
+                    <h3>Developer Relations Strategy Lead, <span class="org">Fastly</span></h3>
+                    <div class='role-meta'>London · 2017-2024</div>
+                </div>
+                <p>At <a href="https://www.fastly.com">Fastly</a> I led the developer relations operation, and helped developers around the world to make their websites fast, secure and engaging. I owned all developer tooling, along with reference docs, developer engagement and community programmes.</p>
             </li>
             <li>
-                <h3>W3C / Technical Architecture Group / Worldwide / 2016-2018</h3>
-                <p>I was an elected member of the World Wide Web Consortium's Technical Architecture Group, a nine-member body responsible for guiding the development of the World Wide Web. TAG reviews specification proposals and considers the future development of the web platform for the benefit of developers and users across the world.</p>
+                <div class="role-head">
+                    <h3>Technical Architecture Group member, <span class="org">W3C</span></h3>
+                    <div class='role-meta'>Global · 2016-2018</div>
+                </div>
+                <p>I was an elected member of the World Wide Web Consortium's <a href="https://tag.w3.org">Technical Architecture Group</a>, a nine-member body responsible for guiding the development of the World Wide Web. TAG reviews specification proposals and considers the future development of the web platform for the benefit of developers and users across the world.</p>
             </li>
             <li>
-                <h3>Financial Times, Senior Director (Tokyo, 2016-2017)</h3>
-                <p>On temporary assignment in Tokyo, Japan, assisting Nikkei Inc (the parent company of the FT) in their digital transformation plans. My work encompassed digital strategy, outcome planning and technical architecture.</p>
+                <div class="role-head">
+                    <h3>Senior Director, <span class="org">Financial Times</span></h3>
+                    <div class="role-meta">Tokyo · 2016-2017</div>
+                </div>
+                <p>On assignment in Tokyo, Japan, assisting <a href="https://www.nikkei.com">Nikkei</a> (FT's parent) in their digital transformation plans. My work encompassed digital strategy, product and technical architecture.</p>
             </li>
             <li>
-                <h3>Financial Times, Director of FT Labs (London, 2011-2016)</h3>
-                <p>I led the FT Labs division. The FT Web App grew to handle over 60% of the FT’s subscriber article consumption, and FT Labs has launched new initiatives such as Origami, a design system for all FT products, and numerous open source projects including one that was adopted by over 100,000 websites.</p>
+                <div class="role-head">
+                    <h3>Director of FT Labs, <span class="org">Financial Times</span></h3>
+                    <div class='role-meta'>London · 2011-2016</div>
+                </div>
+                <p>I led the <a href="http://labs.ft.com/">FT Labs</a> division. The <a href="http://app.ft.com/">FT Web App</a> grew to handle over 60% of the FT’s subscriber article consumption, and FT Labs has launched new initiatives such as <a href="http://origami.ft.com/">Origami</a>, a design system for all FT products, and numerous open source projects including one that was adopted by over 100,000 websites.</p>
             </li>
             <li>
-                <h3>Assanka, Founder (London, 2003-2011)</h3>
-                <p>I started Assanka to experiment with web technologies. We built one of the first real time live blogging sites, which won two Webby awards in 2008. In 2011, we released the world’s first major "HTML5" newspaper site for the Financial Times. In this role I wrote the original version of what became FT data squasher, widely regarded as one of the craziest hacks to improve offline storage capacity in the browser before blob storage support was available on mobile browsers.</p>
+                <div class="role-head">
+                    <h3>Founder, <span class="org">Assanka</span></h3>
+                    <div class="role-meta">London · 2003-2011</div>
+                </div>
+                <p>I started Assanka to experiment with web technologies. We built one of the first real time live blogging sites, which <a href="http://www.webbyawards.com/winners/2008/web/general-website/blog-business/ftcom-alphaville/">won two Webby awards</a> in 2008. In 2011, we released the world’s first major "HTML5" newspaper site for the Financial Times. In this role I wrote the original version of what became <a href="https://github.com/ftlabs/ftdatasquasher">FT data squasher</a>, widely regarded as one of the craziest hacks to improve offline storage capacity in the browser before blob storage support was available on mobile browsers.</p>
             </li>
             <li>
-                <h3>OnOneMap, Founder (London, 2005-2008)</h3>
-                <p>I created an app combining property data from UK property marketing sites with the then-new Google Maps API. OnOneMap proved a successful concept, and was incorporated as a business. It was featured across the national press (BBC Radio 2, The Guardian, PC Pro, CNN, and many others) and was successfully acquired by dotHomes in 2008.</p>
+                <div class="role-head">
+                    <h3>Founder, <span class="org">OnOneMap</span></h3>
+                    <div class="role-meta">London · 2005-2008</div>
+                </div>
+                <p>I created an app combining property data from UK property marketing sites with the then-new Google Maps API. OnOneMap proved a successful concept, and was incorporated as a business. It was featured across the national press (<a href="http://www.websiteoftheday.info/2005/09/online_house_hu.html">BBC Radio 2</a>, <a href="http://www.theguardian.com/technology/2007/mar/01/freeourdata.guardianweeklytechnologysection">The Guardian</a>, <a href="http://www.pcpro.co.uk/opinions/112692/prolog">PC Pro</a>, <a href="http://edition.cnn.com/2005/TECH/08/04/spark.house.hunting/">CNN</a>, and many others) and was successfully acquired by dotHomes (now part of Zoopla) in 2008.</p>
             </li>
             <li>
-                <h3>UK Air Traffic Control Service (NATS), Developer (London, 2001-2002)</h3>
-                <p>I worked for the British air traffic control service for a year from the summer of 2001 and saw the events of <a href="https://en.wikipedia.org/wiki/September_11_attacks">September 11, 2001</a> happen in real time from the inside of the aviation world. I created tools to replace legacy communications technology and improved workflows for geographically disparate colleagues at remote radar stations.</p>
+                <div class="role-head">
+                    <h3>Developer, <span class="org">UK Air Traffic Control Service (NATS)</span></h3>
+                    <div class="role-meta">London · 2001-2002</div>
+                </div>
+                <p>I worked for the <a href="http://www.nats.aero/">British air traffic control service</a> for a year from the summer of 2001 and saw the events of <a href="https://en.wikipedia.org/wiki/September_11_attacks">September 11, 2001</a> happen in real time from the inside of the aviation world. I created tools to replace legacy communications technology and improved workflows for geographically disparate colleagues at remote radar stations.</p>
             </li>
             <li>
-                <h3>Reapers, Developer (Zimbabwe, 2001)</h3>
+                <div class="role-head">
+                    <h3>Developer, <span class="org">Reapers</span></h3>
+                    <div class="role-meta">Zimbabwe · 2001</div>
+                </div>
                 <p>Travelling across Africa and working with with local suppliers and users, I designed and built a simple, inexpensive distributed system, with no single point of failure, to manage national inventory and logistics. Tolerant to unreliable infrastructure, power outages, and designed to be accessible and efficient for low literacy users, it was still in use until 2010.</p>
             </li>
         </ol>
@@ -134,7 +184,7 @@ import TickBoxItem from '../components/TickBoxItem.astro';
                 </ul>
             </div>
             <div class="padded">
-                <p>I have also written articles for a number of blogs (eg Smashing magazine, Mozilla Hacks, Perf calendar) and industry magazines (eg ISO), and served on programme committees for web related conferences.</p>
+                <p>I have also written articles for a number of blogs (eg <a href="https://www.smashingmagazine.com/2017/11/understanding-vary-header/">Smashing magazine</a>, <a href="http://calendar.perfplanet.com/2014/support-the-old-optimise-for-the-new/">Perf calendar</a>) and industry magazines (eg ISO), and served on programme committees for web related conferences.</p>
             </div>
         </div>
     </div>
@@ -165,11 +215,11 @@ import TickBoxItem from '../components/TickBoxItem.astro';
         <ul>
             <li>
                 <h3>Littlefriends management, Menswear model (Tokyo, 2016)</h3>
-                <p>I was scouted to model for Little Friends when I was in Japan, and ended up as the face and body of Neighborhood’s 2017 spring menswear collection.</p>
+                <p>I was scouted to model for <a href="http://littlefriends-management.com/">Little Friends</a> when I was in Japan, and ended up as the face of <a href="http://neighborhood.jp/">Neighborhood’s</a> 2017 spring menswear collection.</p>
             </li>
             <li>
                 <h3>Metropolitan Police, Special Constable (London, 2006-2007)</h3>
-                <p>For something different I worked as a volunteer officer in London’s Met Police on Friday and Saturday nights. This required full police training and gave me a much better understanding of the law, first aid and self-defence.</p>
+                <p>For something different I worked as a volunteer officer in <a href="https://www.met.police.uk/">London’s Met Police</a> on Friday and Saturday nights. This required full police training and gave me a much better understanding of the law, first aid and self-defence.</p>
             </li>
         </ul>
     </div>
