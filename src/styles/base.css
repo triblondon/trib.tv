@@ -71,3 +71,15 @@ h2 {
 ul, ol {
     list-style-type: square;
 }
+
+code {
+    word-wrap: break-word;
+}
+
+figure {
+    margin: 1em 0;
+    padding: 2px;
+    background-image: var(--bg-mash-background-image);
+    background-position: var(--bg-mash-background-position);
+    background-size: var(--bg-mash-background-size);
+}

@@ -115,6 +115,7 @@ const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" :
             display: grid;
             grid-template-columns: min-content auto min-content;
             grid-template-rows: auto;
+            gap: 0;
 
             .blog-item {
                 display: contents; /* Fill the grid with the individual elements of each blog post, not the blog-item. */

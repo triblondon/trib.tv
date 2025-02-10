@@ -7,8 +7,6 @@ author: Andrew Betts
 tags: ["AMP", "Featured"]
 ---
 
-AMP continues to be a large part of the way people view web content on mobile devices. Following [AMP Letter](http://ampletter.org), what we’ve seen from Google is largely nice sentiments accompanied by business as usual, and the web ecosystem is suffering for it.
-
 Recently, I was drawn back into the world of AMP when [I was credited with the suggestion](https://twitter.com/tobie/status/1126141099725271040) for [promotable IFRAMEs](https://discourse.wicg.io/t/proposal-for-promotable-iframe/2375), and therefore the genesis of the [Portals spec](https://wicg.github.io/portals) that it evolved into. I wanted to firmly distance myself from portals, because I see them as part of the effort to normalise the use of the **AMP Carousel**, which is an anti-competitive land-grab for the web by an organisation that seems to have an insatiable appetite for consuming the web, probably ultimately to it’s own detriment.
 
 > To be honest, last time I looked, it seemed like it had been designed to enable the AMP carousel. The carousel is a monopolistic land grab for the web and I want no part of it.
@@ -21,7 +19,7 @@ I subsequently sat down with [Kenji Baheux](https://twitter.com/KenjiBaheux), be
 
 Technology standardisation is about long term vision, respecting the architectural foundations of the existing platform, and solving the ‘right problem’. In the past, AMP has been responsible for some mind-blowingly terrible suggestions in this regard, such as:
 
-*   Adapt the `[requestFullscreen](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen)` API such that a browser chrome can appear within the full screen view. So that it is… not full screen?
+*   Adapt the [`requestFullscreen`](https://developer.mozilla.org/en-US/docs/Web/API/Element/requestFullScreen) API such that a browser chrome can appear within the full screen view. So that it is… not full screen?
 *   Where a URL starts with `https://www.google.com/amp/s`, just don’t display that part. The Google Search app actually does this already today. Terrifying.
 
 Right now though, we have some more well-rounded ideas on the table, and it’s harder to object to them on purely technical grounds. In the case of Portals, the idea is to create a kind of IFRAME that doesn’t inherit any style or environmental data from the parent page, and therefore can be ‘activated’ to become the new top-level browsing context without having to be re-rendered (ie. instantly). The basic premise is fine, but let’s dig into the detail of [“portal state”](https://wicg.github.io/portals/#portal-state):
@@ -56,7 +54,7 @@ The front page of a newspaper is a carefully curated thing, and historically log
 
 This equates a responsible, expensively produced, extensively researched, professional newsgatherer with some guy who thinks the earth is flat for no reason other than that it ‘kinda feels right’.
 
-[![](https://trib.tv/wp-content/uploads/2019/05/Science-vs-BS-e1403720137245.jpg)](https://trib.tv/wp-content/uploads/2019/05/Science-vs-BS-e1403720137245.jpg)
+![](https://trib.tv/wp-content/uploads/2019/05/Science-vs-BS-e1403720137245.jpg)
 
 Recognising and respecting that one type of information is not the same as another, for some reason, seems hard to grasp. [The BBC has been censured by the regulator in the UK several times](https://blogs.lse.ac.uk/mediapolicyproject/2014/04/02/false-balance-in-climate-reporting-reveals-bbcs-sensitivity-to-political-pressure/) for so-called **false equivalence**, on topics ranging from climate change to homeopathy. **This isn’t just a bug you need to fix.** It’s an institutional, cultural problem within Google.
 
@@ -100,9 +98,10 @@ The bottom line here is that the news industry is in the midst of a full blown d
 
 Take a look at this:
 
-![Newspaper circulation figures showing a decline over the period 2007-2017](./newspaper-decline.png)]
-
-[DCMS overview of the press market (Mediatique, 2018)](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/720400/180621_Mediatique_-_Overview_of_recent_dynamics_in_the_UK_press_market_-_Report_for_DCMS.pdf)
+:::figure
+    ![Newspaper circulation figures showing a decline over the period 2007-2017](./newspaper-decline.png)
+    DCMS overview of the *press* market ([Mediatique, _2018_](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/720400/180621_Mediatique_-_Overview_of_recent_dynamics_in_the_UK_press_market_-_Report_for_DCMS.pdf))
+:::
 
 That’s the UK. In the US, [BusinessInsider documents 2400 job losses in the US media industry](https://www.businessinsider.com/2019-media-layoffs-job-cuts-at-buzzfeed-huffpost-vice-details-2019-2?r=US&IR=T) in _just in Q1 of 2019_.
 
