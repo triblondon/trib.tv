@@ -1,5 +1,6 @@
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
+import { remarkYouTube } from './src/plugins/remark-youtube';
 import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
 import { remarkFigure } from './src/plugins/remark-figure';
 
@@ -10,6 +11,7 @@ export default defineConfig({
   markdown: {
     remarkPlugins: [
       remarkDirective,
+      remarkYouTube,
       remarkReadingTime,
       remarkFigure
     ],

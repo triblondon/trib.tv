@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/PostLayout.astro
+layout: ../../../../layouts/PostLayout.astro
 title: "Cake or death: AMP and the worrying power dynamics of the web"
 pubDate: 2019-05-28
 description: AMP continues to be a large part of the way people view web content on mobile devices. Following AMP Letter, what we’ve seen from Google is largely nice sentiments accompanied by business as usual, and the web ecosystem is suffering for it.
@@ -99,8 +99,8 @@ The bottom line here is that the news industry is in the midst of a full blown d
 Take a look at this:
 
 :::figure
-    ![Newspaper circulation figures showing a decline over the period 2007-2017](./newspaper-decline.png)
-    DCMS overview of the *press* market ([Mediatique, _2018_](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/720400/180621_Mediatique_-_Overview_of_recent_dynamics_in_the_UK_press_market_-_Report_for_DCMS.pdf))
+![Newspaper circulation figures showing a decline over the period 2007-2017](./newspaper-decline.png)
+DCMS overview of the *press* market ([Mediatique, _2018_](https://assets.publishing.service.gov.uk/government/uploads/system/uploads/attachment_data/file/720400/180621_Mediatique_-_Overview_of_recent_dynamics_in_the_UK_press_market_-_Report_for_DCMS.pdf))
 :::
 
 That’s the UK. In the US, [BusinessInsider documents 2400 job losses in the US media industry](https://www.businessinsider.com/2019-media-layoffs-job-cuts-at-buzzfeed-huffpost-vice-details-2019-2?r=US&IR=T) in _just in Q1 of 2019_.

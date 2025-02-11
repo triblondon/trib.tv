@@ -86,7 +86,29 @@
             border-bottom: 1px solid black;
         }
     }
+    figure {
+        display: flex;
+        flex-flow: column nowrap;
+        margin: 1em 0;
+        padding: 2px;
+        background-color: black;
+        img {
+            flex: 0 1 auto;
+        }
+        figcaption {
+            color: white;
+            padding: 10px;
+            font-size: 80%;
+            font-style: italic;
+        }
+    }
     img {
         height: auto;
     }
+}
+
+iframe[src*="https://www.youtube.com"] {
+    width: 100%;
+    aspect-ratio: 16/9;
+    height: auto;
 }

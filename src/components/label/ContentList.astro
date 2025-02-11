@@ -1,0 +1,66 @@
+---
+const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", {
+	year: "numeric",
+	month: "long",
+	day: "numeric",
+});
+const formatLength = (wc: number) => wc < 500 ? "Short" : wc < 3000 ? "Medium" : "Long"
+
+const { items, startOffset } = Astro.props;
+---
+
+<style>
+.blog-list {
+    display: grid;
+    grid-template-columns: min-content auto min-content;
+    grid-template-rows: auto;
+    gap: 0;
+
+    .blog-item {
+        display: contents; /* Fill the grid with the individual elements of each blog post, not the blog-item. */
+        > div {
+            padding: 18px 12px 8px 12px;
+        }
+        > div.title {
+            padding-top: 17px;
+        }
+        .meta {
+            white-space: nowrap;
+            display: flex;
+            flex-flow: row wrap;
+            gap: 8px 24px;
+            align-content: flex-start;
+        }
+        .summary {
+            grid-column: 1 / -1; /* Span all columns */
+            padding: 0px 12px 18px 12px;
+        }
+        &:not(:last-child) .summary {
+            border-bottom: 1px dashed black;
+        }
+    }
+}
+@media (min-width: 700px) {
+    .blog-list .blog-item .meta {
+        flex-wrap: nowrap;
+    }
+}
+</style>
+
+<div class="blog-list block-links">
+    {items.map((item, idx) => (
+        <a href={item.url} class="blog-item">
+            <div class="seq">{(items.length - idx) + startOffset}</div>
+            <div class="title">
+                <h3>{item.title}</h3>
+            </div>
+            <div class="meta">
+                <span>{formatDate(item.pubDate)}</span>
+                <span>{formatLength(item.wordCount)}</span>
+            </div>
+            <div class="summary">
+                {item.description}
+            </div>
+        </a>
+    ))}
+</div>

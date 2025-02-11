@@ -1,5 +1,5 @@
 ---
-layout: ../../../layouts/PostLayout.astro
+layout: ../../../../layouts/PostLayout.astro
 title: Managing a core service so people don’t hate it
 pubDate: 2020-01-03
 description: If you work for a company with more than a few hundred employees, there will probably be some standardised process or system that you’re expected to use, is widely reviled, and yet never improves. Often it’s a design system, template, hosting platform or scheduling tool. Why is it so hard to make these things work well?
@@ -23,8 +23,8 @@ There are many good reasons (and some less good) why companies often try and cre
 As well as giving your company a good “visual gloss”, it’s also about reducing repetitive work and improving efficiency by sharing reusable solutions between teams, and most importantly it’s about **improving customer experience though consistent use of good solutions**. For example, it’s generally easy to type your PIN on an ATM by remembering the _shape_ that the code makes on the keypad, rather than having to look at the numbers. But what happens when someone doesn’t follow the standard, and makes a keypad that’s the ‘wrong’ way up?!
 
 :::figure
-    ![PIN keypad the wrong way up](https://trib.tv/wp-content/uploads/2019/12/Screenshot-2019-12-28-at-10.55.09.jpg)
-    This keypad is hard to use because the keys are oriented the opposite way to convention. And let’s not talk about those buttons on the right. WTF.
+![PIN keypad the wrong way up](https://trib.tv/wp-content/uploads/2019/12/Screenshot-2019-12-28-at-10.55.09.jpg)
+This keypad is hard to use because the keys are oriented the opposite way to convention. And let’s not talk about those buttons on the right. WTF.
 :::
 
 Nightmare! But this just shows how effective and useful design systems are, _when they are universally adopted_.

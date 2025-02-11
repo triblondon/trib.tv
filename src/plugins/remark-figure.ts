@@ -15,20 +15,22 @@ export const remarkFigure = () => {
 			}
 
 			let captionNode = { type: 'paragraph', data: { hName: 'figcaption' }, children: []};
-			let initFigChildren = [null, captionNode];
 
 			// Rewrite the children of the figure to have exactly two - the image and the caption
 			// Image is the first image element, Caption is all other elements collected into a paragraph wrapper
-			node.children = node.children.reduce((acc, thisChild) => {
-				if (!acc[0] && thisChild.type === 'image') {
-					acc[0] = thisChild;
-				} else {
+			const figChildren = node.children.reduce((acc, thisChild) => {
+				if (acc.length === 0 && thisChild.type === 'image') {
+					acc = [ thisChild, captionNode ];
+				} else if (acc.length === 2) {
 					acc[1].children.push(thisChild);
 				}
 				return acc;
-			}, initFigChildren);
+			}, []);
 	  		
-			node.data = { hName: 'figure' };
+			if (figChildren) {
+				node.data = { hName: 'figure' };
+				node.children = figChildren;
+			}
 		});
 	};
 };
