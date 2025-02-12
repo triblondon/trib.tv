@@ -13,7 +13,6 @@ export const remarkYouTube = () => {
             const content = String(node.children[0].url);
             if (PATTERN.test(content)) {
                 const videoURL = new URL(content);
-                console.log(videoURL);
                 const videoID = videoURL.searchParams.get('v');
 
                 videoURL.searchParams.delete('v');
