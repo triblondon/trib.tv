@@ -15,6 +15,9 @@ export default defineConfig({
       remarkReadingTime,
       remarkFigure
     ],
+    shikiConfig: {
+      theme: 'laserwave',
+    },
   },
 
   experimental: {

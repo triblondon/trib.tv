@@ -9,7 +9,7 @@ export async function getStaticPaths({ paginate }) {
   const allPosts = Object.values(import.meta.glob('./**/*.md', { eager: true }));
 
   // Return a paginated collection of paths for all items
-  return paginate(allPosts.reverse(), { pageSize: 5 });
+  return paginate(allPosts.reverse(), { pageSize: 10 });
 }
 
 const { page } = Astro.props;

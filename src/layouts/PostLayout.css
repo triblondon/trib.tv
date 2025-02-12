@@ -49,6 +49,8 @@
 .post-body {
     line-height: 1.7;
     font-size: 18px;
+    min-width: 0;
+
     * {
         max-width: 100%;
     }
@@ -94,6 +96,7 @@
         background-color: black;
         img {
             flex: 0 1 auto;
+            align-self: center;
         }
         figcaption {
             color: white;
@@ -104,6 +107,13 @@
     }
     img {
         height: auto;
+        max-height: 700px;
+    }
+    pre.astro-code {
+        padding: 12px;
+        font-size: 80%;
+        border-top: 2px dashed white;
+        border-bottom: 2px dashed white;
     }
 }
 

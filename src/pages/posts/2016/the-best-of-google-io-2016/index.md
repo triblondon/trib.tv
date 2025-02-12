@@ -31,7 +31,7 @@ Web standards are providing increasingly visible solutions to these problems, an
 
 Add [autocomplete attributes](https://developer.mozilla.org/en/docs/Web/HTML/Element/input#attr-autocomplete) to your `input` elements to make password managers like 1Password and LastPass work smoothly and reliably as well as making it possible for the browser itself to suggest a strong password. This is not a new thing but mostly people still don’t do it ([including us](https://accounts.ft.com/login) – bug filed!). It’s so easy this should be a no-brainer for everyone.
 
-https://www.youtube.com/watch?v=MnvUlGFb3GQ
+https://www.youtube.com/watch?v=MnvUlGFb3GQ&start=285&end=410
 
 Going further, the [Credential management API](https://w3c.github.io/webappsec-credential-management/#introduction-examples) (Chrome 51+) adds a way for sites to largely do away with sign in forms altogether and allow the site to negotiate directly with the browser for credentials. That seems to cut out the option of using third party password managers so I’m not sure I would do this. \[[Jump to credential API section of talk](https://www.youtube.com/embed/MnvUlGFb3GQ?start=819&end=1510&autoplay=true)\]
 
@@ -55,7 +55,7 @@ I wish Google would focus as much attention on ‘normal’ sites that perform n
 
 Jake did address the SPA point in his next iteration of the talk at PWA summit, focusing on a solution using **streams**:
 
-https://www.youtube.com/watch?v=qDJAz3IIq18
+https://www.youtube.com/watch?v=qDJAz3IIq18&start=606
 
 I like streams, but I’m not totally convinced about doing what amounts to templating in a serviceworker. For the moment I’m trying to keep it simple by having my server create _pages_ and then have the browser load them. Dunno, call me old fashioned, but if you do that, it streams perfectly well and has done for a decade.
 
@@ -65,7 +65,7 @@ All this really just underscores how flexible ServiceWorker is and that with it 
 
 Material design is full of cool animated UI which helps to maintain context through interactions, and what I love about Paul Lewis’s talk is that there is no smoke and mirrors – he presents all the code needed to make his effects work. This talk covers three common widgets: a collapsible [side nav](https://material.google.com/layout/structure.html#structure-side-nav), a [dismissible card](https://material.google.com/components/cards.html#cards-behavior), and an [expanding view](https://material.google.com/motion/choreography.html#). Paul packs so much into his talks that it’s worth watching pretty much the whole of this, but I’ll trim out his intro because I’m brutally impatient.
 
-https://www.youtube.com/watch?v=thNyy5eYfbc
+https://www.youtube.com/watch?v=thNyy5eYfbc&start=444
 
 Bonus points for use of the term ‘Colinkidink’.
 
@@ -73,7 +73,7 @@ Bonus points for use of the term ‘Colinkidink’.
 
 A zippy talk about devtools upgrades gave us a slew of new features, and my highlight covers two of them. The **colour picker** will now offer a palette that is sampled from your page’s colour scheme, and even follows colour variables; The **animation editor** finally offers a Flash-style timeline of transition effects that’s even editable, so you can build animations visually!
 
-https://www.youtube.com/watch?v=x8u0n4dT-WI
+https://www.youtube.com/watch?v=x8u0n4dT-WI&start=371&end=720
 
 ### RequestIdleCallback and passive event listeners
 
@@ -83,7 +83,7 @@ A pair of seemingly unrelated features came up in Chris Wilson’s talk and I li
 
 Here’s Chris Wilson on those two features:
 
-https://www.youtube.com/watch?v=bK6Ah68jEX8
+https://www.youtube.com/watch?v=bK6Ah68jEX8&start=492&end=744
 
 Chris also wins the award for sheer quantity of topics stuffed into one talk.
 
@@ -91,7 +91,7 @@ Chris also wins the award for sheer quantity of topics stuffed into one talk.
 
 I’m very excited about [PaymentRequest](https://www.w3.org/TR/payment-request/). I did the [TAG spec review](https://github.com/w3ctag/spec-reviews/issues/109#issuecomment-204992438) on it, and at the FT the idea of seamlessly setting up a recurring subscription payment on the web is very near and dear to our hearts. This talk included a walkthough of how PaymentRequest would work:
 
-https://www.youtube.com/watch?v=yelPlCVZLEE
+https://www.youtube.com/watch?v=yelPlCVZLEE&start=680&end=1560
 
 ### Preload hints and HTTP/2 push
 
@@ -117,7 +117,7 @@ IntersectionObserver offers a beautifully simple API for trivially receiving eve
 
 I love it so much that I recently shepherded Google’s polyfill for it into my [polyfill.io service](https://cdn.polyfill.io), so you can use IntersectionObserver today in any browser from literally IE7 onwards, thanks to the amazing coding skills of Philip Walton.
 
-https://www.youtube.com/watch?v=bK6Ah68jEX8
+https://www.youtube.com/watch?v=bK6Ah68jEX8&start=755&end=857
 
 ### Conclusion
 
