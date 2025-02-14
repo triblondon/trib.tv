@@ -6,6 +6,8 @@ import { remarkFigure } from './src/plugins/remark-figure';
 
 import mdx from '@astrojs/mdx';
 
+import react from '@astrojs/react';
+
 // https://astro.build/config
 export default defineConfig({
   markdown: {
@@ -24,5 +26,5 @@ export default defineConfig({
     svg: true,
   },
 
-  integrations: [mdx()]
+  integrations: [mdx(), react()]
 });

@@ -1,7 +1,7 @@
 ---
 const iconFiles = import.meta.glob("../../assets/images/icons/*.svg", { eager: true });
 const icons = Object.entries(iconFiles).reduce((acc, [k, v]) => {
-    if (typeof v == 'object' && 'default' in v && typeof v.default === 'object' && 'src' in v.default) {
+    if ('default' in v && 'src' in v.default) {
         acc[k.replace(/^.*?\/([^\/]+)\.svg$/, "$1")] = v.default.src;
     }
     return acc;

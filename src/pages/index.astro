@@ -7,6 +7,9 @@ import barCodeImage from '../assets/images/barcode.svg';
 import IconList from "../components/label/IconList.astro";
 import ContentList from "../components/label/ContentList.astro";
 import Marquee from "../components/Marquee.astro";
+import LeafletMap from "../components/islands/LeafletMap.tsx";
+import locationHistory from "../assets/location-history.json";
+import allCountries from "../assets/all-countries.json";
 
 const MAX_POSTS = 5;
 
@@ -19,6 +22,21 @@ const contentItems = allPosts.slice(0-MAX_POSTS).reverse().map(post => ({
     description: post.frontmatter.description
 }));
 const numPosts = allPosts.length;
+
+const locationCounts = locationHistory.reduce((acc, trip) => {
+    if (!(trip.cciso in acc)) acc[trip.cciso] = { cciso: trip.cciso, count: 0, last: 0 }
+    acc[trip.cciso].count++;
+    acc[trip.cciso].last = Math.max(acc[trip.cciso].last, (new Date(trip.date)).getTime());
+    return acc;
+}, {});
+const locationsContent = Object.values(locationCounts)
+    .sort((a, b) => b.count > a.count ? 1 : -1)
+    .map(rec => {
+        const isoKey = rec.cciso.toLowerCase();
+        const name = (isoKey in allCountries) ? allCountries[isoKey].name : rec.cciso;
+        return { ...rec, name, last: new Date(rec.last)};
+    })
+;
 
 ---
 
@@ -105,6 +123,9 @@ const numPosts = allPosts.length;
             .map {
                 grid-area: map;
                 height: 450px;
+                .leaflet-container {
+                    height: 100%;
+                }
             }
             .data {
                 grid-area: data;
@@ -187,7 +208,7 @@ const numPosts = allPosts.length;
             <div><dt>Local time</dt><dd>15:49</dd></div>
             <div><dt>Time zone</dt><dd>Europe/London</dd></div>
         </dl>
-        <div id="map" class="map"></div>
+        <div class="map"><LeafletMap client:only="react" center={[51.505, -0.09]} zoom={6} /></div>
     </section>
 
     <!-- https://github.com/tony-xlh/MRZ-dataset/tree/gh-pages/benchmark/dataset/Passports -->
@@ -235,17 +256,14 @@ const numPosts = allPosts.length;
                 ><tr>
                     <th>ISO</th>
                     <th>Conventional short name</th>
-                    <th>Count</th>
-                    <th>Last</th>
+                    <th>Number of visits</th>
+                    <th>Last visit</th>
                 </tr></thead
             >
             <tbody>
-                <tr
-                    ><td>GB</td><td>United Kingdom</td><td>37</td><td>2024</td
-                    ></tr
-                >
-                <tr><td>FR</td><td>France</td><td>5</td><td>2022</td></tr>
-                <tr><td>PT</td><td>Portugal</td><td>9</td><td>2025</td></tr>
+                {locationsContent.map(rec => (
+                    <tr><td>{rec.cciso}</td><td>{rec.name}</td><td>{rec.count}</td><td>{rec.last.getFullYear()}</td></tr>
+                ))}
             </tbody>
         </table>
         <div class="padded" style="text-align: center">
@@ -257,11 +275,11 @@ const numPosts = allPosts.length;
         </div>
     </section>
 
-    <script
+    <!-- <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
         crossorigin=""></script>
     <script>
         import "../scripts/map.js";
-    </script>
+    </script> -->
 </BaseLayout>
