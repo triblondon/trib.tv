@@ -1,0 +1,71 @@
+---
+import { Image } from 'astro:assets';
+import { minimatch } from 'minimatch';
+
+const { srcPattern } = Astro.props;
+
+const files = import.meta.glob<{ default: ImageMetadata }>("/src/assets/**/*.{jpeg,jpg,png}");
+const imgs = await Promise.all(
+    Object.entries(files)
+        .filter(([path]) => minimatch(path, srcPattern))
+        .map(async ([_, importFn]) => {
+            const defMeta = (await importFn()).default;
+            const ratio = defMeta.width / defMeta.height;
+            const className = (ratio <= 0.6) ? "tall" : (ratio >= 1.5) ? "wide" : (ratio >= 2) ? "wider" : "";
+            return { ...defMeta, className}
+        })
+);
+
+---
+
+<style>
+ul {
+    --numcolumns: 3;
+    margin: 1em 0;
+    padding: 0;
+    list-style: none;  
+    border: 1px solid black;
+    background-color: black;
+    display: grid;
+    grid-template-columns: repeat(var(--numcolumns), 1fr);
+    grid-template-rows: auto;
+    grid-auto-flow: dense;
+    gap: 1px;
+    align-items: stretch;
+    > li {
+        aspect-ratio: 1
+    }
+    > li.wide {
+        grid-column: span 2;
+        aspect-ratio: 2 / 1;
+    }
+    > li.wider {
+        grid-column: span 3;
+        aspect-ratio: 3 / 1;
+    }
+    > li.tall {
+        grid-row: span 2;
+        aspect-ratio: 1 / 2;
+    }
+    > li img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+}
+@media (min-width: 700px) {
+    ul { --numcolumns: 4 }
+}
+@media (min-width: 1000px) {
+    ul { --numcolumns: 5 }
+}
+</style>
+
+<ul>
+    {imgs.map(im => (
+        <li class={im.className}>
+            <a href={im.src}><Image src={im} alt="" /></a>
+        </li>
+    ))}
+</ul>

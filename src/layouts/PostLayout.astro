@@ -2,10 +2,55 @@
 import IconList from "../components/label/IconList.astro";
 import BaseLayout from "./BaseLayout.astro";
 
-import "./PostLayout.css";
-
 const { frontmatter } = Astro.props;
 ---
+
+<style>
+.label.label-post {
+    display: grid;
+    grid-template-columns: auto;
+    grid-template-rows: auto;
+    gap: 1px;
+    .divider-straight {
+        height: 12px;
+    }
+}
+@media (min-width: 700px) {
+    .label.label-post {
+        grid-template-columns: minmax(min-content, 30%) auto;
+        grid-template-areas:
+            "pre-divider pre-divider"
+            "title title"
+            "standfirst standfirst"
+            "divider divider"
+            "meta body"
+            "meta foot";
+        .divider {
+            grid-area: divider;
+            height: 12px;
+            background-image: var(--bg-mash-background-image);
+            background-position: var(--bg-mash-background-position);
+            background-size: var(--bg-mash-background-size);
+        }
+        .post-title {
+            grid-area: title;
+        }
+        .post-standfirst {
+            grid-area: standfirst;
+            font-size: 120%;
+        }
+        .post-meta {
+            grid-area: meta;
+        }
+        .post-body {
+            grid-area: body;
+        }
+        .post-foot {
+            grid-area: foot;
+        }
+    }
+}
+</style>
 
 <BaseLayout pageTitle={frontmatter.title}>
 
@@ -19,12 +64,16 @@ const { frontmatter } = Astro.props;
         <div class="divider"></div>
         <div class="label post-meta">
             <dl class="label kv-vertical">
-                <dt>Date</dt>
-                <dd>{frontmatter.pubDate.toString().slice(0, 10)}</dd>
-                <dt>Tags</dt>
-                <dd>
-                    {frontmatter.tags.map((tagStr) => <div>{tagStr}</div>)}
-                </dd>
+                {frontmatter.pubDate && (
+                    <dt>Date</dt>
+                    <dd>{frontmatter.pubDate.toString().slice(0, 10)}</dd>
+                )}
+                {frontmatter.tags && frontmatter.tags.length > 0 && (
+                    <dt>Tags</dt>
+                    <dd>
+                        {frontmatter.tags.map((tagStr) => <div>{tagStr}</div>)}
+                    </dd>
+                )}
                 <dt>Length</dt>
                 <dd>{frontmatter.readingTime.wordsFormatted} words</dd>
                 <dt>Reading time</dt>
@@ -36,12 +85,12 @@ const { frontmatter } = Astro.props;
                 { icon: "instagram" },
             ]} />
         </div>
-        <div class="post-body padded">
+        <div class="post-body rich-text padded">
             <slot />
         </div>
         <div class="post-foot padded">
             I don't have comments enabled on this blog, but if you want to
-            respond feel free to send me a tweet!.
+            respond feel free to @ me on BlueSky.
         </div>
     </section>
 </BaseLayout>
