@@ -1,11 +1,8 @@
 ## Server
 
-- Migrate images
-- Do conf bios page
-- Cron job to update storage with travel history and current location
+- Migrate images for blog posts
+- Send current lat/lng from HA to ValTown
 - Center map on current location
-- Show current location metadata
-
 
 - Response headers
     - referrer-policy
