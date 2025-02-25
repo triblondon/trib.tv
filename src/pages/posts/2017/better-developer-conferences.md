@@ -1,5 +1,5 @@
 ---
-layout: ../../../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
 title: Better developer conferences
 pubDate: 2017-08-16
 description: Between 2013 and 2015, I organised and ran five iterations of a developer conference called Edge conf. It was my attempt to fix some of the things I felt were wrong with the way conferences worked. 

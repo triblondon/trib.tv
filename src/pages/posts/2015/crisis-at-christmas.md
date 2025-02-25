@@ -1,5 +1,5 @@
 ---
-layout: ../../../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
 title: Crisis at Christmas
 pubDate: 2015-01-02
 description: Over Christmas, I volunteered for Crisis at Christmas, a massive charity operation to feed and house homeless people in London over the Christmas period. It prompted predictably mixed feelings of guilt and pride, shame and satisfaction.

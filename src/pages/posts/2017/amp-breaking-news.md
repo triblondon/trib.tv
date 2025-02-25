@@ -1,5 +1,5 @@
 ---
-layout: ../../../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
 title: "AMP: Breaking news"
 pubDate: 2017-03-31
 description: Google has made much of their Accelerated Mobile Pages project as a solution to bloated websites and frustrated users. But could AMP actually be bad news for the web, bad news for news, and part of a trend of news distribution that is bad for society in general?

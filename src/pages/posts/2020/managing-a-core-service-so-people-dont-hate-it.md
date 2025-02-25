@@ -1,5 +1,5 @@
 ---
-layout: ../../../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
 title: Managing a core service so people don’t hate it
 pubDate: 2020-01-03
 description: If you work for a company with more than a few hundred employees, there will probably be some standardised process or system that you’re expected to use, is widely reviled, and yet never improves. Often it’s a design system, template, hosting platform or scheduling tool. Why is it so hard to make these things work well?

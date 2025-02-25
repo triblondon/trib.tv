@@ -1,5 +1,5 @@
 ---
-layout: ../../../../layouts/PostLayout.astro
+layout: ../../../layouts/PostLayout.astro
 title: "Browsers in things"
 pubDate: 2017-03-10
 description: Web browsers are now more consistent and evergreen than ever before. Or are they?
