@@ -10,10 +10,14 @@ import Marquee from "../components/Marquee.astro";
 import LeafletMap from "../components/islands/LeafletMap.tsx";
 import locationHistory from "../assets/location-history.json";
 import allCountries from "../assets/all-countries.json";
+import type { MarkdownInstance } from "astro";
+import type { PostMetadata, LocationData, LocationHistoryRecord } from "../types";
+
+type LocationCounts = Record<string, { cciso: string; count: number; last: number}>
 
 const MAX_POSTS = 5;
 
-const allPosts = Object.values(import.meta.glob('./posts/**/*.md', { eager: true }));
+const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>('./posts/**/*.md', { eager: true }));
 const contentItems = allPosts.slice(0-MAX_POSTS).reverse().map(post => ({
     title: post.frontmatter.title,
     url: post.url,
@@ -23,7 +27,7 @@ const contentItems = allPosts.slice(0-MAX_POSTS).reverse().map(post => ({
 }));
 const numPosts = allPosts.length;
 
-const locationCounts = locationHistory.reduce((acc, trip) => {
+const locationCounts: LocationCounts = (locationHistory as LocationHistoryRecord[]).reduce((acc, trip) => {
     if (!(trip.cciso in acc)) acc[trip.cciso] = { cciso: trip.cciso, count: 0, last: 0 }
     acc[trip.cciso].count++;
     acc[trip.cciso].last = Math.max(acc[trip.cciso].last, (new Date(trip.date)).getTime());
@@ -39,10 +43,10 @@ const locationsContent = Object.values(locationCounts)
 ;
 
 const response = await fetch('https://triblondon-tribtvlocationmeta.web.val.run/trib-tv');
-const currentLocation = await response.json();
+const locationData:LocationData = await response.json();
 const astroLocalTime = new Date();
 const utcTime = astroLocalTime.getTime() + (astroLocalTime.getTimezoneOffset() * 60000);
-const andrewLocalTime = new Date(utcTime + (currentLocation.tz.utcOffset * 60000));
+const andrewLocalTime = new Date(utcTime + (locationData.tz.utcOffset * 60000));
 const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') + ':' + String(andrewLocalTime.getMinutes()).padStart(2, '0');
 
 ---
@@ -211,11 +215,11 @@ const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') +
         </div>
         <dl class="label kv-horizontal data">
             <div><dt>Origin</dt><dd>GB</dd></div>
-            <div><dt>Current location</dt><dd>{currentLocation.countryIso}</dd></div>
+            <div><dt>Current location</dt><dd>{locationData.countryIso}</dd></div>
             <div><dt>Local time</dt><dd>{andrewLocalTimeStr}</dd></div>
-            <div><dt>Time zone</dt><dd>{currentLocation.tz.name}</dd></div>
+            <div><dt>Time zone</dt><dd>{locationData.tz.name}</dd></div>
         </dl>
-        <div class="map"><LeafletMap client:only="react" center={[51.505, -0.09]} zoom={6} /></div>
+        <div class="map"><LeafletMap client:only="react" center={[locationData.pos.lat, locationData.pos.lng]} zoom={6} /></div>
     </section>
 
     <!-- https://github.com/tony-xlh/MRZ-dataset/tree/gh-pages/benchmark/dataset/Passports -->
