@@ -3,7 +3,7 @@ import type { ReadTimeResults } from "reading-time";
 export type PostMetadata = {
     layout: string;
     title: string;
-    pubDate: Date;
+    pubDate: string;
     description: string;
     author: string;
     tags: string[];

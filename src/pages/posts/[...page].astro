@@ -1,26 +1,29 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { Image } from 'astro:assets';
-
-import IconList from "../../components/label/IconList.astro";
 import ContentList from "../../components/label/ContentList.astro";
+import type {
+    MarkdownInstance,
+    InferGetStaticPropsType,
+    GetStaticPaths,
+} from "astro";
+import type { PostMetadata } from "../../types";
 
-export async function getStaticPaths({ paginate }) {
-  const allPosts = Object.values(import.meta.glob('./**/*.md', { eager: true }));
+export const getStaticPaths = (async ({ paginate }) => {
+    const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>("./**/*.md", { eager: true }));
+    allPosts.sort((a, b) => Date.parse(a.frontmatter.pubDate) - Date.parse(b.frontmatter.pubDate));
+    return paginate(allPosts.reverse(), { pageSize: 20 });
+}) satisfies GetStaticPaths;
 
-  // Return a paginated collection of paths for all items
-  return paginate(allPosts.reverse(), { pageSize: 10 });
-}
+type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { page } = Astro.props;
-const contentItems = page.data.map(post => ({
+const { page } = Astro.props as Props;
+const contentItems = page.data.map((post) => ({
     title: post.frontmatter.title,
     url: post.url,
     pubDate: post.frontmatter.pubDate,
     wordCount: post.frontmatter.readingTime.words,
-    description: post.frontmatter.description
+    description: post.frontmatter.description,
 }));
-
 ---
 
 <BaseLayout>
@@ -28,11 +31,12 @@ const contentItems = page.data.map(post => ({
         <div class="padded">
             <h2>Posts</h2>
         </div>
-        <ContentList items={contentItems} startOffset={page.total-page.end-1} />
+        <ContentList
+            items={contentItems}
+            startOffset={page.total - page.end - 1}
+        />
         <div class="padded" style="text-align: center">
-            { page.url.next ? (
-                <a href={page.url.next}>More posts</a>
-            ) : ""}
+            {page.url.next ? <a href={page.url.next}>More posts</a> : ""}
         </div>
     </section>
 </BaseLayout>
