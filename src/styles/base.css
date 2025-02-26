@@ -43,6 +43,7 @@ a {
     &:hover {
         background-color: var(--color-accent);
         color: #fff;
+        transition-delay: 0.2s;
     }
 }
 a.block-link, .block-links a {
@@ -53,9 +54,11 @@ a.block-link, .block-links a {
     text-decoration: none;
     &:hover, &:hover > * {
         background-color: var(--color-accent);
-        color: #fff;     
+        color: #fff;
+        transition-delay: 0.2s;
     }
 }
+a, a > * { transition: all 0.2s; }
 
 h2, h3, h4, h5, h6 {
     margin: 0;

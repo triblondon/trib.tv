@@ -21,28 +21,50 @@ const { items, startOffset } = Astro.props;
         > div {
             padding: 18px 12px 8px 12px;
         }
-        > div.title {
+        > .seq {
+            grid-row: span 2;
+        }
+        > .title {
             padding-top: 17px;
+            grid-row: span 2;
         }
-        .meta {
+        > .date {
             white-space: nowrap;
-            display: flex;
-            flex-flow: row wrap;
-            gap: 8px 24px;
-            align-content: flex-start;
+            padding-bottom: 0px;
         }
-        .summary {
-            grid-column: 1 / -1; /* Span all columns */
-            padding: 0px 12px 18px 12px;
+        > .length {
+            padding-top: 0px;
         }
-        &:not(:last-child) .summary {
+        > .summary {
+            grid-column: span 3;
+            padding-top: 0px;
+            padding-bottom: 18px;
+        }
+        &:not(:last-child) > .summary {
             border-bottom: 1px dashed black;
         }
     }
 }
 @media (min-width: 700px) {
-    .blog-list .blog-item .meta {
-        flex-wrap: nowrap;
+    .blog-list {
+        grid-template-columns: min-content auto min-content min-content;
+        .blog-item {
+            > .seq {
+                grid-row: span 1;
+            }
+            > .title {
+                grid-row: span 1;
+            }
+            > .date {
+                padding-bottom: 0px;
+            }
+            > .length {
+                padding-top: 18px;
+            }
+            > .summary {
+                grid-column: span 4;
+            }
+        }
     }
 }
 </style>
@@ -51,16 +73,10 @@ const { items, startOffset } = Astro.props;
     {items.map((item, idx) => (
         <a href={item.url} class="blog-item">
             <div class="seq">{(items.length - idx) + startOffset}</div>
-            <div class="title">
-                <h3>{item.title}</h3>
-            </div>
-            <div class="meta">
-                <span>{formatDate(item.pubDate)}</span>
-                <span>{formatLength(item.wordCount)}</span>
-            </div>
-            <div class="summary">
-                {item.description}
-            </div>
+            <div class="title"><h3>{item.title}</h3></div>
+            <div class="date">{formatDate(item.pubDate)}</div>
+            <div class="length">{formatLength(item.wordCount)}</div>
+            <div class="summary">{item.description}</div>
         </a>
     ))}
 </div>
