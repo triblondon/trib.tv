@@ -16,9 +16,9 @@ import type { PostMetadata, LocationData, LocationHistoryRecord } from "../types
 type LocationCounts = Record<string, { cciso: string; count: number; last: number}>
 
 const MAX_POSTS = 5;
-
-const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>('./posts/**/*.md', { eager: true }));
-const contentItems = allPosts.slice(0-MAX_POSTS).reverse().map(post => ({
+const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>("./posts/**/*.md", { eager: true }));
+allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+const contentItems = allPosts.slice(0-MAX_POSTS).map(post => ({
     title: post.frontmatter.title,
     url: post.url,
     pubDate: post.frontmatter.pubDate,

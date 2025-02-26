@@ -10,8 +10,8 @@ import type { PostMetadata } from "../../types";
 
 export const getStaticPaths = (async ({ paginate }) => {
     const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>("./**/*.md", { eager: true }));
-    allPosts.sort((a, b) => Date.parse(a.frontmatter.pubDate) - Date.parse(b.frontmatter.pubDate));
-    return paginate(allPosts.reverse(), { pageSize: 20 });
+    allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+    return paginate(allPosts, { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
