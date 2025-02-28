@@ -1,3 +1,6 @@
+- DRAFT status
+- Link to Bluesky on post footer
+- Hero image to be local asset so it gets optimised
 - Tag/trip pages
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
@@ -23,3 +26,11 @@
 /who -> /about
 /2000/07/day-1.html -> /2000/day-1
 
+
+# Previous generations
+
+2025: Labels (Feb 2025)
+2014: Colour blocks (Dec 2014)
+2013: Skyline
+2010: WP classic
+2005: Bond
