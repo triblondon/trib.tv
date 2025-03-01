@@ -4,6 +4,7 @@ import { Image } from 'astro:assets';
 
 import vcardQrImg from '../assets/images/vcard-qr.png';
 import barCodeImage from '../assets/images/barcode.svg';
+import heroImage from '../assets/images/hero3.jpeg';
 import IconList from "../components/label/IconList.astro";
 import ContentList from "../components/label/ContentList.astro";
 import Marquee from "../components/Marquee.astro";
@@ -50,12 +51,10 @@ const locationData:LocationData = await response.json();
 <BaseLayout showHeader={false}>
     <style>
         section.hero {
-            background: url(/assets/images/hero3.jpeg);
-            background-size: cover;
-            box-shadow: 0px 0px 40px 20px inset var(--color-bg);
+            position: relative;
             aspect-ratio: 16/9;
             color: white;
-            position: relative;
+            box-shadow: 0 0 40px 20px var(--color-bg) inset;
             h1 {
                 position: absolute;
                 left: 10%;
@@ -70,6 +69,18 @@ const locationData:LocationData = await response.json();
                     width: min(20vw, 225px);
                     height: min(5vw, 61px);
                 }
+            }
+            > img, .vignette {
+                position: absolute;
+                width: 100%;
+                height: 100%;
+            }
+            > img {
+                object-fit: cover;
+                object-position: top;
+            }
+            .vignette {
+                box-shadow: 0 0 40px 20px var(--color-bg) inset;
             }
         }
 
@@ -155,6 +166,8 @@ const locationData:LocationData = await response.json();
     </style>
 
     <section class="hero">
+        <Image src={heroImage} alt="" />
+        <div class="vignette">
         <h1>
             <Image
                 src={barCodeImage}
