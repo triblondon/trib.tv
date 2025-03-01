@@ -71,7 +71,7 @@ const { frontmatter } = Astro.props;
                 {frontmatter.tags && frontmatter.tags.length > 0 && (
                     <dt>Tags</dt>
                     <dd>
-                        {frontmatter.tags.map((tagStr) => <div>{tagStr}</div>)}
+                        {frontmatter.tags.map((tagStr) => <a href={`/topics/${tagStr.toLowerCase()}`}>{tagStr}</a><br />)}
                     </dd>
                 )}
                 <dt>Length</dt>
@@ -80,9 +80,10 @@ const { frontmatter } = Astro.props;
                 <dd>{frontmatter.readingTime.text}</dd>
             </dl>
             <IconList items={[
-                { icon: "linkedin", href: 'https://www.linkedin.com/sharing/share-offsite/?url=' + Astro.url.toString() },
+                { icon: "linkedin", href: 'https://www.linkedin.com/shareArticle?mini=true&url=' + Astro.url.toString() },
                 { icon: "bluesky", href: 'https://bsky.app/intent/compose?text=' + Astro.url.toString() },
-                { icon: "instagram" },
+                { icon: "instagram", href: 'https://www.instagram.com/?url=' +  Astro.url.toString() },
+                { icon: "reddit", href: 'https://www.reddit.com/submit?url=' +  Astro.url.toString() },
             ]} />
         </div>
         <div class="post-body rich-text padded">
