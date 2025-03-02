@@ -6,11 +6,10 @@ import type {
     InferGetStaticPropsType,
     GetStaticPaths,
 } from "astro";
-import type { PostMetadata } from "../../types";
+import { getPosts } from "../../utils/posts";
 
 export const getStaticPaths = (async ({ paginate }) => {
-    const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>("./**/*.md", { eager: true }));
-    allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+    const allPosts = getPosts();
     return paginate(allPosts, { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
@@ -23,6 +22,7 @@ const contentItems = page.data.map((post) => ({
     pubDate: post.frontmatter.pubDate,
     wordCount: post.frontmatter.readingTime.words,
     description: post.frontmatter.description,
+    isDraft: post.frontmatter.isDraft || false
 }));
 ---
 

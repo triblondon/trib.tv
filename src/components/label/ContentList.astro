@@ -65,13 +65,16 @@ const { items, startOffset } = Astro.props;
                 grid-column: span 4;
             }
         }
+        .draft {
+            color: #62ab1b
+        }
     }
 }
 </style>
 
 <div class="blog-list block-links">
     {items.map((item, idx) => (
-        <a href={item.url} class="blog-item">
+        <a href={item.url} class:list={["blog-item", { "draft": item.isDraft }]}>
             <div class="seq">{(items.length - idx) + startOffset}</div>
             <div class="title"><h3>{item.title}</h3></div>
             <div class="date">{formatDate(item.pubDate)}</div>

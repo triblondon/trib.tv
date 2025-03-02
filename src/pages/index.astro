@@ -11,20 +11,20 @@ import Marquee from "../components/Marquee.astro";
 import LeafletMap from "../components/islands/LeafletMap.tsx";
 import locationHistory from "../assets/location-history.json";
 import allCountries from "../assets/all-countries.json";
-import type { MarkdownInstance } from "astro";
-import type { PostMetadata, LocationData, LocationHistoryRecord } from "../types";
+import type { LocationData, LocationHistoryRecord } from "../types";
+import { getPosts } from "../utils/posts";
 
 type LocationCounts = Record<string, { cciso: string; count: number; last: number}>
 
 const MAX_POSTS = 5;
-const allPosts = Object.values(import.meta.glob<MarkdownInstance<PostMetadata>>("./posts/**/*.md", { eager: true }));
-allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
+const allPosts = getPosts();
 const contentItems = allPosts.slice(0, MAX_POSTS).map(post => ({
     title: post.frontmatter.title,
     url: post.url,
     pubDate: post.frontmatter.pubDate,
     wordCount: post.frontmatter.readingTime.words,
-    description: post.frontmatter.description
+    description: post.frontmatter.description,
+    isDraft: post.frontmatter.isDraft || false
 }));
 const numPosts = allPosts.length;
 
