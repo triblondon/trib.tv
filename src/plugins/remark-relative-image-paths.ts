@@ -1,6 +1,7 @@
 import { visit } from 'unist-util-visit';
 
 const imageBase = 'assets/images/post-content';
+const iconBase = 'assets/images/icons';
 const postPathPattern = /^.*?\/src\/(pages\/posts(?:\/.+))\/([^\/]+)\.md/;
 
 export const remarkRelativeImagePaths = () => {
@@ -12,7 +13,10 @@ export const remarkRelativeImagePaths = () => {
         const postPath = postPathMatch[1];
         const basePostName = postPathMatch[2];
         const pathSegCount = postPath.split('/').length;
-        const imgPath = "../".repeat(pathSegCount)+imageBase+'/'+basePostName+'/'+node.url;
+        let imgPath = "../".repeat(pathSegCount)+imageBase+'/'+basePostName+'/'+node.url;
+        if (node.url.startsWith('icons:')) {
+          imgPath = "../".repeat(pathSegCount)+iconBase+'/'+node.url.replace('icons:', '');
+        }
         //console.log('image', postPath, basePostName, node.url, imgPath);
         node.url = imgPath;
       }

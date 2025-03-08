@@ -24,7 +24,7 @@ const contentItems = allPosts.slice(0, MAX_POSTS).map(post => ({
     pubDate: post.frontmatter.pubDate,
     wordCount: post.frontmatter.readingTime.words,
     description: post.frontmatter.description,
-    isDraft: post.frontmatter.isDraft || false
+    isDraft: (post.frontmatter.status && post.frontmatter.status !== 'published') || false
 }));
 const numPosts = allPosts.length;
 
@@ -166,7 +166,7 @@ const locationData:LocationData = await response.json();
     </style>
 
     <section class="hero">
-        <Image src={heroImage} alt="" />
+        <Image src={heroImage} alt="" loading="eager" />
         <div class="vignette">
         <h1>
             <Image

@@ -17,7 +17,7 @@ export const getStaticPaths = async () => {
                     pubDate: post.frontmatter.pubDate,
                     wordCount: post.frontmatter.readingTime.words,
                     description: post.frontmatter.description,
-                    isDraft: post.frontmatter.isDraft || false
+                    isDraft: (post.frontmatter.status && post.frontmatter.status !== 'published') || false
                 }))
             },
         };

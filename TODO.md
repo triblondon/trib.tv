@@ -1,6 +1,5 @@
 - DRAFT status
 - Link to Bluesky on post footer
-- Hero image to be local asset so it gets optimised
 - Tag/trip pages
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
@@ -18,6 +17,7 @@
 - Image Figures - use remark plugin, avoid import and html in MDX
 - Label borders using gap + box shadow, avoid double borders
 - Pagination semantics: query string vs URL (see Ivan DM)
+- Draft status? https://johndalesandro.com/blog/astro-manage-draft-and-published-post-statuses-by-adding-a-content-collection-schema-property/
 
 ## Redirects
 

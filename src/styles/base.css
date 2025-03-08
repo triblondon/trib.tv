@@ -1,6 +1,6 @@
 :root {
     --color-bg: #000000;
-    --color-accent: #29f;
+    --color-accent: #006dcd;
     --padding-item: 6px;
     --padding-body: 12px;
 
@@ -153,6 +153,34 @@ code {
         width: 100%;
         aspect-ratio: 16/9;
         height: auto;
+    }
+    aside {
+        background-color: #eee;
+        border: 1px solid black;
+        box-shadow: 2px 2px 0 0 #777;
+        position: relative;
+        overflow: hidden;
+        font-size: 90%;
+        &::before, &::after {
+            content: " ";
+            height: 8px;
+            width: 100%;
+            box-sizing: border-box;
+            display: block;
+            background-image: repeating-linear-gradient(-45deg, #eee, #eee 15px, #000000 15px, #000000 30px);
+        }
+        p { 
+            margin-left: 60px;
+            margin-right: 20px;
+        }
+        .icon {
+            position: absolute;
+            top: 15px;
+            left: -15px;
+            width: 60px;
+            transform: rotate(-10deg);
+            filter: drop-shadow(0px 0px 1px black);
+        }
     }
 }
 

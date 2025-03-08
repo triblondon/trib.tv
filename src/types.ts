@@ -8,7 +8,7 @@ export type PostMetadata = {
     author: string;
     tags: string[];
     readingTime?: ReadTimeResults;
-    isDraft?: boolean
+    status?: "published" | "draft" | "unlisted";
 }
 
 export type LocationData = {
