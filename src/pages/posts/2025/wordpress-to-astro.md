@@ -323,10 +323,11 @@ I did find that my luck with Netlify largely ran out at that point because I can
 
 ### Headers, routing and caching: Fastly
 
-I used to work at Fastly, so I'm familiar with how to do all that with the Fastly platform - and they offer developer plans that are free for personal use.  Here's what I have set up on a Fastly service:
+I used to work at Fastly, so I'm familiar with how to do all that with the Fastly platform - and they offer developer plans that are free for personal use.  I have also been working in web performance for long enough that serving over HTTP/3 is a matter of self respect.  Here's what I have set up on a Fastly service:
 
 - Custom domains `trib.tv`, `www.trib.tv` and `アンドリュー.コム` (which is 'andrew dot com' in Japanese - try it!)
 - Automatic TLS certs for all those domains
+- HTTP/3
 - Backend hosts for my Netlify address and also the map tile provider (this allows me to serve the map tiles over H3 on a single consolidated domain)
 - Caching rules that override Netlify's defaults to recognise Astro's 'file hash' format and mark hashed files as `immutable` and forever cachable even in the browser.
 - Header logic that adds best practice security headers like `Referrer-Policy` and removes unnecessary implementation details like `Server` and `X-Cache-Status`.

@@ -1,6 +1,7 @@
-- DRAFT status
 - Link to Bluesky on post footer
 - Tag/trip pages
+- Poke Netlify when Val updates
+- Poke Fastly when netlify build completes
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
 ## Server
