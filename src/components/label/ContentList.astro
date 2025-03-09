@@ -1,4 +1,11 @@
 ---
+import type { ContentItem } from '../../types';
+
+interface Props {
+    items: ContentItem[];
+    startOffset?: number;
+}
+
 const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", {
 	year: "numeric",
 	month: "long",

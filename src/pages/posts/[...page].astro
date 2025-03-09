@@ -1,12 +1,8 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentList from "../../components/label/ContentList.astro";
-import type {
-    MarkdownInstance,
-    InferGetStaticPropsType,
-    GetStaticPaths,
-} from "astro";
-import { getPosts } from "../../utils/posts";
+import type { InferGetStaticPropsType, GetStaticPaths } from "astro";
+import { getPosts, postsToContentList } from "../../utils/posts";
 
 export const getStaticPaths = (async ({ paginate }) => {
     const allPosts = getPosts();
@@ -16,14 +12,7 @@ export const getStaticPaths = (async ({ paginate }) => {
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { page } = Astro.props as Props;
-const contentItems = page.data.map((post) => ({
-    title: post.frontmatter.title,
-    url: post.url,
-    pubDate: post.frontmatter.pubDate,
-    wordCount: post.frontmatter.readingTime.words,
-    description: post.frontmatter.description,
-    isDraft: (post.frontmatter.status && post.frontmatter.status !== 'published') || false
-}));
+const contentItems = postsToContentList(page.data);
 ---
 
 <BaseLayout>

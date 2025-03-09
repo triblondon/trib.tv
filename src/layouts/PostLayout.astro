@@ -1,6 +1,11 @@
 ---
 import IconList from "../components/label/IconList.astro";
 import BaseLayout from "./BaseLayout.astro";
+import type { PostMetadata } from "../types";
+
+interface Props {
+    frontmatter: PostMetadata;
+}
 
 const { frontmatter } = Astro.props;
 ---
@@ -91,7 +96,7 @@ const { frontmatter } = Astro.props;
         </div>
         <div class="post-foot padded">
             I don't have comments enabled on this blog, but if you want to
-            respond feel free to @ me on BlueSky.
+            respond feel free to @ me on <a href="https://bsky.app/profile/triblondon.trib.tv">BlueSky</a>, <a href="https://www.linkedin.com/in/andrewbetts/">LinkedIn</a> or <a href="https://www.threads.net/@triblondon">Threads</a>.
         </div>
     </section>
 </BaseLayout>

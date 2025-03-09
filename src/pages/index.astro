@@ -12,20 +12,13 @@ import LeafletMap from "../components/islands/LeafletMap.tsx";
 import locationHistory from "../assets/location-history.json";
 import allCountries from "../assets/all-countries.json";
 import type { LocationData, LocationHistoryRecord } from "../types";
-import { getPosts } from "../utils/posts";
+import { getPosts, postsToContentList } from "../utils/posts";
 
 type LocationCounts = Record<string, { cciso: string; count: number; last: number}>
 
 const MAX_POSTS = 5;
 const allPosts = getPosts();
-const contentItems = allPosts.slice(0, MAX_POSTS).map(post => ({
-    title: post.frontmatter.title,
-    url: post.url,
-    pubDate: post.frontmatter.pubDate,
-    wordCount: post.frontmatter.readingTime.words,
-    description: post.frontmatter.description,
-    isDraft: (post.frontmatter.status && post.frontmatter.status !== 'published') || false
-}));
+const contentItems = postsToContentList(allPosts.slice(0, MAX_POSTS));
 const numPosts = allPosts.length;
 
 const locationCounts: LocationCounts = (locationHistory as LocationHistoryRecord[]).reduce((acc, trip) => {

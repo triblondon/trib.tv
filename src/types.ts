@@ -1,5 +1,9 @@
 import type { ReadTimeResults } from "reading-time";
 
+export type ReadTimeResultsExt = ReadTimeResults & {
+    wordsFormatted: string;
+}
+
 export type PostMetadata = {
     layout: string;
     title: string;
@@ -7,8 +11,17 @@ export type PostMetadata = {
     description: string;
     author: string;
     tags: string[];
-    readingTime?: ReadTimeResults;
+    readingTime?: ReadTimeResultsExt;
     status?: "published" | "draft" | "unlisted";
+}
+
+export type ContentItem = {
+    title: string;
+    url: string;
+    pubDate: string;
+    wordCount: number;
+    description: string;
+    isDraft: boolean;
 }
 
 export type LocationData = {

@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
 import { remarkYouTube } from './src/plugins/remark-youtube';
-import { remarkReadingTime } from './src/plugins/remark-reading-time.mjs';
+import { remarkReadingTime } from './src/plugins/remark-reading-time';
 import { remarkFigure } from './src/plugins/remark-figure';
 import { remarkRelativeImagePaths } from './src/plugins/remark-relative-image-paths';
 import { remarkAside } from './src/plugins/remark-aside';

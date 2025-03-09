@@ -1,6 +1,10 @@
 ---
-import IconList from "../components/label/IconList.astro";
 import BaseLayout from "./BaseLayout.astro";
+import type { PostMetadata } from "../types";
+
+interface Props {
+    frontmatter: PostMetadata
+}
 
 const { frontmatter } = Astro.props;
 ---
