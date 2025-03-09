@@ -334,7 +334,7 @@ I used to work at Fastly, so I'm familiar with how to do all that with the Fastl
 
 ### That's a wrap
 
-And that's it for my web journey so far.  My first ever website was HTML pages edited in [Notepad](https://en.wikipedia.org/wiki/Windows_Notepad) and uploaded via [CuteFTP](https://en.wikipedia.org/wiki/CuteFTP) to the server space that you used to get with your ISP.  Then I discovered Wordpress, and started a 15 year diversion into the monolithic CMS.  
+And that's it for my web journey so far.  My first ever website was HTML pages edited in [Notepad](https://en.wikipedia.org/wiki/Windows_Notepad) and uploaded via [CuteFTP](https://en.wikipedia.org/wiki/CuteFTP) to the server space that you used to get with your ISP (in my case [SAQnet](https://www.saq.net/) - which I'm amazed and delighted to see is still a small business and still going).  Then I discovered Wordpress, and started a 15 year diversion into the monolithic CMS.  
 
 In some ways, Astro, Netlify and Fastly are bringing me back to the world of flat HTML, and I'm very happy to be here.  In other ways though, this is a thoroughly modern approach to web publishing, built on sophisticated tools, resulting in something easy to track and maintain, cheap to distribute, and incredibly fast to serve.
 
