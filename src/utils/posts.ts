@@ -6,7 +6,7 @@ export const getPosts = () => {
     allPosts.sort((a, b) => Date.parse(b.frontmatter.pubDate) - Date.parse(a.frontmatter.pubDate));
 
     // Include posts in lists only if published, not unlisted or draft (in non prod env, always include)
-    const selectedPosts = allPosts.filter(p => import.meta.env.PROD ? p.frontmatter.status === 'published' : true)
+    const selectedPosts = allPosts.filter(p => import.meta.env.PROD ? !p.frontmatter.status || p.frontmatter.status === 'published' : true)
     return selectedPosts;
 }
 
