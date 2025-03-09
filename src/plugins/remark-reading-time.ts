@@ -1,3 +1,4 @@
+import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import getReadingTime from 'reading-time';
 import { toString } from 'mdast-util-to-string';
 import type { ReadTimeResultsExt } from '../types';
@@ -6,8 +7,8 @@ const numberWithCommas = (x: number): string => {
   return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-export const remarkReadingTime = () => {
-  return function (tree, { data }) {
+export const remarkReadingTime: RemarkPlugin = () => {
+  return (tree, { data }) => {
     const textOnPage = toString(tree);
     const readingTime = getReadingTime(textOnPage);
 

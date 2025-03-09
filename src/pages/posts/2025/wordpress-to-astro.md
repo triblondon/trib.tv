@@ -5,14 +5,14 @@ pubDate: 2025-02-27
 description: I have been making this corner of the web my home since 2002, and for most of that time, Wordpress has been the engine powering the site.  It's time for a major change - here's why I'm moving to Astro.
 author: Andrew Betts
 tags: ["Web", "Astro", "Fastly", "Netlify", "JSX", "Leaflet"]
-status: draft
+status: published
 ---
 
 ![](hero.svg)
 
-For most of the life of this website, I'd been using [Wordpress](https://www.wordpress.org), a monolithic CMS, and running it on a [DigitalOcean](https://www.digitalocean.com) virtual machine, but in my career (particularly at the [Financial Times](https://www.ft.com) and [Fastly](https://www.fastly.com)) I often find myself advocating other ways of doing digital publishing.  In 2025, the variety of tools and services is mind blowing, and the trade offs are not always clear cut, but for a personal blog, a static site generator is *usually* going to be the best choice these days.  
+For most of the life of this website, I've been using [Wordpress](https://www.wordpress.org) and running it on a [DigitalOcean](https://www.digitalocean.com) virtual machine, but in my career (particularly at the [Financial Times](https://www.ft.com) and [Fastly](https://www.fastly.com)) I have often found myself advocating other ways of doing digital publishing.  In 2025, the variety of tools and services is mind blowing, and the trade offs are not always clear cut, but for a personal blog, a static site generator is *usually* going to be the best choice.  
 
-I decided to migrate to [Astro](https://astro.build/), hosted on [Netlify](https://www.netlify.com), frontend by [Fastly](https://www.fastly.com), supported by [Val Town](https://www.val.town/) and [Home Assistant](https://www.home-assistant.io).
+I decided to migrate to [Astro](https://astro.build/), hosted on [Netlify](https://www.netlify.com), fronted by [Fastly](https://www.fastly.com), supported by [Val Town](https://www.val.town/) and [Home Assistant](https://www.home-assistant.io).
 
 Here's why I chose that and how it works.
 
@@ -20,9 +20,9 @@ Here's why I chose that and how it works.
 
 Every digital publishing operation, however big or small, has the same few essential elements: content management (how do you write and organise the content), publishing (how does the content become web pages), infrastructure (how do those web pages get to the end user?).
 
-OK here's what I need:
+Here's what I think I need:
 
-* Content written in [Markdown](https://en.wikipedia.org/wiki/Markdown)
+* Write content in [Markdown](https://en.wikipedia.org/wiki/Markdown)
 * Optimise images automatically
 * Organise in a file tree, versioned using [git](https://git-scm.com/), stored in [GitHub](https://github.com/)
 * Publish automatically on push to repo
@@ -35,11 +35,11 @@ OK here's what I need:
 
 ### Markdown, MDX, JSX, reMark? Astro figures it out
 
-OK so right off the mark I really like how Astro supports lots of content formats.  I can write posts in Markdown or MDX, static pages using a really well considered `.astro` format which blends build-time JavaScript with JSX-like templating, and API endpoints (like the RSS feed) in pure JavaScipt/TypeScript.
+Right off the mark I really like how [Astro](https://astro.build/) supports lots of content formats.  I can write posts in [Markdown](https://en.wikipedia.org/wiki/Markdown) or [MDX](https://mdxjs.com/), static pages using a really well considered `.astro` format which blends build-time JavaScript with JSX-like templating, and API endpoints (like the RSS feed) in pure JavaScipt/TypeScript.
 
 #### Frontmatter
 
-"Front matter" describes the practice of putting metadata at the top of a markdown document.  It was popularised by the Jekyll static site generator, and is typically written in YAML.  My Astro blog posts have frontmatter that looks like:
+"Front matter" describes the metadata that often appears at the top of a markdown document.  It was popularised by the [Jekyll](https://jekyllrb.com/) static site generator, and is typically written in YAML.  My Astro blog posts have frontmatter that looks like this:
 
 ```yaml
 ---
@@ -53,11 +53,11 @@ status: draft
 ---
 ```
 
-One of these is defined and used by Astro itself, the [`layout`](https://docs.astro.build/en/guides/markdown-content/#frontmatter-layout-property) property.  The rest is just whatever I decide I want in the metadata of my posts.  Astro uses `layout` to load a `.astro` layout file and put the rendered markdown into the [slot](https://docs.astro.build/en/basics/layouts/#markdown-layouts).
+One of these is defined and used by Astro itself, the [`layout`](https://docs.astro.build/en/guides/markdown-content/#frontmatter-layout-property) property.  The rest is just whatever I decide I want in the metadata of my posts.  Astro uses the value of the `layout` property to load a `.astro` layout file and put the rendered markdown into the [`<slot>`](https://docs.astro.build/en/basics/layouts/#markdown-layouts) in the layout.
 
 #### Layout inheritance and templating
 
-When a markdown post is rendered, Astro finds the correct layout, and exposes the post's content and frontmatter metadata to the layout in a way very similar to what you'd expect of a React component.
+When Astro renders a markdown post using a layout, it exposes the post's content and frontmatter metadata to the layout in a way very similar to what you'd expect of a React component.
 
 ```astro
 ---

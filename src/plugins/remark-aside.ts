@@ -1,13 +1,13 @@
-/// <reference types="mdast-util-directive" />
-
 import { visit } from "unist-util-visit";
+import type { RemarkPlugin } from "@astrojs/markdown-remark";
+import type { Blockquote, Image } from "mdast";
 
 const PREFIXES_PATTERN = /^(WARNING|INFO):$/;
 
-export const remarkAside = () => {
+export const remarkAside: RemarkPlugin = () => {
 
     return (tree) => {
-        visit(tree, "blockquote", (node, _idx, parent) => {
+        visit(tree, "blockquote", (node: Blockquote) => {
             if (node.children.length === 0 || node.children[0].type !== 'paragraph') return;
             const paraNode = node.children[0];
             if (paraNode.children.length === 0 || paraNode.children[0].type !== 'strong') return;
@@ -19,10 +19,8 @@ export const remarkAside = () => {
                 const asideType = textNode.value.toLowerCase().replace(':', '');
                 const className = 'aside-' + asideType;
 				node.data = { hName: 'aside', hProperties: { className } };
-                strongNode.type = "image";
-                strongNode.url = "icons:" + asideType + ".svg";
-                strongNode.data = { hProperties: { className: 'icon' } };
-                delete strongNode.value;
+                const iconImageNode: Image = { type: 'image', url: "icons:" + asideType + ".svg", data: { hProperties: { className: 'icon' } } };
+                paraNode.children[0] = iconImageNode;
             }
         });
     };

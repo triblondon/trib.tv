@@ -1,16 +1,10 @@
-- Link to Bluesky on post footer
 - Tag/trip pages
+- Draft status -> 404 via content collections
+- Layout images properly with no layout shift
 - Poke Netlify when Val updates
 - Poke Fastly when netlify build completes
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
-## Server
-
-- Response headers
-    - referrer-policy
-    - link
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
 ## Things to blog about?
 
@@ -19,13 +13,6 @@
 - Label borders using gap + box shadow, avoid double borders
 - Pagination semantics: query string vs URL (see Ivan DM)
 - Draft status? https://johndalesandro.com/blog/astro-manage-draft-and-published-post-statuses-by-adding-a-content-collection-schema-property/
-
-## Redirects
-
-/conference-bios -> /about
-/travel -> /tags/travel
-/who -> /about
-/2000/07/day-1.html -> /2000/day-1
 
 
 # Previous generations

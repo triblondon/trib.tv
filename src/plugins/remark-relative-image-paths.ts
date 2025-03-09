@@ -1,12 +1,14 @@
+import type { Image } from "mdast";
+import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import { visit } from 'unist-util-visit';
 
 const imageBase = 'assets/images/post-content';
 const iconBase = 'assets/images/icons';
 const postPathPattern = /^.*?\/src\/(pages\/posts(?:\/.+))\/([^\/]+)\.md/;
 
-export const remarkRelativeImagePaths = () => {
+export const remarkRelativeImagePaths: RemarkPlugin = () => {
   return (tree, file) => {
-    visit(tree, 'image', (node) => {
+    visit(tree, 'image', (node: Image) => {
       if (!node.url.includes('/')) {
         const postPathMatch = file.history[0].match(postPathPattern);
         if (!postPathMatch) return;
