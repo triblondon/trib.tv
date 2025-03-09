@@ -213,29 +213,128 @@ Astro will then load that image from `/src/assets/images/post-images/post-title/
 
 ### Build-time JavaScript
 
-TODO
+Astro encourages you to write build-time JavaScript, and it's quite cool.  For example, you can create a dynamic route page such as `/src/pages/topics/[tag].astro`, which looks a bit like the routing you might encounter in a front end (maybe SSRed) framework like Next.js, Remix or Svelte. But in Astro, all possible variants of this page need to be built *at compile time* so you're required to tell Astro what all those possible values are.  You can do that by implementing [`getStaticPaths`](https://docs.astro.build/en/reference/routing-reference/#getstaticpaths) in the *component script* which appears at the very top of an Astro component:
 
+```astro
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ContentList from "../../components/label/ContentList.astro";
+import { getPosts } from '../../utils/posts';
 
-### Netlify hosting
+export const getStaticPaths = async () => {
+    const allPosts = getPosts();
+    const uniqueTags = [...new Set(allPosts.map((post) => post.frontmatter.tags).flat())];
+    return uniqueTags.map((tag) => {
+        const filteredPosts = allPosts.filter((post: any) => post.frontmatter.tags.includes(tag));
+        return {
+            params: { tag: tag.toLowerCase() },
+            props: { contentItems: filteredPosts },
+        };
+    });
+};
 
-- Cost of running my own server
-- Plug and play
-- Redirects
+const { tag } = Astro.params;
+const { contentItems } = Astro.props;
+---
 
-### Headers, routing and caching: Fastly
+<BaseLayout>
+    <h2>Tag: {tag}</h2>
+    <ContentList items={contentItems} />
+</BaseLayout>
+```
 
-- TLS + H3
-- Caching
-- Routing tile layers
+This is a bit of a change to get your head around, but I love that by default any cleverness I decide to write into my site is processed at build time and adds no JavaScript to the client.  That's not to say you *can't* run client side code - see [Showing where I am](#showing-where-i-am) below.
 
 ### Showing where I am
 
-- Home assistant
-- Val town
+Some things about my new site present a challenge to Astro's static generation model, and they are all tied up with this bit of the homepage that I included intentionally because I thought doing this would be fun:
 
+![Screenshot of the homepage showing my location](map-screenshot.png)
 
-The main things here are cost - not just in terms of the cost of running servers (DigitalOcean has been charging me around $12 a month) but the time cost of patching the OS, renewing TLS certs, upgrading databases etc - is EXPENSIVE.  
+This is hard because:
 
-For me, there's no real need for personalisation, but Astro has quite a clever way of doing dynamic stuff if you do need it.
+* It includes my current location, which may change in between builds of the website
+* It shows the *current time in my current location*, which changes every minute
+* It renders a map of my current location using [Leaflet](https://leafletjs.com/), which is a client-side JavaScript library
 
+So how do I do this with Astro?
 
+First, let's figure out the data pipeline.  I'm using [Home Assistant](https://www.home-assistant.io) to track my location via their mobile app, which sets the value of an entity in my smart home server (on an 8 hour delay and to a very low precision, because I'm not an idiot).  When that changes, Home Assistant sends an HTTP POST request to a "Val" that I run on [ValTown](https://www.val.town/), one of my favourite developer tools that allows you to run lightweight single-file scripts in the cloud, triggered by HTTP, cron, or other more exotic things.  The Val exposes essentially a writable REST API for my location data.
+
+Astro can read from that API during it's build process, using component script:
+
+```ts
+const response = await fetch('https://andrews-location.web.val.run/current');
+const locationData:LocationData = await response.json();
+```
+
+When the Val receives a new value for the location, it pokes Netlify to perform a build.
+
+OK, so this gives us a reasonably up to date location which should automatically update if I move a significant distance.  And that is infrequent enough that it's OK to do that via a specially triggered build.
+
+The current time is a different story. I could make a component for it, but it's so simple that it feels like a good opportunity to show how component script and front end script can mix in the same file:
+
+```astro
+---
+// This executes at build time
+const response = await fetch('https://andrews-location.web.val.run/current');
+const locationData:LocationData = await response.json();
+---
+<BaseLayout>
+    <p>
+        Local time: <span id="local-time" data-utc-offset={locationData.tz.utcOffset}></span>
+    </p>
+    <script>
+        // This executes at runtime
+        const updateTime = () => {
+            const el = document.getElementById('local-time');
+            const utcOffset = Number.parseInt(el.dataset.utcOffset);
+            const clientLocalTime = new Date();
+            const utcTime = clientLocalTime.getTime() + (clientLocalTime.getTimezoneOffset() * 60000);
+            const andrewLocalTime = new Date(utcTime + (utcOffset * 60000));
+            const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') + ':' + String(andrewLocalTime.getMinutes()).padStart(2, '0');
+            el.innerText = andrewLocalTimeStr;
+        }
+        setInterval(updateTime, 10000);
+        updateTime();
+    </script>
+</BaseLayout>
+```
+
+Here the `fetch` in the code fence at the top runs at build time, whereas the `updateTime` function in the main body of the page runs in the browser.
+
+Fine, but what about the map?  For that, we need [Leaflet](https://leafletjs.com/)'s client side library, which is quite sizable, and also a bunch of CSS.  This calls for a component.  But not an Astro component.  A **React** component.
+
+Since Astro renders all its components at build time, we need a component that renders at runtime.  And Leaflet already has a React version.  So I put a thin React component around it to specify the tile set I wanted and options for the map UI, and was then able to include it in my homepage like this:
+
+```astro
+<LeafletMap client:only="react" center={[locationData.pos.lat, locationData.pos.lng]} zoom={6} />
+```
+
+The key bit here is [`client:only="react"`](https://docs.astro.build/en/reference/directives-reference/#clientonly) which says that this element cannot be rendered at build time, (and in fact it means it can't even be server-rendered in the event that you're running Astro's server runtime, which I am not).  That's fine, it's just eye candy basically, and it won't slow down the rest of the page.
+
+### Netlify hosting
+
+Let's talk about hosting.  I'm done patching servers, provisioning my own certificates and paying DigitalOcean ~$12 a month (I think they've had over $2000 off me since I booted up that VM - terrifying).  There are tonnes of good options these days that turn a repo of files into a website, and Netlify is the most popular and well known.  I logged into Netlify, authed into GitHub, pointed it to my Astro repo and told it that the build output is in the `/dist` folder.  Five minutes later, I had a live website.
+
+OK, not bad, but my new website has different paths to my old one, so I need redirects.  I feel like these mappings are 'content', in a way, and Netlify has a format for specifying [redirects in source code](https://docs.netlify.com/routing/redirects/#syntax-for-the-redirects-file).  Sounds good. I made a file at `/public/_redirects`, which Astro will copy into `/dist` unmodified during the build, and Netlify will then see and use to do redirects on all my old URLs.
+
+I did find that my luck with Netlify largely ran out at that point because I can't easily control things like file-level caching rules or TLS for multiple custom domains, I can't easily clean sensitive information out of the response headers, and it seems it doesn't support HTTP/3.
+
+### Headers, routing and caching: Fastly
+
+I used to work at Fastly, so I'm familiar with how to do all that with the Fastly platform - and they offer developer plans that are free for personal use.  Here's what I have set up on a Fastly service:
+
+- Custom domains `trib.tv`, `www.trib.tv` and `アンドリュー.コム` (which is 'andrew dot com' in Japanese - try it!)
+- Automatic TLS certs for all those domains
+- Backend hosts for my Netlify address and also the map tile provider (this allows me to serve the map tiles over H3 on a single consolidated domain)
+- Caching rules that override Netlify's defaults to recognise Astro's 'file hash' format and mark hashed files as `immutable` and forever cachable even in the browser.
+- Header logic that adds best practice security headers like `Referrer-Policy` and removes unnecessary implementation details like `Server` and `X-Cache-Status`.
+
+### That's a wrap
+
+And that's it for my web journey so far.  My first ever website was HTML pages edited in [Notepad](https://en.wikipedia.org/wiki/Windows_Notepad) and uploaded via [CuteFTP](https://en.wikipedia.org/wiki/CuteFTP) to the server space that you used to get with your ISP.  Then I discovered Wordpress, and started a 15 year diversion into the monolithic CMS.  
+
+In some ways, Astro, Netlify and Fastly are bringing me back to the world of flat HTML, and I'm very happy to be here.  In other ways though, this is a thoroughly modern approach to web publishing, built on sophisticated tools, resulting in something easy to track and maintain, cheap to distribute, and incredibly fast to serve.
+
+I hope this helps you if you're thinking of replatforming your site and considering a static site generator.  Let me know if you'd like more detail about how any of the build works, and I can make followup posts.
