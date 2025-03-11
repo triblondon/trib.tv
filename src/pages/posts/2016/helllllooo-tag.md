@@ -9,10 +9,7 @@ tags: ["Election", "Standards", "TAG", "W3C"]
 
 Last April I unsuccessfully ran for election to the [W3C Technical Architecture Group](https://tag.w3.org), because I believed that the web standards community needed more outsiders’ voices. The web needs to evolve to support ever increasing diversity of use cases and developer skills, and as a basic necessity and enabler of modern life, its role goes beyond technology platforms. I didn’t win in April, but I tried again in the December 2015 election and I won!
 
-:::figure
-![A recent TAG meeting discusses privacy concerns in WebRTC](war-room.jpg)
-A recent TAG meeting discusses privacy concerns in WebRTC \*
-:::
+![Caption: A recent TAG meeting discusses privacy concerns in WebRTC](war-room.jpg)
 
 So let’s get right to it.
 
@@ -26,10 +23,7 @@ Well, no. Like most associations or standards bodies, the W3C is run on a fuel o
 
 However, there are also several special groups, which is where the TAG comes in:
 
-:::figure
-![The TAG logo is not endorsed by Mr Incredible](tag-logo.png)
-The TAG logo is not endorsed by Mr Incredible
-:::
+![Caption: The TAG logo is not endorsed by Mr Incredible](tag-logo.png)
 
 *   The **Advisory Committee** is the collective that represents the W3C membership. Membership is one person per member organisation, around 400 in total at the moment, and they are primarily responsible for voting on things. It’s one member, one vote, so the likes of Google and Microsoft have the same voting power as tiny startups like [Digital Bazaar](http://digitalbazaar.com/)
 *   The **[Advisory Board](http://www.w3.org/2002/ab/)** is a small group of elected members who maintain and propose changes to the W3C’s processes and rules of operation
@@ -47,9 +41,7 @@ Currently (well, until I joined), the ten members of the TAG comprised four memb
 
 ### What do we want?
 
-:::figure
 ![what-do-we-want-evidence-based-change-when-do-we-want-it-after-peer-review](peer-review.jpg)
-:::
 
 Developers typically don’t have a lot of time to read the 20,000 previous posts on mailing lists that would give them sufficient context to understand the current discussion, and the vast majority of the now epicly huge number of web developers in the world are relatively junior. It’s no longer necessary to be able to write a compiler, do bitwise maths in your head or even be able to write code without using a framework, to be a commercially successful developer in the modern world. This vast army of developers is nevertheless enthusiastic about sharing, and we should find better ways to engage them to ensure we’re creating the right building blocks to fuel their creativity, and their business.
 

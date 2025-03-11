@@ -22,7 +22,26 @@
     ;
 
     --bg-diagonals-background-image: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
+
+    --bg-dashes-size: 4px;
+    --bg-dashes-col1: #000000;
+    --bg-dashes-col2: #ffffff;
+    --bg-dashes_g: radial-gradient(calc(var(--bg-dashes-size)/2),var(--bg-dashes-col1) 97%,#0000);
+    --bg-dashes-background:
+        var(--bg-dashes_g),var(--bg-dashes_g) calc(2*var(--bg-dashes-size)) calc(2*var(--bg-dashes-size)),
+        repeating-conic-gradient(from 45deg,#0000 0 25%,var(--bg-dashes-col2) 0 50%) calc(-.707*var(--bg-dashes-size)) calc(-.707*var(--bg-dashes-size)),
+        repeating-linear-gradient(135deg,var(--bg-dashes-col1) calc(var(--bg-dashes-size)/-2) calc(var(--bg-dashes-size)/2),var(--bg-dashes-col2) 0 calc(2.328*var(--bg-dashes-size)));
+    --bg-dashes-background-size: calc(4*var(--bg-dashes-size)) calc(4*var(--bg-dashes-size));
 }
+
+@keyframes loader-anim {
+    0% {background-position:50%  calc(0*100%/3),50%              calc(1*100%/3),50%              calc(2*100%/3),50%  calc(3*100%/3)}
+    33% {background-position:100% calc(0*100%/3),calc(100% - 9px) calc(1*100%/3),9px              calc(2*100%/3),0    calc(3*100%/3)}
+    66% {background-position:0    calc(0*100%/3),9px              calc(1*100%/3),calc(100% - 9px) calc(2*100%/3),100% calc(3*100%/3)}
+    90%, 
+    100%{background-position:50% calc(0*100%/3),50%               calc(1*100%/3),50%              calc(2*100%/3),50%  calc(3*100%/3)}
+}
+
 
 body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
@@ -79,6 +98,16 @@ code {
     word-wrap: break-word;
 }
 
+.loader {
+    height: 45px;
+    aspect-ratio: 1.6;
+    --c:no-repeat repeating-linear-gradient(90deg,#000 0 20%,#0000 0 40%);
+    background: var(--c),var(--c),var(--c),var(--c);
+    background-size: 62.5% 26%;
+    animation: loader-anim 1s infinite;
+    z-index: 0;
+}
+
 .rich-text {
     line-height: 1.7;
     font-size: 18px;
@@ -89,7 +118,7 @@ code {
     }
     h3,
     h4 {
-        margin-top: 1.5em;
+        margin-top: 2.5em;
     }
     table {
         border-collapse: collapse;
@@ -126,11 +155,14 @@ code {
         flex-flow: column nowrap;
         margin: 1em 0;
         padding: 2px;
-        background-color: black;
         img {
             flex: 0 1 auto;
             align-self: center;
+            object-position: center;
         }
+    }
+    figure.with-caption {
+        background-color: black;
         figcaption {
             color: white;
             padding: 10px;
@@ -139,9 +171,10 @@ code {
         }
     }
     img {
-        width: auto;
         height: auto;
-        max-height: 700px;
+        max-height: 70vh;
+        object-fit: contain;
+        object-position: left;      
     }
     pre.astro-code {
         padding: 12px;
@@ -149,10 +182,24 @@ code {
         border-top: 2px dashed white;
         border-bottom: 2px dashed white;
     }
-    iframe[src*="https://www.youtube.com"] {
-        width: 100%;
+    .youtube {
+        position: relative;
+        background: #eee;
         aspect-ratio: 16/9;
-        height: auto;
+        iframe {
+            width: 100%;
+            aspect-ratio: 16/9;
+            height: auto;
+            position: absolute;
+            z-index: 2;
+        }
+        .loader {
+            z-index: 1;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
     }
     aside {
         background-color: #eee;

@@ -19,7 +19,7 @@ export const remarkYouTube: RemarkPlugin = () => {
 
                 // Convert node from a Paragraph type to an Html type (there's likely a better way than this)
                 (node as any).type = 'html';
-                (node as any).value = `<iframe class="youtube" src="https://www.youtube.com/embed/${videoID}?${videoURL.searchParams.toString()}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>`;
+                (node as any).value = `<div class='youtube'><div class='loader'></div><iframe src="https://www.youtube.com/embed/${videoID}?${videoURL.searchParams.toString()}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe></div>`;
                 delete node.children;
             }
         });

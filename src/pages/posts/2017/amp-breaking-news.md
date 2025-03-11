@@ -48,7 +48,7 @@ Ambiguous content attribution at scale is a scary thing indeed, but beyond the n
 There is more, but in summary, AMP forces technical restrictions on publishers that limit their ability to create value for their customers, limit their ability to further engage the user beyond reading the initial article, and prevent them iterating on their business model with the freedom they would normally have. Added to this AMP may not actually be any faster than the publisher’s own webpages. And beyond Jeremy and Tim, there are [many others who agree](https://twitter.com/firt/status/844967990777057282):
 
 :::figure
-![](amp-poll.png)
+![Tweet showing poll results](amp-poll.png)
 An albeit not-very-statistically-rigorous Twitter poll conducted by @firt suggests AMP is generally disliked by the developer community.
 :::
 
@@ -71,7 +71,7 @@ It’s hard to avoid the idea that the primary objective of AMP is really about 
 For all this, the biggest villain here is not Google or their well-meaning AMP team, it is the media industry for going along with it. The media have now almost completely lost control of distribution (one of the primary [conclusions of last year’s Reuters Digital News report](http://www.digitalnewsreport.org/survey/2016/overview-key-findings-2016/)). When do we finally recognise that we can’t continue the fierce competition that has characterised the media of the 20th century, when the very existence of an independent media is under severe threat?
 
 :::figure
-![](ad-spending.png)
+![Wall St Journal graphic showing ad spending over time](ad-spending.png)
 Ad revenue has been moving from newspaper to digital, and captured mostly by Google and Facebook
 :::
 
@@ -99,10 +99,7 @@ It’s now evidently become so bad that a country of 300 million people, largely
 
 It’s not all bad news. Advertisers are [reportedly starting to boycott YouTube](http://www.theverge.com/2017/3/24/15053990/google-youtube-advertising-boycott-hate-speech) for fear of their brand being associated with videos espousing political extremism. And there are signs that this is starting to convince platforms to do something about it – such as Facebook’s recent efforts to [flag stories as ‘disputed’](http://www.recode.net/2017/3/4/14816254/facebook-fake-news-disputed-trump-snopes-politifact-seattle-tribune) when appropriate, though their approach is hilariously conservative when compared with the damage they are causing by not doing something drastically stronger.
 
-:::figure
-![](fb-disputed.png)
-Facebook rolls out oh-so-tentative flagging of fake news
-:::
+![Caption: Facebook rolls out oh-so-tentative flagging of fake news](fb-disputed.png)
 
 If you want an independent news industry that produces quality, accurate, accessible content, we need to **incentivise accuracy, not virality**, and **maintain creator-control over distribution**. For AMP’s part, this means:
 

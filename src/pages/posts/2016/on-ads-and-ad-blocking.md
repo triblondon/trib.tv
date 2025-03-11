@@ -19,17 +19,11 @@ Since I work for the Financial Times, which makes part of its money from adverti
 
 Part of the problem is that there is only so much you can advertise with text. Google has built a multi billion dollar business largely on the back of text ads, so we know that contextual text ads work. And that’s fine if you are doing a search for ‘gnome cleaning techniques’ and up pops an ad for a local professional gnome cleaner in your area with a special offer on. But what if you are reading a news article about the NSA, and MGM sees this as a good opportunity to market the new Bond movie to you? It’s contextual, relevant, and may well be interesting, but it sure as hell isn’t going to work as a text ad. We need to see ACTION, glamour, chaos and heroism. And for that, we need video.
 
-:::figure
-![How not to advertise a bond film](text-ad.png)
-How not to advertise a Bond film
-:::
+![Caption: How not to advertise a bond film](text-ad.png)
 
 So, tracking and privacy issues aside, the text ads are basically fine and no-one is really arguing otherwise. But I say that the ‘display’ advertising, the big in-your-face images, animation and video, that stuff is needed too. Advertising has always been an important part of society with broad benefits to multiple parties – publishers get to fund their content, advertisers get an audience for their products, customers get access to more of what’s going on which they might want to be part of. This is all moving online, and eliminating display advertising risks severe negative effects.
 
-:::figure
-![Explosions, exotic locations,  beautiful people, sparky chemistry... that's advertising.](big-ad.jpg)
-Explosions, exotic locations, beautiful people, sparky chemistry… that’s effective advertising.
-:::
+![Caption: Explosions, exotic locations,  beautiful people, sparky chemistry... that's advertising.](big-ad.jpg)
 
 ### So why does online display advertising upset people so much?
 
@@ -49,10 +43,7 @@ This is all being fixed. The [Media Rating Council](http://mediaratingcouncil.or
 
 More recently, the IAB cried mea culpa and [announced LEAN](http://www.iab.com/news/lean/), a developing standard intent on making ads Lightweight, Encrypted, Ad-choice supportive, and Non-invasive. They also publish [ad-blocking research and advice](http://www.iabuk.net/system/tdf/Ad%20blocking%20FAQ%20March%202016.pdf?file=1&type=node&id=27215) (PDF), and advocate responsible advertising. This is solving the invasiveness problem.
 
-:::figure
-![Ads with 'ad choices' support allow users to object to individual ads.](ad-choices.png)
-Ads with ‘ad choices’ support allow users to object to individual ads.
-:::
+![Caption: Ads with 'ad choices' support allow users to object to individual ads](ad-choices.png)
 
 Obviously people should have the ability to block ads if they want to. In fact, I have an ad blocker on one of my personal browser profiles. But blanket network or browser level ad blocking is not helpful in improving the state of display advertising on the web.
 

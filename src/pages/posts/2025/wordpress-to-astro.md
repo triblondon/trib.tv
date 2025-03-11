@@ -113,10 +113,7 @@ This all makes layouts and components in Astro a pretty powerful and convenient 
 
 I am suspicious of magic things in general, because when they go wrong I don't know how to fix them.  Magic as a euphemism for "not explained and not documented very well" is not actually a good thing.  But as it happens Astro does seem to figure out CSS pretty amazingly well.  My `PostLayout`'s inline CSS turns into this in the browser:
 
-:::figure
-![Web inspector showing CSS selectors that use data attributes to scope the selector](scoped-css.png)
-Web inspector showing CSS selectors that use data attributes to scope the selector
-:::
+![Caption: Web inspector showing CSS selectors that use data attributes to scope the selector](scoped-css.png)
 
 This means that the `.label-post` styles I apply in this layout only apply to elements that are also generated from that layout.  This is actually even more helpful for components (that aren't layouts).  For example, I have a tiny component called `TickBoxItem` which aligns an SVG tickbox with a text label, and is often used with lots of instances on the same page:
 

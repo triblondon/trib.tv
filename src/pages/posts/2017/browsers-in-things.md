@@ -12,7 +12,7 @@ While developers celebrate hard-won interoperability and availability of better 
 When I think of what devices I use that have a web browser, I imagine my laptop (which I’m using right now to write this), and my smartphone. But actually _there are far more browsers in my life than this, and I just don’t realise it_. My TV’s electronic programme guide may not seem like a web browser, but it’s using web technologies under the hood. Similarly, when I travel, the overhead screens at the airport that tell me which gate my flight is leaving from – those are often web browsers too. And once on the plane, the in-flight entertainment system is as likely as not also a web browser.
 
 :::figure
-![](article-2264363-17059B73000005DC-401_964x641.jpg)
+![Screens in an airport](article-2264363-17059B73000005DC-401_964x641.jpg)
 Is it a bird? Is it a plane? Is it a web browser?
 :::
 
@@ -21,7 +21,7 @@ This isn’t in itself a problem. Web browsers are fantastic, some of the most s
 Imagine you’re a car manufacturer and you chose to use web technologies and a browser for your in-car entertainment/navigation system UI. You’ve done all the hard work to get a browser in your car, so why not get a quick win by exposing it to the user – which allows you to market it as a feature of the product: it can browse the web too!
 
 :::figure
-![](browser-car.jpg)
+![Dashboard of a car showing a web browser with HTML5test loaded](browser-car.jpg)
 I rented a car recently that came with a web browser. Not a very good one.
 :::
 
@@ -29,17 +29,11 @@ This is where the problems begin. There’s a world of difference between what y
 
 This kind of thing is potentially **going to get worse**. The web’s rate of evolution is punishing for many manufacturers to keep up with, and with more and more powerful features coming to the platform, it’s understandable that some manufacturers of low-power devices are looking to create [a standard subset of those features](http://www.oipf.tv/web-spec/volume5a.html), a kind of ‘web lite’.
 
-:::figure
-![](browser-treadmill.jpg)
-A browser in a treadmill in the gym maybe makes more sense than a car, but does it have to be so awful?
-:::
+![Caption: A browser in a treadmill in the gym maybe makes more sense than a car, but does it have to be so awful?](browser-treadmill.jpg)
 
 This immediately prompts questions about what happens when the ‘real’ web adds more features. Does the subset automatically include them? In that case the subset is effectively a blacklist of web features that are intentionally unsupported for some reason. But more worryingly, the subset could be a comprehensive and alternative definition of what the web is – a whitelist of features that are supported. In that case, not only would it become increasingly stale and out of date as the real web adds new features that would not be part of the subset, but it could also itself evolve in a different direction, resulting in more than one World Wide Web.
 
-:::figure
-![](browser-tv.jpg)
-Catastrophically bad, so-called “smart” TV browser in a hotel room I stayed in (2012)
-:::
+![Caption: Catastrophically bad, so-called “smart” TV browser in a hotel room I stayed in (2012)](browser-tv.jpg)
 
 The W3C’s [Technical Architecture Group](https://www.w3.org/2001/tag/) (of which I am a member) recently published a finding on [The Evergreen Web](https://www.w3.org/2001/tag/doc/evergreen-web/), in which we caution against both subsetting the Web’s collection of standards, and also against distributing browser software that you have no intention to update (or worse, not even a mechanism for updating it).
 

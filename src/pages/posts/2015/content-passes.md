@@ -15,10 +15,7 @@ First, let’s look at why First click free is so terrible:
 *   **Security**: FCF is literally one of the most insecure technologies ever invented. I can exploit FCF to get around most paywalls in under 10 seconds. And yet the tech companies that advocate it are some of the most security conscious organisations on the planet. The reason they ignore this problem is presumably because the loss of revenue is not theirs. Imagine if you could get unlimited downloads from iTunes simply by setting a well known HTTP header.
 *   **Business model**: There are a practically infinite number of ways that publishers can adjust their paywall policy to get the most engagement from customers and convert the largest number of subscriptions. Maybe customers prefer to be able to read a short summary of any article for free? Maybe they prefer to get X full articles per day/week/month before having to decide whether to pay? Gradual engagement slope? Single-article micropayments? Publishers need to have the freedom to experiment with these and use data to figure out how to operate their business. FCF severely restricts this ability.
 
-:::figure
-![Paywall on FT.com](Screen-Shot-2015-11-08-at-12.27.21.png)
-Paywall on FT.com
-:::
+![Caption: Paywall on FT.com](Screen-Shot-2015-11-08-at-12.27.21.png)
 
 ### You need to pay, you want to pay
 
@@ -30,9 +27,7 @@ There’s an important aspect of behavioural economics to this too. If your frie
 
 Content passes are a concept for a web standard that would offer an alternative to FCF. Instead of requiring a publisher to show premium content free of charge to a searcher, the search engine would require publishers of paywalled content to **declare the paywall** in the metadata of the article. The search engine can then surface that information to searchers before they click the link:
 
-:::figure
-![Surfacing content passes in Google search](image.png)
-:::
+![Caption: Surfacing content passes in Google search](image.png)
 
 We start with the crawler visiting the article page. It gets the full content, but also sees this in the HEAD:
 

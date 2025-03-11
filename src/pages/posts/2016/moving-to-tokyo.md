@@ -11,7 +11,6 @@ Unlike the FT and the majority of western media, [Nikkei](http://www.nikkei.com)
 
 ![Tokyo at night](Tokyo-City-Fashion-at-Night-Wallpaper.jpg)
 
-
 Set against this, Nikkei’s decision to pay over a billion dollars to buy the FT looks amazingly forward thinking. Although owning the pink ‘un will yield English language content to extend Nikkei’s reach globally, the experience of transitioning to digital (a majority of the FT’s subscribers now read us only digitally) is equally important.
 
 ### The FT went all digital
@@ -41,7 +40,7 @@ Nikkei aims to become not only an outstanding example of web technology in Japan
 
 Spectacularly breathtaking mountains, cherry blossom season, incredible autumn colours, zen gardens, a world class public transportation system, an utter obsession with technology and probably the best cuisine on Earth. So, yup, where do I sign.
 
-![https://www.flickr.com/photos/kelvinlee/3143422982/](fuji.png)
+![Mount Fuji](fuji.png)
 
 Sadly this means there will be no Edge conf 2016, but London Web Performance will continue to be run by [Perry](https://twitter.com/perrydyball), and it will still be hosted at the FT where my colleague [Patrick Hamann](http://www.patrickhamann.com/) will take over hosting duties.
 

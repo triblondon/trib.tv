@@ -59,10 +59,7 @@ Here’s how to make chat engaging:
 
 Try to figure out what the session will discuss before the event starts. We did this with [Google Moderator](https://en.wikipedia.org/wiki/Google_Moderator), which sadly doesn’t exist anymore. We got dozens of question suggestions for each session, shortlisted seven, and told all the panellists what they were the night before the event (but asked the panellists not to discuss the topics between themselves until the session).
 
-:::figure
-![](Blogger-Moderator.jpg)
-I don’t have a screenshot of Edgeconf’s moderator, but here is what a Google Moderator looks like.
-:::
+![Caption: I don’t have a screenshot of Edgeconf’s moderator, but here is what a Google Moderator looks like](Blogger-Moderator.jpg)
 
 By doing this, you totally avoid unfiltered Q&A, and keep the quality high. You can allocate a **fixed amount of time to each question**, and know what the agenda for the session is. Put the current question under discussion on the big screen (Daytime-talkshow-style!) so everyone knows what the constraints are for any intervention they might make.
 
