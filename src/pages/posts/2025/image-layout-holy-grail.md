@@ -5,7 +5,7 @@ pubDate: 2025-04-07
 description: Images on the web often cause layout shift when they load, but setting width and height leaves images unresponsive to flexible page widths.  I want to throw any shaped image into a blog post, have it display well, be laid out correctly BEFORE it loads, not waste data and let users download it in high definition if they want to.  Can this be done?
 author: Andrew Betts
 tags: ["Web", "Astro"]
-status: unlisted
+status: published
 ---
 
 Here's a picture of sunset in my neighbourhood in east London:
