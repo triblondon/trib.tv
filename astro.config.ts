@@ -5,14 +5,16 @@ import { remarkReadingTime } from './src/plugins/remark-reading-time';
 import { remarkFigureFromContainerDirective, remarkFigureFromParagraph } from './src/plugins/remark-figure';
 import { remarkRelativeImagePaths } from './src/plugins/remark-relative-image-paths';
 import { remarkAside } from './src/plugins/remark-aside';
+//import fixupImageDpi from './src/plugins/astro-image-dpi';
 
 import mdx from '@astrojs/mdx';
-
 import react from '@astrojs/react';
+
 
 // https://astro.build/config
 export default defineConfig({
   site: 'https://trib.tv',
+
   markdown: {
     remarkPlugins: [
       remarkDirective,
@@ -30,7 +32,18 @@ export default defineConfig({
 
   experimental: {
     svg: true,
+    responsiveImages: true,
   },
 
-  integrations: [mdx(), react()]
+  image: {
+    // Used for all Markdown images; not configurable per-image
+    // Used for all `<Image />` and `<Picture />` components unless overridden with a prop
+    experimentalLayout: 'responsive',
+  },
+
+  integrations: [
+    mdx(),
+    react(),
+    //fixupImageDpi()
+  ],
 });

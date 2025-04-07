@@ -1,13 +1,13 @@
 - Tag/trip pages
 - Draft status -> 404 via content collections
-- Layout images properly with no layout shift
-- Poke Netlify when Val updates
 - Poke Fastly when netlify build completes
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
 
 ## Things to blog about?
 
+- Image layout
+- Fastly setup
 - Backgrounds using linear gradients, stamp border
 - Image Figures - use remark plugin, avoid import and html in MDX
 - Label borders using gap + box shadow, avoid double borders

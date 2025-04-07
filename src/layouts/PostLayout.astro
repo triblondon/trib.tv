@@ -19,6 +19,9 @@ const { frontmatter } = Astro.props;
     .divider-straight {
         height: 12px;
     }
+    .post-standfirst {
+        font-size: 20px;
+    }
 }
 @media (min-width: 700px) {
     .label.label-post {
@@ -42,7 +45,6 @@ const { frontmatter } = Astro.props;
         }
         .post-standfirst {
             grid-area: standfirst;
-            font-size: 120%;
         }
         .post-meta {
             grid-area: meta;

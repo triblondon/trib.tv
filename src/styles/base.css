@@ -105,7 +105,7 @@ code {
 
 .rich-text {
     line-height: 1.7;
-    font-size: 18px;
+    font-size: 17px;
     min-width: 0;
 
     * {
@@ -177,6 +177,9 @@ code {
         border-top: 2px dashed white;
         border-bottom: 2px dashed white;
     }
+    ul.contains-task-list {
+        list-style-type: none;
+    }
     .youtube {
         position: relative;
         background: #eee;
@@ -203,17 +206,22 @@ code {
         position: relative;
         overflow: hidden;
         font-size: 90%;
+        padding: 10px 20px 10px 60px;
         &::before, &::after {
+            position: absolute;
+            left: 0;
             content: " ";
             height: 8px;
             width: 100%;
-            box-sizing: border-box;
+            box-sizing: content-box;
             display: block;
             background-image: repeating-linear-gradient(-45deg, #eee, #eee 15px, #000000 15px, #000000 30px);
         }
-        p { 
-            margin-left: 60px;
-            margin-right: 20px;
+        &::before {
+            top: 0;
+        }
+        &::after { 
+            bottom: 0;
         }
         .icon {
             position: absolute;
