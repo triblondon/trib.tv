@@ -395,7 +395,7 @@ OK, so this works well, but I have two problems with it:
 - If I capture screenshots on a 'high DPI' screen like my Macbook, which has two physical pixels per CSS pixel, and then display it on an Astro article, it is displayed at twice it's intended size (only a problem for small screenshots, but still, annoying)
 - If you "Save as" an image that's been rendered at a small size, the browser will save the version that was displayed, not the highest resolution version that's available.  It might also save an AVIF or WEBP version when for compatibility you might really want to save the PNG or JPEG.
 
-I'd like to find solutions to these problems as well, but I have to stop sometime and it's about time I published this.   With any luck I'll imrprove on this later and post a followup!
+I'd like to find solutions to these problems as well, but I have to stop sometime and it's about time I published this.   With any luck I'll improve on this later and post a followup!
 
 
 <script async src="https://public.codepenassets.com/embed/index.js"></script>
