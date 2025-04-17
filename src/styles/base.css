@@ -174,8 +174,8 @@ code {
     pre.astro-code {
         padding: 12px;
         font-size: 80%;
-        border-top: 2px dashed white;
-        border-bottom: 2px dashed white;
+        mask: conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/10px 51% repeat-x,
+              conic-gradient(from 135deg at top   ,#0000,#000 1deg 89deg,#0000 90deg) top   /10px 51% repeat-x;
     }
     ul.contains-task-list {
         list-style-type: none;

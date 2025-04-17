@@ -26,7 +26,7 @@ export default defineConfig({
       remarkRelativeImagePaths,
     ],
     shikiConfig: {
-      theme: 'laserwave',
+      theme: 'rose-pine-dawn',
     },
   },
 
