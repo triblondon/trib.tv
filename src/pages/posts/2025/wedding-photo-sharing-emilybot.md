@@ -10,15 +10,18 @@ status: unlisted
 
 What I wanted was a way for people on any kind of smartphone to upload photos they've taken, in full resolution, _without installing anything or registering for any service_, for those photos to be **judged** in some way and given a score out of ten, then displayed in a slideshow on a big screen somewhere in the venue for everyone to enjoy.
 
-This ideally means that guests can easily share, enjoy seeing each others' photos, and hopefully have some fun with the element of competition.  Here's the plan:
-
-![Diagram showing flows](diagram.png)
-
-It worked!  Here's a shot of EmilyBot judging a picture on the shared screen and inset, the upload UI guests could access on their phones:
+This ideally means that guests can easily share, enjoy seeing each others' photos, and hopefully have some fun with the element of competition.  And it worked!  Here's what it looked like, and inset, the upload UI guests could access on their phones:
 
 ![Screenshot of EmilyBot](screenshot.jpeg)
 
-There were a lot of interesting challenges here.  Let's break down how it's built and how it works.
+I really enjoyed building this, and there were a lot of interesting challenges.  Let's break down how it's built and how it works.
+
+This is what I was aiming for:
+
+![Diagram showing flows](diagram.png)
+
+OK, let's dive in.
+
 
 ### Basics
 
@@ -77,7 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 ```
 
-OK so now people can upload photos and they get saved.  There's some significant room for better edge case handling here 😅, but I did include a few niceities that I thought would make a big difference:
+So now people can upload photos, and they can be handled by the Express server.  There's some significant room for better edge case handling here 😅, but I did include a few niceities that I thought would make a big difference:
 
 - remembering the user's name in the browser's `localStorage` so they don't have to enter it each time they upload a new photo
 - disabling the button during the upload so I don't get lots of duplicates from impatient people
@@ -87,17 +90,17 @@ To serve the upload page, I saved it to `/public` in my repo so it could be serv
 
 ### Slideshow interface
 
-So now we need a UI that can display the photos on the shared screen.  I did this as another full, self contained HTML page at `/public/dashboard/index.html` so it gets served at the `/dashboard` URL path.  It looked pretty cool on a big TV I shamelessly stole from my parents:
+Next we need a UI that can display the photos on the shared screen.  I did this as another full, self contained HTML page at `/public/dashboard/index.html` so it gets served at the `/dashboard` URL path.  It looked pretty cool on a big TV I shamelessly stole from my parents:
 
 ![Emilybot on a big TV](on-tv.jpeg)
 
-The main things this page needs to do are to discover the URL and metadata of the next image to display, crossfade to that new image, and present the metadata on top - ideally with some nice build effects.
+The main things that this page needs to do are to discover the URL and metadata of the next image to display, crossfade to that new image, and present the metadata on top - ideally with some nice build effects.
 
 #### Crossfade effect
 
-I have various devices that display nice images full screen and crossfade them, like the [Meta Portal TV](https://www.meta.com/gb/portal/products/portal-tv/) (discontinued but was and is still a brilliant product), and the [Google TV Streamer](https://store.google.com/gb/product/google_tv_streamer?hl=en-GB) (not yet discontinued but Google so probably discontinued by the time you read this).  
+I have various devices in my house that display nice images full screen and crossfade them, like the [Meta Portal TV](https://www.meta.com/gb/portal/products/portal-tv/) (discontinued but was and is still a brilliant product), and the [Google TV Streamer](https://store.google.com/gb/product/google_tv_streamer?hl=en-GB) (not yet discontinued but Google so probably discontinued by the time you read this).  
 
-Not being sure exactly what the animation mechanic was, I recorded a video of an image transition on my TV Streamer, and played it back in slow motion.  It looked like the two images are animating their opacity in opposite directions, against a black background.  Sounds good, let's do that.  First, some simple HTML:
+Not being sure exactly what the animation mechanic was, I recorded a video of an image transition on my Google TV Streamer, and played it back in slow motion.  It looked like the two images are animating their opacity in opposite directions, against a black background.  Sounds good, let's do that.  First, some simple HTML:
 
 ```html
 <body>
@@ -268,7 +271,7 @@ es.addEventListener('imageData', ev => {
 });
 ```
 
-On the server, we need to handle subscriptions and publish events to existing connections, for which I like to use the [`node-sse-pubsub`](https://github.com/triblondon/node-sse-pubsub) npm module, mainly because I wrote it 😁:
+On the server, we need to handle subscriptions and publish events to existing connections, for which I like to use the [`node-sse-pubsub`](https://github.com/triblondon/node-sse-pubsub) npm module, mainly because I wrote it 😁.
 
 ```typescript
 import SSEChannel from 'sse-pubsub';
@@ -290,7 +293,7 @@ Now when a new photo is available, it takes over the screen immediately, and the
 
 #### Wake lock
 
-One other important thing to do for this kind of web UI that is *non-interactive* is to ensure the device displaying it does not sleep or activate a screen-lock or (retro!) a screensaver.  This can be achieved with the [Wake Lock API](https://developer.mozilla.org/en-US/docs/Web/API/WakeLock):
+This shared screen UI is actually *non-interactive* in use - people look at the screen but don't interact directly with the device that's rendering what's on it. That means we need to ensure the device does not sleep or activate a screen-lock or (retro!) a screensaver.  This can be achieved with the [Wake Lock API](https://developer.mozilla.org/en-US/docs/Web/API/WakeLock):
 
 ```javascript
 document.body.addEventListener('dblclick', async () => {
@@ -308,11 +311,11 @@ document.body.addEventListener('dblclick', async () => {
 })
 ```
 
-I was on the [W3C TAG](https://tag.w3.org/) when WakeLock was proposed for implementation and [participated in reviewing it](https://github.com/w3ctag/design-reviews/issues/126).  I seem to remember a long debate about whether explicit user-interaction should be required in order to trigger a WakeLock, and I feel like that's a good practice anyway, so I've chosen to activate it here only when you double click the body of the document.
+I was on the [W3C TAG](https://tag.w3.org/) when WakeLock was proposed for implementation and [participated in reviewing it](https://github.com/w3ctag/design-reviews/issues/126).  I seem to remember a long debate about whether explicit user-interaction should be required in order to justify granting a WakeLock, and I feel like that's a good practice anyway, so I've chosen to activate it here only when you double click the body of the document.
 
 ### Processing and scoring photos
 
-This is the part of the blog post where I finally get to the point, I think - I know, I'm shocked as well but here we are.  Here's how I wanted that upload handler to work:
+This is the part of the blog post where I am in danger of finally getting to the point, I think - I know, I'm shocked as well but here we are.  Here's how I wanted that upload handler to work:
 
 ```typescript
 app.post("/upload", upload.single("image-file"), async (req: Request, res: Response) => {
@@ -334,7 +337,7 @@ app.post("/upload", upload.single("image-file"), async (req: Request, res: Respo
   // Respond with acceptance
   res.status(200).json({ filename: req.file.filename });
 
-  // Do face match and judge quality in parallel
+  // Do face match and LLM analysis in parallel
   const [faceData, llmData] = await Promise.all([
     faceMatcher.matchFaces(req.file.path),
     judgeImage(req.file.path, req.body['uploader-name'])
@@ -371,8 +374,10 @@ app.post("/upload", upload.single("image-file"), async (req: Request, res: Respo
   const dataFilePath = path.join(import.meta.dirname, "../.data/results", req.file.filename + '.json');
   fs.writeFileSync(dataFilePath, JSON.stringify(photoData, null, 2));
 
-  // Publish result to client and dashboard
+  // Publish result to shared screen client
   channel.publish(photoData, "imageData");
+
+  // Save image into gallery rotation
   gallery.addImage(photoData);
 });
 ```
@@ -390,9 +395,9 @@ Let's look at the key parts here individually.
 
 #### Face recognition
 
-The state of the art in face recognition seems to not be well represented in the JavaScript/TypeScript world, but I didn't feel quite brave enough to try building something directly on top of Tensorflow, so I   had a go at using [face-api.js](https://github.com/vladmandic/face-api), even though that library basically looks to be abandonware at this point.
+The state of the art in face recognition seems to not be well represented in the JavaScript/TypeScript world, but I didn't feel quite brave enough to try building something directly on top of Tensorflow, so I had a go at using [face-api.js](https://github.com/vladmandic/face-api), even though that library basically looks to be abandonware at this point.
 
-The entry point into face recognition in my upload handler is the `faceMatcher.matchFaces(req.file.path)` line, which I initialised like this:
+The entry point into face recognition shown in my upload handler code above is the `faceMatcher.matchFaces(req.file.path)` line, which I initialised earlier in the server like this:
 
 ```typescript
 import Faces, { DetectionResult as FaceDetectionResult } from "./face-match";
@@ -406,7 +411,7 @@ const faceMatcher = new Faces({
 })
 ```
 
-I implemented the `Faces` class in [`face-match.ts`](https://github.com/triblondon/emilybot/blob/main/src/face-match.ts) following examples on the face-api.js repo.  The key bit is to generate an array of `faceapi.LabeledFaceDescriptors` using the constructor arguments, and then use those with `faceapi.FaceMatcher` to generate a face matcher object primed with our known faces, then invoke that on each of the faces detected in the query image:
+I implemented the `Faces` class in [`face-match.ts`](https://github.com/triblondon/emilybot/blob/main/src/face-match.ts).  The key bit is to generate an array of `faceapi.LabeledFaceDescriptors` using the constructor arguments, and then use those with `faceapi.FaceMatcher` to generate a face matcher object primed with our known faces, then invoke that on each of the faces detected in the query image:
 
 ```typescript
 const queryImage: any = await canvas.loadImage(queryImagePath)
@@ -433,11 +438,11 @@ This produces a return type to the upload handler that is a simple object mappin
 
 The upload handler then merges that data into the `photoData` variable.
 
-#### LLM judgement with Lava
+#### LLM judgement with Llava
 
 The other half of the analysis comes from feeding the photo to an LLM.  I wanted this to be a **local LLM**, since I've never run one locally and wanted to see how it worked.  I've heard [Ollama](https://ollama.com/) is what all the cool people use, so I went ahead and downloaded that.  The Ollama website has a nice [blog post about using "vision models"](https://ollama.com/blog/vision-models), i.e. models with the ability to interpret or generate images, so I set about experimenting with different models.
 
-This is where I started on a very long and increasingly frustrating misadventure, culminating in the realisation that if you don't present the model with the image data in a way that it can (and is willing to) interpret, it can and will **just make up total bollocks**.  I prompted it with:
+This is where I started on a very long and increasingly frustrating misadventure, culminating in the realisation that if you don't present the model with the image data in a way that it can (and is willing to) interpret, **it can and will just make up total bollocks**.  I prompted it with a reference to an image on disk that does not exist:
 
 > Describe the image at ./image.png
 
@@ -448,7 +453,7 @@ and it said:
 > Overall Impression: The image is a vibrant, slightly surreal, and playful illustration. It features a young girl with bright pink 
 hair sitting on a giant, fluffy, white cloud.
 
-Wild. It gets even worse when you give it some hints in the filename, so for ages I thought it was working but was just not very good, then I realised the responses were literally just taking the filename "family1.jpg" and running with it.
+Wild. It gets even worse when you give it some hints in the filename, so for ages I thought it was working but was just not very good, then I realised the responses were literally just taking the filename `family1.jpg` and inventing the entire response based on that.
 
 In the end I figured out that I had two problems:
 
@@ -494,9 +499,9 @@ The return value was a nice simple object with properties, which the upload hand
 
 #### Gallery management
 
-Having fully formed a set of data describing the image from the LLM and the face detection, and enriching that with some scoring heuristics to determine the final score, I wanted to store that finished image asset in a structure that could manage scale and be smart about rotating the images in the slideshow.  That's why at the end of the upload handler, I'm invoking `gallery.addImage(photoData);`.
+Having fully formed a set of data describing the image from the LLM and the face detection, and enriching that with some scoring heuristics to determine the final score, I wanted to store that finished `photoData` object in a structure that could manage scale and be smart about rotating the images in the slideshow.  That's why at the end of the upload handler, I'm invoking `gallery.addImage(photoData);`.
 
-That brings us to the final piece of the puzzle - the `/next-image` endpoint that the slideshow page fetches to find out what photo to display next.  This is implemented in the server like this:
+That brings us to the final piece of the puzzle - the `/next-image` endpoint that the slideshow page fetches to find out what photo to display next.  That is implemented in the server like this:
 
 ```typescript
 app.get('/next-image', (req, res) => {
@@ -504,7 +509,7 @@ app.get('/next-image', (req, res) => {
 });
 ```
 
-So, the [`Gallery` class](https://github.com/triblondon/emilybot/blob/main/src/gallery.ts) is designed to collect all the images that have been uploaded and judged, and then provide a way to select one of those images for display. How should I do that? Obvious way is to select the least recently displayed, which would then simply cycle continuously through all the uploaded photos, but since we have scores for them, wouldn't it make sense to display the higher scoring ones more often?
+The [`Gallery` class](https://github.com/triblondon/emilybot/blob/main/src/gallery.ts) is designed to collect all the images that have been uploaded and judged, and then provide a way to select one of those images for display. How should I do that? Obvious way is to select the least recently displayed, which would then simply cycle continuously through all the uploaded photos, but since we have scores for them, wouldn't it make sense to display the higher scoring ones more often?
 
 I ended up factoring in a bunch of things:
 
