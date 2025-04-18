@@ -392,29 +392,177 @@ Let's look at the key parts here individually.
 
 The state of the art in face recognition seems to not be well represented in the JavaScript/TypeScript world, but I didn't feel quite brave enough to try building something directly on top of Tensorflow, so I   had a go at using [face-api.js](https://github.com/vladmandic/face-api), even though that library basically looks to be abandonware at this point.
 
+The entry point into face recognition in my upload handler is the `faceMatcher.matchFaces(req.file.path)` line, which I initialised like this:
+
+```typescript
+import Faces, { DetectionResult as FaceDetectionResult } from "./face-match";
+
+const ASSETS_PATH = path.join(import.meta.dirname, "assets");
+const faceMatcher = new Faces({
+  knownFaces: [
+    { name: "Emily", files: [`${ASSETS_PATH}/ref-images/emily1.jpg`, `${ASSETS_PATH}/ref-images/emily2.jpg`, `${ASSETS_PATH}/ref-images/emily3.jpg`] },
+    { name: "Rob", files: [`${ASSETS_PATH}/ref-images/rob1.jpg`, `${ASSETS_PATH}/ref-images/rob2.jpg`] },
+  ]
+})
+```
+
+I implemented the `Faces` class in [`face-match.ts`](https://github.com/triblondon/emilybot/blob/main/src/face-match.ts) following examples on the face-api.js repo.  The key bit is to generate an array of `faceapi.LabeledFaceDescriptors` using the constructor arguments, and then use those with `faceapi.FaceMatcher` to generate a face matcher object primed with our known faces, then invoke that on each of the faces detected in the query image:
+
+```typescript
+const queryImage: any = await canvas.loadImage(queryImagePath)
+const queryImageFaces = await faceapi.detectAllFaces(queryImage, FACE_DETECT_OPTIONS)
+    .withFaceLandmarks().withFaceDescriptors().withAgeAndGender().withFaceExpressions();
+const faceMatcher = new faceapi.FaceMatcher(this.#faces, MATCHING_DISTANCE);
+queryImageFaces.reduce<DetectedFaces>((out, faceDetection) => {
+    const match = faceMatcher.findBestMatch(faceDetection.descriptor);
+    if (match.label !== "unknown") {
+        out[slugify(match.label)] = getDominantExpressionSentiment(faceDetection.expressions);
+    }
+    return out;
+}, {})
+```
+
+This produces a return type to the upload handler that is a simple object mapping known face names to a sentiment keyword, and counts the total number of detected faces, so a photo of three people that has Emily in it should return a value such as:
+
+```json
+{
+    facesDetectedCount: 3, 
+    knownFacesDetected: { "emily": "positive" }
+}
+```
+
+The upload handler then merges that data into the `photoData` variable.
+
 #### LLM judgement with Lava
 
+The other half of the analysis comes from feeding the photo to an LLM.  I wanted this to be a **local LLM**, since I've never run one locally and wanted to see how it worked.  I've heard [Ollama](https://ollama.com/) is what all the cool people use, so I went ahead and downloaded that.  The Ollama website has a nice [blog post about using "vision models"](https://ollama.com/blog/vision-models), i.e. models with the ability to interpret or generate images, so I set about experimenting with different models.
+
+This is where I started on a very long and increasingly frustrating misadventure, culminating in the realisation that if you don't present the model with the image data in a way that it can (and is willing to) interpret, it can and will **just make up total bollocks**.  I prompted it with:
+
+> Describe the image at ./image.png
+
+and it said:
+
+> Okay, I’ve analyzed the image you provided (./image.png). Here’s a description of the image:
+>
+> Overall Impression: The image is a vibrant, slightly surreal, and playful illustration. It features a young girl with bright pink 
+hair sitting on a giant, fluffy, white cloud.
+
+Wild. It gets even worse when you give it some hints in the filename, so for ages I thought it was working but was just not very good, then I realised the responses were literally just taking the filename "family1.jpg" and running with it.
+
+In the end I figured out that I had two problems:
+
+* My images were too large and were being ignored
+* I had set the [`raw`](https://github.com/ollama/ollama/blob/main/docs/api.md#generate-a-completion) option to true, which I *think* caused the image data to not get included in the prompt.
+
+My final working invocation of Ollama looked like this:
+
+```typescript
+import ollama from 'ollama';
+import sharp from 'sharp';
+import type { LLMJudgment } from './types';
+const MAX_IMAGE_SIZE = 800;
+
+const judgeImage = async (imagePath: string, photographerName: string): Promise<LLMJudgment> => {
+    const prompt = `Examine this image.  Generate a valid JSON output comprising an object with the following properties: 
+
+        - 'keywords': array of 3-5 strings that describe the image, where each string is a single word.  Avoid 'family', 'party', 'celebration' and 'wedding'.
+        - 'contrast': a score from 0 to 1 indicating a judgement about whether the image has good contrast, where 0 is bad and 1 is good.
+        - 'lighting': a score from 0 to 1 indicating a judgement about whether the image has good lighting, where 0 is bad and 1 is good.
+        - 'framing': a score from 0 to 1 indicating a judgement about whether the image is well framed, where 0 is bad and 1 is good.
+        - 'focus': a score from 0 to 1 indicating a judgement about whether the image is in focus, where 0 is blurry and 1 is sharp.
+        - 'numPeople': a number indicating how many people are depicted in the image.
+        - 'happinessScore': a score from 0 to 1 indicating a judgement about whether the image depicts happiness, where 0 is no happiness and 1 is maximum happiness.
+        - 'hasDog': a boolean indicating whether a dog is present in the image.
+        - 'hasBaby': a boolean indicating whether a baby is present in the image.
+        - 'llmScore': integer between 1 and 6, score based on overall judgement of whether it's a good photo, based on focus, lighting, contrast, framing, number of people, and happiness.
+        - 'alt': A simple one line description of the image
+        - 'caption': A one line, punchy but wholesome caption for the image - for example, if the image depicts a family eating dinner, the caption could be "Save room for dessert!"
+        - 'leastInterestingCorner': Which quadrant of the image contains the fewest faces?  Set to the string 'topright', 'bottomright', 'topleft' or 'bottomleft'.
+    `;
+    const imgData = await sharp(imagePath).resize({ width: MAX_IMAGE_SIZE, height: MAX_IMAGE_SIZE, fit: 'inside' }).toBuffer();
+    const output = await ollama.generate({ model: "llava", prompt, images: [imgData.toString('base64')], format: 'json', keep_alive: 0 });
+    return JSON.parse(output.response);
+}
+```
+
+The model was very good at returning valid JSON conforming to the requested structure, especially with the `format` option set to "json". I also found it was great at counting people, detecting babies and dogs, assigning keywords, and producing the literal description and wholesome caption.  It was pretty terrible at judging focus, framing and contrast, and useless at picking the "least interesting" quadrant of the image.
+
+> **INFO:** I wanted to know which quadrant was least interesting so I could optimise where to place the overlay on top of the image when it's displayed on the shared screen.
+
+The return value was a nice simple object with properties, which the upload handler then merges into `photoData` along with the result of the face recognition.
+
 #### Gallery management
+
+Having fully formed a set of data describing the image from the LLM and the face detection, and enriching that with some scoring heuristics to determine the final score, I wanted to store that finished image asset in a structure that could manage scale and be smart about rotating the images in the slideshow.  That's why at the end of the upload handler, I'm invoking `gallery.addImage(photoData);`.
+
+That brings us to the final piece of the puzzle - the `/next-image` endpoint that the slideshow page fetches to find out what photo to display next.  This is implemented in the server like this:
+
+```typescript
+app.get('/next-image', (req, res) => {
+  res.json(gallery.getNextImage());
+});
+```
+
+So, the [`Gallery` class](https://github.com/triblondon/emilybot/blob/main/src/gallery.ts) is designed to collect all the images that have been uploaded and judged, and then provide a way to select one of those images for display. How should I do that? Obvious way is to select the least recently displayed, which would then simply cycle continuously through all the uploaded photos, but since we have scores for them, wouldn't it make sense to display the higher scoring ones more often?
+
+I ended up factoring in a bunch of things:
+
+* Freshness: how long ago was the image uploaded?  Boost up to 2x for just-posted, decay over 30 mins to 0.5x
+* Score: weight a score of 10 as 1x, 5 and lower as 0.5x
+* Rarity: boost images that have been shown fewer times
+* Recency: boost images that have not bee shown recently
+
+This results in a weight calculation such as:
+
+```
+weight = freshnessWeight * scoreWeight * rarityWeight * recencyWeight;
+       = 1.5 * 0.9 * 0.8 * 2.1
+       = 2.268
+```
+
+We can then add up all the weights of all the images, and pick a random number between 0 and that number to choose an image:
+
+```typescript
+const totalWeight = scoredImages.reduce((sum, item) => sum + item.weight, 0);
+const rand = Math.random() * totalWeight;
+
+let acc = 0;
+for (const { entry, weight } of scoredImages) {
+    acc += weight;
+    if (rand <= acc) {
+        entry.lastShown = this.currentTick;
+        entry.shownCount++;
+        return entry.data;
+    }
+}
+```
+
+That was probably ludicrously overengineered but it was fun!
 
 ### Discovery
 
 The final piece of the jigsaw is giving people a way to discover the upload page URL and load it on their phone.  A QR code on a poster seems like the obvious way to go here.  In my case the server was running on my laptop directly connected to the shared screen, so the shared screen browser was set to load from `http://localhost:3000/dashboard`.
 
-For the guests, I looked up the IP address of my laptop on the wifi, generated the appropriate QR code and printed it on a poster.
+For the guests, I looked up the IP address of my laptop on the wifi, generated the appropriate QR code and printed it on a poster:
+
+:::figure
+![QR code poster](qr-code.png)
+:::
 
 ### Take aways
 
 OK, so what have I learned from this other than that I'm incapable of writing short blog posts?
 
-- **Guests were not all on the wifi**
+- **Guests were not all on the wifi**<br/>
   Obvious in retrospect but if you're not on the wifi, attempting to navigate to `http://192.168.0.56` isn't going to get you very far.  It would have been pretty easy to expose the server on a public hostname, so that guests on mobile data could still participate.
 
-- **Face detection was rubbish**
+- **Face detection was rubbish**<br/>
   I am not quite sure why - other than using an out of date library that's now unmaintained - but it really didn't work at all, and seemed to recognise Emily and Rob fairly randomly regardless of whether they were in the photo or not.
 
-- **Kids have phones and they are ... special**
+- **Kids have phones and they are ... special**<br/>
   The app was super popular with the kids but pre-teens lucky enough to have phones typically had them locked down so tight by their parents that in one case the phone didn't have a useable browser that I could find.  I wasn't really expecting to have to deal with that problem!  Also gen alpha does not recognise a difference between an app and a website.  I am sad.
 
-- **Slideshow went a bit mad**
+- **Slideshow went a bit mad**<br/>
   We found that people tended to interact with the app in groups, standing around the shared screen.  That meant a lot of photo submissions happened in busy bursts, and sometimes a photo would flash up on the screen only to be almost instantly replaced with another one.  For photos received via the push stream, it might have made more sense to use that photo on the next scheduled slide advance, instead of doing it there and then.
 
