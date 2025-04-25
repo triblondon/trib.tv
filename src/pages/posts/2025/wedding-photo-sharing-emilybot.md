@@ -1,11 +1,11 @@
 ---
 layout: ../../../layouts/PostLayout.astro
-title: Spicing up my sister's wedding with judgemental photo sharing powered by Ollama
+title: DIY, AI wedding photo wall powered by Ollama 
 pubDate: 2025-04-20
-description: My sister Emily got married recently and I wanted to contribute something to the event.  Solutions exist to let people pool photos in a 'photo wall' type thing but I wanted to do better - no registration, no app to install, and how about we judge the photos using AI?  Bring it.
+description: My sister Emily got married recently and I wanted to make something for the event.  There are apps to let people pool photos in a 'photo wall' type thing but I wanted to do better - no registration, no app to install, and let's judge the photos using AI to create some competition!
 author: Andrew Betts
 tags: ["LLM", "AI", "Ollama", "Vision model", "Family"]
-status: unlisted
+status: published
 ---
 
 What I wanted was a way for people on any kind of smartphone to upload photos they've taken, in full resolution, _without installing anything or registering for any service_, for those photos to be **judged** in some way and given a score out of ten, then displayed in a slideshow on a big screen somewhere in the venue for everyone to enjoy.
@@ -25,7 +25,7 @@ OK, let's dive in.
 
 ### Basics
 
-I wanted an upload tool that will work on any device with no need to install or register.  So for that, we need a mobile-optimised website that I can serve from my laptop or a server machine somewhere in the venue.  I wanted to use NodeJS and TypeScript, so I started with a fairly common setup:
+I wanted an upload tool that will work on any device with no need to install or register.  For that, we need a mobile-optimised website that I can serve from my laptop or a server machine somewhere in the venue.  I wanted to use NodeJS and TypeScript, so I started with a fairly common setup:
 
 * [Express](https://expressjs.com/) server framework
 * [multer](https://expressjs.com/en/resources/middleware/multer.html) for handling file uploads
@@ -80,11 +80,11 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 ```
 
-So now people can upload photos, and they can be handled by the Express server.  There's some significant room for better edge case handling here 😅, but I did include a few niceities that I thought would make a big difference:
+Great.  People can now upload photos, and they can be handled by the Express server.  There's some significant room for better edge case handling here 😅, but I did include a few niceities that I thought would make a big difference:
 
-- remembering the user's name in the browser's `localStorage` so they don't have to enter it each time they upload a new photo
+- remembering the user's name in the browser's [`localStorage`](https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage) so they don't have to enter it each time they upload a new photo
 - disabling the button during the upload so I don't get lots of duplicates from impatient people
-- toggling a class on the button element so I can show and hide a spinner in CSS to show the upload is in progress (some devices take quite large images and I wasn't sure how loaded the wifi would be)
+- toggling a class on the button element so I can show and hide a spinner in CSS to indicate that the upload is in progress (some devices take quite large images and I wasn't sure how loaded the wifi would be)
 
 To serve the upload page, I saved it to `/public` in my repo so it could be served by my Express app.
 
@@ -98,7 +98,7 @@ The main things that this page needs to do are to discover the URL and metadata 
 
 #### Crossfade effect
 
-I have various devices in my house that display nice images full screen and crossfade them, like the [Meta Portal TV](https://www.meta.com/gb/portal/products/portal-tv/) (discontinued but was and is still a brilliant product), and the [Google TV Streamer](https://store.google.com/gb/product/google_tv_streamer?hl=en-GB) (not yet discontinued but Google so probably discontinued by the time you read this).  
+I have various devices in my house that display nice images full screen and crossfade them, like the [Meta Portal TV](https://www.meta.com/gb/portal/products/portal-tv/) (discontinued but was and is still a brilliant product), and the [Google TV Streamer](https://store.google.com/gb/product/google_tv_streamer?hl=en-GB) (not yet discontinued but Google, so probably discontinued by the time you read this).  
 
 Not being sure exactly what the animation mechanic was, I recorded a video of an image transition on my Google TV Streamer, and played it back in slow motion.  It looked like the two images are animating their opacity in opposite directions, against a black background.  Sounds good, let's do that.  First, some simple HTML:
 
@@ -195,12 +195,7 @@ First, I added the HTML for the overlay:
       <p id="metaUploader" class='build' style="transition-delay: 0.2s"></p>
       <p id="metaAlt" class='build' style="transition-delay: 0.4s"></p>
       <div class="topstrip">Instant judgement from <strong>EmilyBot</strong></div>
-      <ol id="metaScoring" class='build' style="transition-delay: 0.6s">
-        <li><span>Base score</span><span>7</span></li>
-        <li><span>Dramatic contrast!</span><span>+1</span></li>
-        <li><span>Can't you take one that's got Emily or Rob in it?!</span><span>-2</span></li>
-        <li class="total"><span>Total</span><span>6</span></li>
-      </ul>
+      <ol id="metaScoring" class='build' style="transition-delay: 0.6s"></ol>
     </article>
   </div>
 ```
@@ -315,7 +310,7 @@ I was on the [W3C TAG](https://tag.w3.org/) when WakeLock was proposed for imple
 
 ### Processing and scoring photos
 
-This is the part of the blog post where I am in danger of finally getting to the point, I think - I know, I'm shocked as well but here we are.  Here's how I wanted that upload handler to work:
+This is the part of the blog post where I am in danger of finally getting to the point, I think - I know, I'm as shocked as you are but here we are.  Earlier I sketched out the upload handler but here's how I filled that out to save the photo, score it, and notify the slideshow client of it:
 
 ```typescript
 app.post("/upload", upload.single("image-file"), async (req: Request, res: Response) => {
@@ -442,18 +437,18 @@ The upload handler then merges that data into the `photoData` variable.
 
 The other half of the analysis comes from feeding the photo to an LLM.  I wanted this to be a **local LLM**, since I've never run one locally and wanted to see how it worked.  I've heard [Ollama](https://ollama.com/) is what all the cool people use, so I went ahead and downloaded that.  The Ollama website has a nice [blog post about using "vision models"](https://ollama.com/blog/vision-models), i.e. models with the ability to interpret or generate images, so I set about experimenting with different models.
 
-This is where I started on a very long and increasingly frustrating misadventure, culminating in the realisation that if you don't present the model with the image data in a way that it can (and is willing to) interpret, **it can and will just make up total bollocks**.  I prompted it with a reference to an image on disk that does not exist:
+This is where I started on a very long and increasingly frustrating misadventure, culminating in the realisation that if you don't present the model with the image data in a way that it can (and is willing to) interpret, **it can and will just make up total bollocks**.  As an example, this is what happens when I prompt it with a reference to an image on disk that does not exist:
 
 > Describe the image at ./image.png
 
-and it said:
+It said:
 
 > Okay, I’ve analyzed the image you provided (./image.png). Here’s a description of the image:
 >
 > Overall Impression: The image is a vibrant, slightly surreal, and playful illustration. It features a young girl with bright pink 
 hair sitting on a giant, fluffy, white cloud.
 
-Wild. It gets even worse when you give it some hints in the filename, so for ages I thought it was working but was just not very good, then I realised the responses were literally just taking the filename `family1.jpg` and inventing the entire response based on that.
+Wild. It gets even worse when you give it some hints in the filename, which I inadvertently did because my test file was called `family.jpg`, so for ages I thought it was working and was just not very good, then I realised the responses were literally just taking the filename `family.jpg` and inventing the entire response based on that.
 
 In the end I figured out that I had two problems:
 
@@ -509,16 +504,16 @@ app.get('/next-image', (req, res) => {
 });
 ```
 
-The [`Gallery` class](https://github.com/triblondon/emilybot/blob/main/src/gallery.ts) is designed to collect all the images that have been uploaded and judged, and then provide a way to select one of those images for display. How should I do that? Obvious way is to select the least recently displayed, which would then simply cycle continuously through all the uploaded photos, but since we have scores for them, wouldn't it make sense to display the higher scoring ones more often?
+The [`Gallery` class](https://github.com/triblondon/emilybot/blob/main/src/gallery.ts) is designed to collect all the images that have been uploaded and judged, and then provide a way to select one of those images for display. How should I do that? The obvious way is to select the least recently displayed, which would then simply cycle continuously through all the uploaded photos, but since we have scores for them, wouldn't it make sense to display the higher scoring ones more often?
 
 I ended up factoring in a bunch of things:
 
-* Freshness: how long ago was the image uploaded?  Boost up to 2x for just-posted, decay over 30 mins to 0.5x
-* Score: weight a score of 10 as 1x, 5 and lower as 0.5x
+* Freshness: how long ago was the image uploaded?
+* Score: what was the final score we assigned to the image?
 * Rarity: boost images that have been shown fewer times
 * Recency: boost images that have not bee shown recently
 
-This results in a weight calculation such as:
+I scaled each of these metrics onto a range between 0.5 and 3.  This results in a weight calculation such as:
 
 ```
 weight = freshnessWeight * scoreWeight * rarityWeight * recencyWeight;
@@ -557,7 +552,7 @@ For the guests, I looked up the IP address of my laptop on the wifi, generated t
 
 ### Take aways
 
-OK, so what have I learned from this other than that I'm incapable of writing short blog posts?
+OK, so what have I learned from this, other than the fact that I'm incapable of writing short blog posts?
 
 - **Guests were not all on the wifi**<br/>
   Obvious in retrospect but if you're not on the wifi, attempting to navigate to `http://192.168.0.56` isn't going to get you very far.  It would have been pretty easy to expose the server on a public hostname, so that guests on mobile data could still participate.
@@ -566,8 +561,9 @@ OK, so what have I learned from this other than that I'm incapable of writing sh
   I am not quite sure why - other than using an out of date library that's now unmaintained - but it really didn't work at all, and seemed to recognise Emily and Rob fairly randomly regardless of whether they were in the photo or not.
 
 - **Kids have phones and they are ... special**<br/>
-  The app was super popular with the kids but pre-teens lucky enough to have phones typically had them locked down so tight by their parents that in one case the phone didn't have a useable browser that I could find.  I wasn't really expecting to have to deal with that problem!  Also gen alpha does not recognise a difference between an app and a website.  I am sad.
+  The app was super popular with the kids but pre-teens lucky enough to have phones typically had them locked down so tight by their parents that in one case the phone didn't have a useable browser that I could find.  I wasn't really expecting to have to deal with that problem!  Also, Gen Alpha seemingly does not recognise a difference between an app and a website.  I am sad.
 
 - **Slideshow went a bit mad**<br/>
-  We found that people tended to interact with the app in groups, standing around the shared screen.  That meant a lot of photo submissions happened in busy bursts, and sometimes a photo would flash up on the screen only to be almost instantly replaced with another one.  For photos received via the push stream, it might have made more sense to use that photo on the next scheduled slide advance, instead of doing it there and then.
+  I found that people tended to interact with the app in groups, standing around the shared screen.  That meant a lot of photo submissions happened in busy bursts, and sometimes a photo would flash up on the screen only to be almost instantly replaced with another one.  For photos received via the push stream, it might have made more sense to use that photo on the next scheduled slide advance, instead of doing it there and then.
 
+Emily and Rob are doing it all again in August so maybe EmilyBot will return :-).
