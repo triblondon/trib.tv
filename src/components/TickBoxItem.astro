@@ -1,25 +1,22 @@
 ---
-import CheckboxChecked from '../assets/images/icons/checkbox-checked.svg';
-import CheckboxUnChecked from '../assets/images/icons/checkbox.svg';
-
-const { href, isChecked } = Astro.props;
-const CheckBox = isChecked ? CheckboxChecked : CheckboxUnChecked;
+const { href, isChecked, isOnDark } = Astro.props;
+const classes = 'tickbox' + (isChecked ? ' checked' : '') + (isOnDark ? ' on-dark' : '');
 ---
 <style>
 .item {
     display: flex !important;
     flex-flow: row nowrap;
     padding: 5px 10px;
-    svg {
+    .tickbox {
+        flex: 0 0 auto;
+        margin-right: 0.3em;
         width: 1.5em;
         height: 1.5em;
-        margin-right: 0.3em;
-        flex: 0 0 auto;
     }
 }
 </style>
 {href ? (
-    <a class='item block-link' href={href}><CheckBox stroke="currentColor" fill="currentColor" /><div><slot /></div></a>
+    <a class='item block-link' href={href}><div class={classes} /><div><slot /></div></a>
 ) : (
-    <div class='item'><CheckBox stroke="currentColor" fill="currentColor" /><div><slot /></div></div>
+    <div class='item'><div class={classes} /><div><slot /></div></div>
 )}

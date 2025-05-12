@@ -60,9 +60,9 @@ header {
     </h1>
     <ul>
         {links.map(link => isActivePath(link.path, link.includeSubPaths) ? (
-            <li class="current"><TickBoxItem isChecked>{link.title}</TickBoxItem></li>
+            <li class="current"><TickBoxItem isChecked isOnDark>{link.title}</TickBoxItem></li>
         ) : (
-            <li><TickBoxItem href={link.path}>{link.title}</TickBoxItem></li>
+            <li><TickBoxItem isOnDark href={link.path}>{link.title}</TickBoxItem></li>
         ))}
     </ul>
 </header>

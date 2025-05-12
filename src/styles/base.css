@@ -103,6 +103,31 @@ code {
     animation: loader-anim .75s infinite linear;
 }
 
+.tickbox-list {
+    list-style-type: none;
+    & > li {
+        margin-bottom: 0.2em;
+        .tickbox {
+            display: inline-block;
+            vertical-align: text-bottom;
+            margin-right: 0.2em;
+        }
+    }
+}
+.tickbox {
+    width: 1.3em;
+    height: 1.3em;
+    background-position: center;
+    background-size: contain;
+    background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9JzAgMCAzMiAzMicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNMjYsNEg2QTIsMiwwLDAsMCw0LDZWMjZhMiwyLDAsMCwwLDIsMkgyNmEyLDIsMCwwLDAsMi0yVjZBMiwyLDAsMCwwLDI2LDRaTTYsMjZWNkgyNlYyNlonIC8+PC9zdmc+");
+    &.checked {
+        background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yNiw0SDZBMiwyLDAsMCwwLDQsNlYyNmEyLDIsMCwwLDAsMiwySDI2YTIsMiwwLDAsMCwyLTJWNkEyLDIsMCwwLDAsMjYsNFpNNiwyNlY2SDI2VjI2WiIgLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTQgMjEuNSA5IDE2LjU0IDEwLjU5IDE1IDE0IDE4LjM1IDIxLjQxIDExIDIzIDEyLjU4IDE0IDIxLjUiIC8+Cjwvc3ZnPg==");
+    }
+    &.on-dark {
+        filter: invert()
+    }
+}
+
 .rich-text {
     line-height: 1.7;
     font-size: 17px;

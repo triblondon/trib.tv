@@ -14,12 +14,12 @@ Here's a picture of sunset in my neighbourhood in east London:
 
 It's pretty, but more importantly, it's achieving a bunch of things that are often hard to get right with images on the web:
 
-* ✅ Does not get stretched beyond it's intrinsic width or height
-* ✅ Maintains the correct aspect ratio
-* ✅ Scales down to fit inside the width of the article container
-* ✅ Scales down to ensure it's not taller than the viewable area of the page (the viewport)
-* ✅ Downloads a version that suits the size that it renders at
-* ✅ Can be laid out at the right size *before* the image itself is loaded, avoiding layout shift 
+* [X] Does not get stretched beyond it's intrinsic width or height
+* [X] Maintains the correct aspect ratio
+* [X] Scales down to fit inside the width of the article container
+* [X] Scales down to ensure it's not taller than the viewable area of the page (the viewport)
+* [X] Downloads a version that suits the size that it renders at
+* [X] Can be laid out at the right size *before* the image itself is loaded, avoiding layout shift 
 
 Feel free to play with the size of your browser window or load this page on a different device to see how the image behaves.
 

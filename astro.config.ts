@@ -9,6 +9,7 @@ import { remarkAside } from './src/plugins/remark-aside';
 
 import mdx from '@astrojs/mdx';
 import react from '@astrojs/react';
+import { remarkTickList } from './src/plugins/remark-ticklist';
 
 
 // https://astro.build/config
@@ -24,6 +25,7 @@ export default defineConfig({
       remarkFigureFromContainerDirective,
       remarkFigureFromParagraph,
       remarkRelativeImagePaths,
+      remarkTickList
     ],
     shikiConfig: {
       theme: 'rose-pine-dawn',
