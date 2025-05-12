@@ -68,9 +68,11 @@ a.block-link, .block-links a {
     height: 100%;
     text-decoration: none;
     &:hover, &:hover > * {
-        background-color: var(--color-accent);
         color: #fff;
         transition-delay: 0.2s;
+    }
+    &:hover {
+        background-color: var(--color-accent);
     }
 }
 a, a > * { transition: all 0.2s; }
