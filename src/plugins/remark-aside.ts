@@ -2,7 +2,7 @@ import { visit } from "unist-util-visit";
 import type { RemarkPlugin } from "@astrojs/markdown-remark";
 import type { Blockquote, Image } from "mdast";
 
-const PREFIXES_PATTERN = /^(WARNING|INFO):$/;
+const PREFIXES_PATTERN = /^(WARNING|INFO|HINT):$/;
 
 export const remarkAside: RemarkPlugin = () => {
 
@@ -20,7 +20,7 @@ export const remarkAside: RemarkPlugin = () => {
                 const className = 'aside-' + asideType;
 				node.data = { hName: 'aside', hProperties: { className } };
                 const iconImageNode: Image = { type: 'image', url: "icons:" + asideType + ".svg", data: { hProperties: { className: 'icon' } } };
-                paraNode.children[0] = iconImageNode;
+                paraNode.children[0] = iconImageNode; // Replace the strong node with the image node
             }
         });
     };

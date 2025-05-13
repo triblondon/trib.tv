@@ -7,7 +7,6 @@ export const remarkTickList: RemarkPlugin = () => {
   return (tree) => {
     visit(tree, "listItem", (node: ListItem, idx, parent) => {
       if (typeof node.checked !== "boolean") return;
-      console.log(node.children[0]);
 
       const tickbox = u("html", `<span class='tickbox ${node.checked ? 'checked' : ''}'></span>`);
 
