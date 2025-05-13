@@ -1,0 +1,37 @@
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+
+    <!-- Grunge filter for ink loss/bleed -->
+    <filter id="grunge">
+        <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" result="noise" />
+        <feColorMatrix in="noise" type="matrix"
+            values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 10 -5"
+            result="mask" />
+        <feComposite in="SourceGraphic" in2="mask" operator="in" result="grungyLines" />
+        <feGaussianBlur in="grungyLines" stdDeviation="0.3" result="blurred" />
+        <feBlend in="blurred" in2="grungyLines" mode="multiply" />
+    </filter>
+
+    <!-- Cancellation lines -->
+    <g transform="rotate(-10 150 50)" stroke="black" stroke-opacity="0.4" stroke-width="2" fill="none"
+        stroke-linecap="round" filter="url(#grunge)" opacity="0.9">
+        <path d="M 10 20 Q 30 10, 50 20 T 90 20 T 130 20 T 170 20 T 210 20 T 250 20 T 290 20" />
+        <path d="M 10 35 Q 30 25, 50 35 T 90 35 T 130 35 T 170 35 T 210 35 T 250 35 T 290 35" />
+        <path d="M 10 50 Q 30 40, 50 50 T 90 50 T 130 50 T 170 50 T 210 50 T 250 50 T 290 50" />
+        <path d="M 10 65 Q 30 55, 50 65 T 90 65 T 130 65 T 170 65 T 210 65 T 250 65 T 290 65" />
+    </g>
+
+    <!-- Ink dots -->
+    <g fill="black" opacity="0.4">
+        <circle cx="45" cy="22" r="0.8" />
+        <circle cx="75" cy="38" r="0.6" />
+        <circle cx="160" cy="52" r="0.9" />
+        <circle cx="210" cy="64" r="0.5" />
+        <circle cx="125" cy="18" r="0.7" />
+        <circle cx="195" cy="70" r="0.6" />
+        <circle cx="270" cy="40" r="0.8" />
+    </g>
+</svg>
+  
