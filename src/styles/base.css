@@ -71,7 +71,7 @@ a.block-link, .block-links a {
         color: #fff;
         transition-delay: 0.2s;
     }
-    &:hover {
+    &:hover, &:hover > .link-bg {
         background-color: var(--color-accent);
     }
 }
@@ -125,7 +125,7 @@ code {
     &.checked {
         background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yNiw0SDZBMiwyLDAsMCwwLDQsNlYyNmEyLDIsMCwwLDAsMiwySDI2YTIsMiwwLDAsMCwyLTJWNkEyLDIsMCwwLDAsMjYsNFpNNiwyNlY2SDI2VjI2WiIgLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTQgMjEuNSA5IDE2LjU0IDEwLjU5IDE1IDE0IDE4LjM1IDIxLjQxIDExIDIzIDEyLjU4IDE0IDIxLjUiIC8+Cjwvc3ZnPg==");
     }
-    &.on-dark {
+    &.on-dark, .block-links a:hover &, a.block-link:hover & {
         filter: invert()
     }
 }
