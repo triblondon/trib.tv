@@ -29,11 +29,12 @@ const { items, startOffset } = Astro.props;
             padding: 18px 12px 8px 12px;
         }
         > .seq {
-            grid-row: span 2;
+            display: none;
         }
         > .title {
             padding-top: 17px;
             grid-row: span 2;
+            grid-column: span 2;
         }
         > .date {
             white-space: nowrap;
@@ -50,6 +51,9 @@ const { items, startOffset } = Astro.props;
         &:not(:last-child) > .summary {
             border-bottom: 1px dashed black;
         }
+    }
+    .draft {
+        color: #62ab1b
     }
 }
 @media (min-width: 700px) {
@@ -71,9 +75,6 @@ const { items, startOffset } = Astro.props;
             > .summary {
                 grid-column: span 4;
             }
-        }
-        .draft {
-            color: #62ab1b
         }
     }
 }
