@@ -111,16 +111,18 @@ code {
     list-style-type: none;
     & > li {
         margin-bottom: 0.2em;
+        margin-left: 1.5em;
         .tickbox {
+            width: 1.3em;
+            height: 1.3em;
             display: inline-block;
             vertical-align: text-bottom;
             margin-right: 0.2em;
+            margin-left: -1.5em;
         }
     }
 }
 .tickbox {
-    width: 1.3em;
-    height: 1.3em;
     background-position: center;
     background-size: contain;
     background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9JzAgMCAzMiAzMicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNMjYsNEg2QTIsMiwwLDAsMCw0LDZWMjZhMiwyLDAsMCwwLDIsMkgyNmEyLDIsMCwwLDAsMi0yVjZBMiwyLDAsMCwwLDI2LDRaTTYsMjZWNkgyNlYyNlonIC8+PC9zdmc+");
@@ -133,7 +135,7 @@ code {
 }
 
 .rich-text {
-    line-height: 1.7;
+    line-height: 1.5;
     font-size: 17px;
     min-width: 0;
 
