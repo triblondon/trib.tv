@@ -84,8 +84,10 @@ h2, h3, h4, h5, h6 {
 h2 {
     color: white;
     background-color: black;
-    display: inline-block;
+    display: inline;
     padding: 1px 6px;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone; /* Safari */
 }
 
 ul, ol {
