@@ -1,7 +1,6 @@
 - Tag/trip pages
 - Draft status -> 404 via content collections
 - Poke Fastly when netlify build completes
-- Wiggly effect on aside icons
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
 
 
