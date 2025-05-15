@@ -360,6 +360,10 @@ globals:
     initial_value: '0'
 ```
 
+The frequencies and timestamps are exposed in Home Assistant, which is quite a lot of entities, so I figured I could now make a nice dashboard to group them by plant:
+
+![Plant dashboard in Home Assistant](ha2.png)
+
 #### Consolidating repetitive config with packages
 
 My ESPHome config was now really long, and I was looking for a way to reduce the amount of repetition.  I searched for "templates" and didn't find anything, but I was later looking at a different project, [esphome-modular-lvgl-buttons](https://github.com/agillis/esphome-modular-lvgl-buttons/tree/main) and noticed that they were doing what I needed to reduce repetition in my watering project - and the magic word is **packages**.
