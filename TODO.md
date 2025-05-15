@@ -1,3 +1,4 @@
+- Add noindex to draft/unlisted pages
 - Tag/trip pages
 - Draft status -> 404 via content collections
 - Poke Fastly when netlify build completes
