@@ -189,7 +189,23 @@ script:
     parameters:
       port_number: int
     then:
-TODO
+      - lambda: |-
+          float flow_rate = id(ml_per_minute).state;
+          ESP_LOGI("watering_system", "Delivering %d ml to pump %d (%d ms, %f)", water_volume_ml, pump_id, time_milliseconds, flow_rate);
+          id(pump).turn_on();
+          if (id(port_1_ml).state > 0) {
+            id(valve_1).turn_on();
+            int time_1 = (id(port_1_ml).state / flow_rate) * 60.0 * 1000;
+            delay(time_1);
+            id(valve_1).turn_off();
+          } else if (id(port_2_ml).state > 0) {
+            id(valve_2).turn_on();
+            int time_2 = (id(port_2_ml).state / flow_rate) * 60.0 * 1000;
+            delay(time_2);
+            id(valve_2).turn_off();
+          } else if( ... ) {
+            ...
+          }
 ```
 
 In Home Assistant, it's then just a case of automating the pressing of the button.
@@ -198,7 +214,7 @@ In Home Assistant, it's then just a case of automating the pressing of the butto
 
 OK but now the problem is that all the plants get watered in one action.  One of my requirements was that *Every plant gets different amounts of water, on different intervals*.  We have got the "different amounts of water" but we can no longer water only specific plants.  I could add a button per plant.  But how about reducing the dependency on HA even further and put the scheduling on the microcontroller as well?
 
-For this, we need two new entities per port, a 'select' to determine the watering frequency:
+For this, we need two new entities per port: a `select` to determine the watering frequency, and a `datetime` to record when we expect the next watering to happen.  Here's how I specified those (and repeated it for every port):
 
 ```yaml
 select:
@@ -218,11 +234,7 @@ select:
     restore_value: true
     icon: "mdi:calendar-clock"
     entity_category: config
-```
 
-And a 'datetime' to record when we expect the next watering to happen
-
-```yaml
 datetime:
   - id: port_1_next
     name: Port 1 next due
@@ -368,10 +380,109 @@ The frequencies and timestamps are exposed in Home Assistant, which is quite a l
 
 My ESPHome config was now really long, and I was looking for a way to reduce the amount of repetition.  I searched for "templates" and didn't find anything, but I was later looking at a different project, [esphome-modular-lvgl-buttons](https://github.com/agillis/esphome-modular-lvgl-buttons/tree/main) and noticed that they were doing what I needed to reduce repetition in my watering project - and the magic word is **packages**.
 
-Packages allow me to define a set of configuration for a generic "port volume" number entity, and then create each one with much less detail:
+Packages allow me to define a set of configuration for a generic "port", and then create each one with much less detail.  Let's start by bringing all the 'port' related config into one file, and replace all the instances of the port number with the variables `${id}` and `${pin}`.  I now have four entities per port:
 
-TODO - code
+- Water volume: `number`, e.g. `port_1_ml`. Number of millilters to deliver to the port each time the plant is watered.
+- Frequency: `select`, e.g. `port_1_freq`. How often to water - options like "Weekly".
+- Next watering: `datetime`, e.g. `port_1_next`.  When to next water the plant.
+- Valve: `switch`, eg. `valve_1`.  The handle for the GPIO that controls the solenoid valve for this port.
+
+All this can now be abstractly defined in a `port.yaml` file alongside my main esphome file, like this:
+
+```yaml
+number:
+  - id: port_${id}_ml
+    name: "Port ${id} volume"
+    platform: template
+    min_value: 0
+    max_value: 500
+    initial_value: 20
+    step: 1
+    unit_of_measurement: ml
+    update_interval: never
+    optimistic: true
+    restore_value: true
+    mode: box
+    icon: "mdi:watering-can"
+    entity_category: config
+
+select:
+  - id: port_${id}_freq
+    name: "Port ${id} frequency"
+    platform: template
+    options:
+     - "Off"
+     - "Daily"
+     - "Twice a week"
+     - "Weekly"
+     - "Every 2 weeks"
+     - "Monthly"
+    update_interval: never
+    initial_option: "Off"
+    optimistic: true
+    restore_value: true
+    icon: "mdi:calendar-clock"
+    entity_category: config
+
+datetime:
+  - id: port_${id}_next
+    name: Port ${id} next due
+    platform: template
+    type: datetime
+    optimistic: yes
+    initial_value: "2020-01-01 12:00:00"
+    restore_value: true
+    icon: "mdi:calendar"
+    entity_category: config
+    on_time:
+      then:
+        - logger.log: "Activating port ${id}!"
+        - script.execute:
+            id: do_watering
+            port_number: ${id}
+
+switch:
+  # Output valves
+  - platform: gpio  
+    pin: ${pin}
+    inverted: true
+    id: valve_${id}
+    name: "Valve ${id}"
+```
+
+Now, in my main esphome config, I can do this:
+
+```yaml
+packages:
+  port_1: !include
+    file: port.yaml
+    vars:
+      id: 1
+      pin: GPIO8
+  port_1: !include
+    file: port.yaml
+    vars:
+      id: 2
+      pin: GPIO18
+...
+```
+
+This reduces the overall amount of code by about 300 lines. Nice!
 
 ### Learnings and next steps
 
-TODO
+OK, what have we all learned here today?
+
+* If you have inductive loads, you need a *bulk decoupling capacitor* and most importantly, *flyback diodes*.
+* Packages help to make ESPHome configs much less repetitive
+* Using arrays in ESPHome lambdas allows for dynamically addressing entities like switches and numbers
+* The `datetime` type is kinda funky and especially the way it interacts with types in lambdas, but I found the most reliable method was to convert it to a `long` and just treat it as a unix timestamp.  I'm hoping it will be OK with DST changes.
+* Plants will die anyway.  Stupid plants.
+
+Things I'd change if I did it again:
+
+* Using a multi-way solenoid valve would be much easier to plumb.
+* The switching relays I used are the most common type for hobby projects and are loud and really large.  I subsequently found an 8-way *solid state* relay board that is a third of the size and silent in operation, I'd probably swap that out if I could be bothered to reprint the enclosure.
+* Using 12V would probably give me access to a bigger range of solenoid options and more reliable operation (since we do need to overcome the force of a magnet and the pressure of the water, and 5V is pretty naff for anything requiring physical force).  A simple buck converter would be all I'd need to step 12V down to 5V for the microcontroller.
+
+The next step is to accomodate **more plants**.  I could make another unit without a pump, and use it to switch one of the outputs from the first controller to multiple plants, avoiding the need for a ton of piping.  Or I could rework the existing controller to have more outputs, and use the multi-way solenoid and solid state relays to reduce the overall size.  A single ESP32 has more than 30 GPIOs so in theory I could get a lot out of one controller.
