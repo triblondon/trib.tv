@@ -200,7 +200,7 @@ const locationData = await getCurrentLocation();
         <dl class="label kv-horizontal data">
             <div><dt>Origin</dt><dd>GB</dd></div>
             <div><dt>Current location</dt><dd>{locationData.countryIso}</dd></div>
-            <div><dt>Local time</dt><dd id="local-time" data-utc-offset={locationData.tz.utcOffset}></dd></div>
+            <div><dt>Local time</dt><dd id="local-time" data-utc-offset={locationData.tz.utcOffset+locationData.tz.dstOffset}></dd></div>
             <div><dt>Time zone</dt><dd>{locationData.tz.name}</dd></div>
         </dl>
         <div class="map">
