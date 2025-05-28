@@ -78,7 +78,7 @@ a.block-link, .block-links a {
     &:hover, &:hover > .link-bg {
         background-color: var(--color-accent);
     }
-    &:active, &:hover > .link-bg {
+    &:active, &:active > .link-bg {
         color: #fff;
         background-color: #1391ff;
     }
