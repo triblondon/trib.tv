@@ -8,7 +8,6 @@ import heroImage from '../assets/images/hero3.jpeg';
 import IconList from "../components/label/IconList.astro";
 import ContentList from "../components/label/ContentList.astro";
 import Marquee from "../components/Marquee.astro";
-import LeafletMap from "../components/islands/LeafletMap.tsx";
 import { getPosts, postsToContentList } from "../utils/posts";
 import { getCurrentLocation, locationsContent } from "../utils/location";
 
@@ -115,8 +114,10 @@ const locationData = await getCurrentLocation();
             .map {
                 grid-area: map;
                 height: 450px;
-                .leaflet-container {
+                img {
+                    width: 100%;
                     height: 100%;
+                    object-fit: cover;
                 }
             }
             .data {
@@ -202,7 +203,20 @@ const locationData = await getCurrentLocation();
             <div><dt>Local time</dt><dd id="local-time" data-utc-offset={locationData.tz.utcOffset}></dd></div>
             <div><dt>Time zone</dt><dd>{locationData.tz.name}</dd></div>
         </dl>
-        <div class="map"><LeafletMap client:only="react" center={[locationData.pos.lat, locationData.pos.lng]} zoom={6} /></div>
+        <div class="map">
+            <img 
+                src={`https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/1200x450`}
+                width="1200" height="450"
+                sizes="(max-width: 1200px) 100vw, 1200px"
+                srcset={
+                    `https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/500x450 500w, ` +
+                    `https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/600x450 600w, ` +
+                    `https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/800x450 800w, ` +
+                    `https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/1000x450 1000w, ` +
+                    `https://trib.tv/mapbox/static/${locationData.pos.lng},${locationData.pos.lat}/1200x450 1200w`
+                }
+            />
+        </div>
     </section>
 
     <!-- https://github.com/tony-xlh/MRZ-dataset/tree/gh-pages/benchmark/dataset/Passports -->
