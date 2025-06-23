@@ -5,7 +5,7 @@ pubDate: 2025-06-22
 description: When I rennovated my house, there were some big leaded glass doors that I didn't have a use for.  Rather than throwing them out, I made one into a desk - using a LOT of epoxy resin.
 author: Andrew Betts
 tags: ["Epoxy resin", "Woodworking", "DIY"]
-status: draft
+status: published
 ---
 
 When I bought the house it had some really cool leaded glass in various places - one of the front windows had it, some sliding doors in the basement, and some internal doors, all hand made by the previous owner.  But the internal doors had to go: they were too short for my apparently giraffe-like stature and I was opening up the layout so needed fewer doors anyway.  
