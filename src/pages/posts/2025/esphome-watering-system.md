@@ -4,7 +4,7 @@ title: Watering my house plants with ESPHome
 pubDate: 2025-04-20
 description: I am a houseplant serial killer, but I want lots of plants and I want them to stay alive.  Plants are annoying though and need different amounts of water at different intervals.  Let's build a watering system with ESPHome.
 author: Andrew Betts
-tags: ["ESPHome", "ESP32", "Home automation", "Home Assistant"]
+tags: ["ESPHome", "ESP32", "Home automation", "Home Assistant", "DIY"]
 ---
 
 The solution to my habitual inability to look after houseplants is *probably* to spend more time learning about plants and less time messing about with microcontrollers, but what if I could spend more time on microcontrollers AND also reduce the plant casualty rate at the same time?!
