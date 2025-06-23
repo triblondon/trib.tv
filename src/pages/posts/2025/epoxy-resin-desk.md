@@ -174,7 +174,7 @@ Next up, legs.
 
 ## Steel support beams
 
-I want to put this top on an existing standing desk frame that I already have, but it's designed to screw into a solid wood desk top and to do so kind of across the middle of the surface.
+I want to put this top on an [existing standing desk frame](https://www.amazon.co.uk/MAIDeSITe-Adjustable-Electric-Two-Stage-Automatic/dp/B08CNB7H23/ref=sr_1_5) that I already have, but it's designed to screw into a solid wood desk top and to do so kind of across the middle of the surface.
 
 That's not gonna work when the desk bottom is mostly covered in glass.  The only part you can screw into is the outer frame, and the standing desk base wasn't designed to mount to the top in that way.
 
