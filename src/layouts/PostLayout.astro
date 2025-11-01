@@ -1,13 +1,13 @@
 ---
 import IconList from "../components/label/IconList.astro";
 import BaseLayout from "./BaseLayout.astro";
-import type { PostMetadata } from "../types";
+import type { ContentItem } from "../types";
 
 interface Props {
-    frontmatter: PostMetadata;
+    entryData: ContentItem;
 }
 
-const { frontmatter } = Astro.props;
+const { entryData } = Astro.props;
 ---
 
 <style>
@@ -59,32 +59,32 @@ const { frontmatter } = Astro.props;
 }
 </style>
 
-<BaseLayout pageTitle={frontmatter.title}>
+<BaseLayout pageTitle={entryData.title}>
 
     <section class="label label-post label-edge-top">
         <div class="post-title padded">
-            <h2>{frontmatter.title}</h2>
+            <h2>{entryData.title}</h2>
         </div>
         <div class="post-standfirst padded">
-            <p>{frontmatter.description}</p>
+            <p>{entryData.description}</p>
         </div>
         <div class="divider"></div>
         <div class="label post-meta">
             <dl class="label kv-vertical">
-                {frontmatter.pubDate && (
+                {entryData.pubDate && (
                     <dt>Date</dt>
-                    <dd>{frontmatter.pubDate.toString().slice(0, 10)}</dd>
+                    <dd>{entryData.pubDate.toString().slice(0, 10)}</dd>
                 )}
-                {frontmatter.tags && frontmatter.tags.length > 0 && (
+                {entryData.tags && entryData.tags.length > 0 && (
                     <dt>Tags</dt>
                     <dd>
-                        {frontmatter.tags.map((tagStr) => <a href={`/topics/${tagStr.toLowerCase()}`}>{tagStr}</a><br />)}
+                        {entryData.tags.map((tagStr) => <a href={`/topics/${tagStr.toLowerCase()}`}>{tagStr}</a><br />)}
                     </dd>
                 )}
                 <dt>Length</dt>
-                <dd>{frontmatter.readingTime.wordsFormatted} words</dd>
+                <dd>{entryData.wordCountString} words</dd>
                 <dt>Reading time</dt>
-                <dd>{frontmatter.readingTime.text}</dd>
+                <dd>{entryData.readingTime}</dd>
             </dl>
             <IconList items={[
                 { icon: "linkedin", href: 'https://www.linkedin.com/shareArticle?mini=true&url=' + Astro.url.toString() },

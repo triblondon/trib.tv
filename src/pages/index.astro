@@ -8,13 +8,13 @@ import heroImage from '../assets/images/hero3.jpeg';
 import IconList from "../components/label/IconList.astro";
 import ContentList from "../components/label/ContentList.astro";
 import Marquee from "../components/Marquee.astro";
-import { getPosts, postsToContentList } from "../utils/posts";
+import { getPosts, postToContentItem } from "../utils/posts";
 import { getCurrentLocation, locationsContent } from "../utils/location";
 
 const MAX_POSTS = 5;
 
-const allPosts = getPosts();
-const contentItems = postsToContentList(allPosts.slice(0, MAX_POSTS));
+const allPosts = await getPosts();
+const contentItems = allPosts.slice(0, MAX_POSTS).map(postToContentItem);
 const numPosts = allPosts.length;
 
 const locationData = await getCurrentLocation();
@@ -200,7 +200,7 @@ const locationData = await getCurrentLocation();
         <dl class="label kv-horizontal data">
             <div><dt>Origin</dt><dd>GB</dd></div>
             <div><dt>Current location</dt><dd>{locationData.countryIso}</dd></div>
-            <div><dt>Local time</dt><dd id="local-time" data-utc-offset={locationData.tz.utcOffset+locationData.tz.dstOffset}></dd></div>
+            <div><dt>Local time</dt><dd id="local-time" data-utc-offset={locationData.currentUtcOffsetHours}></dd></div>
             <div><dt>Time zone</dt><dd>{locationData.tz.name}</dd></div>
         </dl>
         <div class="map">
@@ -286,10 +286,10 @@ const locationData = await getCurrentLocation();
     <script>
         const updateTime = () => {
             const el = document.getElementById('local-time');
-            const utcOffset = Number.parseInt(el.dataset.utcOffset);
+            const utcOffsetHours = Number.parseInt(el.dataset.utcOffset);
             const clientLocalTime = new Date();
             const utcTime = clientLocalTime.getTime() + (clientLocalTime.getTimezoneOffset() * 60000);
-            const andrewLocalTime = new Date(utcTime + (utcOffset * 60000));
+            const andrewLocalTime = new Date(utcTime + (utcOffsetHours * 60 * 60 * 1000));
             const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') + ':' + String(andrewLocalTime.getMinutes()).padStart(2, '0');
             el.innerText = andrewLocalTimeStr;
         }

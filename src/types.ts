@@ -4,24 +4,16 @@ export type ReadTimeResultsExt = ReadTimeResults & {
     wordsFormatted: string;
 }
 
-export type PostMetadata = {
-    layout: string;
-    title: string;
-    pubDate: string;
-    description: string;
-    author: string;
-    tags: string[];
-    readingTime?: ReadTimeResultsExt;
-    status?: "published" | "draft" | "unlisted";
-}
-
 export type ContentItem = {
     title: string;
     url: string;
-    pubDate: string;
+    pubDate: Date;
     wordCount: number;
+    wordCountString: string;
+    readingTime: string;
     description: string;
     isDraft: boolean;
+    tags: string[];
 }
 
 export type LocationData = {
@@ -30,8 +22,8 @@ export type LocationData = {
         lng: number;
     }
     countryIso: string;
+    currentUtcOffsetHours: number;
     tz: {
-        utcOffset: number;
         name: string;
     }
 }

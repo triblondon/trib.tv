@@ -1,7 +1,6 @@
 import { defineConfig } from 'astro/config';
 import remarkDirective from 'remark-directive';
 import { remarkYouTube } from './src/plugins/remark-youtube';
-import { remarkReadingTime } from './src/plugins/remark-reading-time';
 import { remarkFigureFromContainerDirective, remarkFigureFromParagraph } from './src/plugins/remark-figure';
 import { remarkRelativeImagePaths } from './src/plugins/remark-relative-image-paths';
 import { remarkAside } from './src/plugins/remark-aside';
@@ -20,7 +19,6 @@ export default defineConfig({
     remarkPlugins: [
       remarkDirective,
       remarkYouTube,
-      remarkReadingTime,
       remarkAside,
       remarkFigureFromContainerDirective,
       remarkFigureFromParagraph,
@@ -32,15 +30,11 @@ export default defineConfig({
     },
   },
 
-  experimental: {
-    svg: true,
-    responsiveImages: true,
-  },
-
   image: {
     // Used for all Markdown images; not configurable per-image
     // Used for all `<Image />` and `<Picture />` components unless overridden with a prop
-    experimentalLayout: 'responsive',
+    responsiveStyles: true,
+    layout: 'constrained',
   },
 
   integrations: [
@@ -48,4 +42,8 @@ export default defineConfig({
     react(),
     //fixupImageDpi()
   ],
+
+  vite: {
+    assetsInclude: ["**/*.{m4v,mov}"],
+  }
 });

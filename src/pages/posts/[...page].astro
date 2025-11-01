@@ -1,18 +1,20 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentList from "../../components/label/ContentList.astro";
-import type { InferGetStaticPropsType, GetStaticPaths } from "astro";
-import { getPosts, postsToContentList } from "../../utils/posts";
+import type { InferGetStaticPropsType, GetStaticPaths, Page } from "astro";
+import { getPosts, postToContentItem } from "../../utils/posts";
 
 export const getStaticPaths = (async ({ paginate }) => {
-    const allPosts = getPosts();
+    const allPosts = await getPosts();
     return paginate(allPosts, { pageSize: 20 });
 }) satisfies GetStaticPaths;
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
 const { page } = Astro.props as Props;
-const contentItems = postsToContentList(page.data);
+
+const contentItems = page.data.map(postToContentItem);
+
 ---
 
 <BaseLayout>

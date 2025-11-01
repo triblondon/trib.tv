@@ -6,7 +6,7 @@ interface Props {
     startOffset?: number;
 }
 
-const formatDate = (d: string) => new Date(d).toLocaleDateString("en-GB", {
+const formatDate = (d: Date) => new Date(d).toLocaleDateString("en-GB", {
 	year: "numeric",
 	month: "long",
 	day: "numeric",

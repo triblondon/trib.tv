@@ -1,9 +1,14 @@
 - Add noindex to draft/unlisted pages
 - Tag/trip pages
-- Content collections
-    - Draft status -> 404
 - Poke Fastly when netlify build completes
-- Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39 and https://leafletjs.com/examples/choropleth/
+- Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39
+- Update countries travelled to list + connect to HA
+- Lazy load video: https://web.dev/articles/lazy-loading-video
+- Fix images in asides
+- Fix active link colour on nav bar
+- FIx QR code
+- Fix iOS weird font sizing
+- Faster link hover effect
 
 
 ## Things to blog about?
