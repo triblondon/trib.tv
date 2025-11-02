@@ -43,7 +43,7 @@ body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
     min-height: 100%;
     line-height: 1.5;
-    font-family: "Manrope";
+    font-family: "Manrope", system-ui;
     color: white;
 }
 
