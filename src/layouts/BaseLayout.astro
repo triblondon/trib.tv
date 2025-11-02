@@ -5,15 +5,17 @@ import Footer from '../components/Footer.astro';
 interface Props {
     pageTitle?: string;
     showHeader?: boolean;
+    robots?: Array<'noindex' | 'nofollow' | 'none'>;
 }
 
 import "../styles/reset.css";
 import "../styles/base.css";
 import "../styles/label-layouts.css";
 
-const { pageTitle, showHeader } = {
+const { pageTitle, showHeader, robots } = {
     pageTitle: null,
     showHeader: true,
+    robots: [],
     ...Astro.props
 };
 ---
@@ -28,6 +30,7 @@ const { pageTitle, showHeader } = {
         <link rel="alternate" type="application/rss+xml" title="Andrew Betts" href="/feed" />
         <meta name="theme-color" content="#ffffff">
         <meta name="description" content="Web developer, standards and engineering nerd, cocktail enthusiast, maker.">
+        {robots.length > 0 ? <meta name="robots" content={robots.join(', ')} /> : null}
     </head>
 
     <body>

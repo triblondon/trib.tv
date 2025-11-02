@@ -59,7 +59,7 @@ const { entryData } = Astro.props;
 }
 </style>
 
-<BaseLayout pageTitle={entryData.title}>
+<BaseLayout pageTitle={entryData.title} robots={entryData.isDraft ? ['none'] : []}>
 
     <section class="label label-post label-edge-top">
         <div class="post-title padded">
