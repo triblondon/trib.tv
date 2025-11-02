@@ -5,8 +5,6 @@
 - Update countries travelled to list + connect to HA
 - Lazy load video: https://web.dev/articles/lazy-loading-video
 - Fix images in asides
-- Fix active link colour on nav bar
-- FIx QR code
 - Fix iOS weird font sizing
 - Faster link hover effect
 

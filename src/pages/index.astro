@@ -141,11 +141,12 @@ const locationData = await getCurrentLocation();
     </style>
 
     <section class="hero">
-        <Image src={heroImage} alt="" loading="eager" />
+        <Image layout="none" src={heroImage} alt="" loading="eager" />
         <div class="vignette">
         <h1>
             <Image
                 src={barCodeImage}
+                layout="none"
                 alt="My phone number as a Code-128 barcode"
                 title="If you can scan this, you can call me"
             />
@@ -186,6 +187,7 @@ const locationData = await getCurrentLocation();
                 src={vcardQrImg}
                 title="Scan to add me to your contacts"
                 alt="QR code of my VCARD"
+                layout="none"
             />
         </div>
         <div class="info-head padded"><h2>About</h2></div>
