@@ -1,23 +1,32 @@
 ---
 import PostLayout from "../../layouts/PostLayout.astro";
-import { getCollection, render } from 'astro:content';
+import { getCollection, render } from "astro:content";
 import { postToContentItem } from "../../utils/posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('posts');
-  return posts.map(post => {
-    return {
-      params: { slug: post.slug },
-      props: { post },
-    };
-  });
+
+  const IS_PROD = import.meta.env.PROD;
+  const VISIBLE_STATUSES = ["published", "unlisted"];
+
+  const posts = await getCollection("posts");
+  return posts
+    .filter((p) =>
+      IS_PROD
+        ? !p.data.status || VISIBLE_STATUSES.includes(p.data.status)
+        : true,
+    )
+    .map((post) => {
+      return {
+        params: { slug: post.slug },
+        props: { post },
+      };
+    });
 }
 
 const { post } = Astro.props;
 
 if (!post) throw new Error(`Post not found for ${Astro.props}`);
 const { Content } = await render(post);
-
 ---
 
 <PostLayout entryData={postToContentItem(post)}>
