@@ -82,9 +82,6 @@ a.block-link, .block-links a {
         color: #fff;
         background-color: #1391ff;
     }
-    &:focus, &:focus > .link-bg {
-        background-color: #fffedc;
-    }
 }
 a, a > * { transition: all 0.2s; }
 
