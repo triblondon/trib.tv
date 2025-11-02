@@ -58,7 +58,7 @@ a {
     &:hover {
         background-color: var(--color-accent);
         color: #fff;
-        transition-delay: 0.2s;
+        transition-delay: 0.1s;
     }
     &:active {
         color: #fff;
@@ -73,7 +73,7 @@ a.block-link, .block-links a {
     text-decoration: none;
     &:hover, &:hover > * {
         color: #fff;
-        transition-delay: 0.2s;
+        transition-delay: 0.1s;
     }
     &:hover, &:hover > .link-bg {
         background-color: var(--color-accent);
@@ -83,7 +83,7 @@ a.block-link, .block-links a {
         background-color: #1391ff;
     }
 }
-a, a > * { transition: all 0.2s; }
+a, a > * { transition: all 0.15s; }
 
 h2, h3, h4, h5, h6 {
     margin: 0;
