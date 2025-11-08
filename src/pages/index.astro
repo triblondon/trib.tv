@@ -289,11 +289,15 @@ const locationData = await getCurrentLocation();
         const updateTime = () => {
             const el = document.getElementById('local-time');
             const utcOffsetHours = Number.parseInt(el.dataset.utcOffset);
-            const clientLocalTime = new Date();
-            const utcTime = clientLocalTime.getTime() + (clientLocalTime.getTimezoneOffset() * 60000);
-            const andrewLocalTime = new Date(utcTime + (utcOffsetHours * 60 * 60 * 1000));
-            const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') + ':' + String(andrewLocalTime.getMinutes()).padStart(2, '0');
-            el.innerText = andrewLocalTimeStr;
+            if (utcOffsetHours) {
+                const clientLocalTime = new Date();
+                const utcTime = clientLocalTime.getTime() + (clientLocalTime.getTimezoneOffset() * 60000);
+                const andrewLocalTime = new Date(utcTime + (utcOffsetHours * 60 * 60 * 1000));
+                const andrewLocalTimeStr = String(andrewLocalTime.getHours()).padStart(2, '0') + ':' + String(andrewLocalTime.getMinutes()).padStart(2, '0');
+                el.innerText = andrewLocalTimeStr;
+            } else {
+                el.innerText = "Unknown";
+            }
         }
         setInterval(updateTime, 10000);
         updateTime();
