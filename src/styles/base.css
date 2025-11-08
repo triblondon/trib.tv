@@ -4,40 +4,41 @@
     --padding-item: 6px;
     --padding-body: 12px;
 
-    --bg-mash-background-image: linear-gradient(
-            45deg,
+    --bg-mash-background-image: linear-gradient(45deg,
             #808080 25%,
-            transparent 25%
-        ),
+            transparent 25%),
         linear-gradient(-45deg, #808080 25%, transparent 25%),
         linear-gradient(45deg, transparent 75%, #808080 75%),
-        linear-gradient(-45deg, transparent 75%, #808080 75%)
-    ;
+        linear-gradient(-45deg, transparent 75%, #808080 75%);
     --bg-mash-background-size: 6px 6px;
     --bg-mash-background-position:
         0 0,
         0 5px,
         5px -5px,
-        -5px 0px
-    ;
+        -5px 0px;
 
     --bg-diagonals-background-image: repeating-linear-gradient(-45deg, #ffffff, #ffffff 15px, #000000 15px, #000000 30px);
 
     --bg-dashes-size: 4px;
     --bg-dashes-col1: #000000;
     --bg-dashes-col2: #ffffff;
-    --bg-dashes_g: radial-gradient(calc(var(--bg-dashes-size)/2),var(--bg-dashes-col1) 97%,#0000);
+    --bg-dashes_g: radial-gradient(calc(var(--bg-dashes-size)/2), var(--bg-dashes-col1) 97%, #0000);
     --bg-dashes-background:
-        var(--bg-dashes_g),var(--bg-dashes_g) calc(2*var(--bg-dashes-size)) calc(2*var(--bg-dashes-size)),
-        repeating-conic-gradient(from 45deg,#0000 0 25%,var(--bg-dashes-col2) 0 50%) calc(-.707*var(--bg-dashes-size)) calc(-.707*var(--bg-dashes-size)),
-        repeating-linear-gradient(135deg,var(--bg-dashes-col1) calc(var(--bg-dashes-size)/-2) calc(var(--bg-dashes-size)/2),var(--bg-dashes-col2) 0 calc(2.328*var(--bg-dashes-size)));
+        var(--bg-dashes_g), var(--bg-dashes_g) calc(2*var(--bg-dashes-size)) calc(2*var(--bg-dashes-size)),
+        repeating-conic-gradient(from 45deg, #0000 0 25%, var(--bg-dashes-col2) 0 50%) calc(-.707*var(--bg-dashes-size)) calc(-.707*var(--bg-dashes-size)),
+        repeating-linear-gradient(135deg, var(--bg-dashes-col1) calc(var(--bg-dashes-size)/-2) calc(var(--bg-dashes-size)/2), var(--bg-dashes-col2) 0 calc(2.328*var(--bg-dashes-size)));
     --bg-dashes-background-size: calc(4*var(--bg-dashes-size)) calc(4*var(--bg-dashes-size));
 }
 
 @keyframes loader-anim {
-    0%       {background-position:0    calc(0*100%/3),100% calc(1*100%/3),0    calc(2*100%/3),100% calc(3*100%/3)}
-    100%     {background-position:100% calc(0*100%/3),0    calc(1*100%/3),100% calc(2*100%/3),0    calc(3*100%/3)}
- }
+    0% {
+        background-position: 0 calc(0*100%/3), 100% calc(1*100%/3), 0 calc(2*100%/3), 100% calc(3*100%/3)
+    }
+
+    100% {
+        background-position: 100% calc(0*100%/3), 0 calc(1*100%/3), 100% calc(2*100%/3), 0 calc(3*100%/3)
+    }
+}
 
 body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
@@ -55,50 +56,71 @@ section {
 
 a {
     color: var(--color-accent);
+
     &:hover {
         background-color: var(--color-accent);
         color: #fff;
         transition-delay: 0.1s;
     }
+
     &:active {
         color: #fff;
         background-color: #1391ff;
     }
 }
-a.block-link, .block-links a {
+
+a.block-link,
+.block-links a {
     color: inherit;
     display: block;
     width: 100%;
     height: 100%;
     text-decoration: none;
-    &:hover, &:hover > * {
+
+    &:hover,
+    &:hover>* {
         color: #fff;
         transition-delay: 0.1s;
     }
-    &:hover, &:hover > .link-bg {
+
+    &:hover,
+    &:hover>.link-bg {
         background-color: var(--color-accent);
     }
-    &:active, &:active > .link-bg {
+
+    &:active,
+    &:active>.link-bg {
         color: #fff;
         background-color: #1391ff;
     }
 }
-a, a > * { transition: all 0.15s; }
 
-h2, h3, h4, h5, h6 {
+a,
+a>* {
+    transition: all 0.15s;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
     margin: 0;
     text-transform: uppercase;
 }
+
 h2 {
     color: white;
     background-color: black;
     display: inline;
     padding: 1px 6px;
     box-decoration-break: clone;
-    -webkit-box-decoration-break: clone; /* Safari */
+    -webkit-box-decoration-break: clone;
+    /* Safari */
 }
 
-ul, ol {
+ul,
+ol {
     list-style-type: square;
 }
 
@@ -109,17 +131,19 @@ code {
 .loader {
     width: 45px;
     aspect-ratio: 1;
-    --c:no-repeat repeating-linear-gradient(90deg,#000 0 calc(100%/7),#0000 0 calc(200%/7));
-    background: var(--c),var(--c),var(--c),var(--c);
+    --c: no-repeat repeating-linear-gradient(90deg, #000 0 calc(100%/7), #0000 0 calc(200%/7));
+    background: var(--c), var(--c), var(--c), var(--c);
     background-size: 140% 26%;
     animation: loader-anim .75s infinite linear;
 }
 
 .tickbox-list {
     list-style-type: none;
-    & > li {
+
+    &>li {
         margin-bottom: 0.2em;
         margin-left: 1.5em;
+
         .tickbox {
             width: 1.3em;
             height: 1.3em;
@@ -130,14 +154,19 @@ code {
         }
     }
 }
+
 .tickbox {
     background-position: center;
     background-size: contain;
     background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9JzAgMCAzMiAzMicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz48cGF0aCBkPSdNMjYsNEg2QTIsMiwwLDAsMCw0LDZWMjZhMiwyLDAsMCwwLDIsMkgyNmEyLDIsMCwwLDAsMi0yVjZBMiwyLDAsMCwwLDI2LDRaTTYsMjZWNkgyNlYyNlonIC8+PC9zdmc+");
+
     &.checked {
         background-image: url("data:image/svg+xml;base64,PHN2ZyBzdHJva2U9JyMwMDAwMDAnIGZpbGw9JyMwMDAwMDAnIHZpZXdCb3g9IjAgMCAzMiAzMiIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAgIDxwYXRoIGQ9Ik0yNiw0SDZBMiwyLDAsMCwwLDQsNlYyNmEyLDIsMCwwLDAsMiwySDI2YTIsMiwwLDAsMCwyLTJWNkEyLDIsMCwwLDAsMjYsNFpNNiwyNlY2SDI2VjI2WiIgLz4KICAgIDxwb2x5Z29uIHBvaW50cz0iMTQgMjEuNSA5IDE2LjU0IDEwLjU5IDE1IDE0IDE4LjM1IDIxLjQxIDExIDIzIDEyLjU4IDE0IDIxLjUiIC8+Cjwvc3ZnPg==");
     }
-    &.on-dark, .block-links a:hover &, a.block-link:hover & {
+
+    &.on-dark,
+    .block-links a:hover &,
+    a.block-link:hover & {
         filter: invert()
     }
 }
@@ -150,14 +179,25 @@ code {
     * {
         max-width: 100%;
     }
+
     h3,
     h4 {
         margin-top: 2.5em;
     }
+
+    p code {
+        background: #eee;
+        border: 1px solid #ddd;
+        padding: 1px 3px;
+        font-size: 90%;
+        border-radius: 2px;
+    }
+
     table {
         border-collapse: collapse;
         border: 1px solid black;
         width: 100%;
+
         th,
         td {
             text-align: left;
@@ -165,12 +205,14 @@ code {
             color: black;
         }
     }
+
     blockquote {
         margin: 1em;
         padding-left: 30px;
         font-style: italic;
         font-size: 90%;
         position: relative;
+
         &::before {
             position: absolute;
             content: " ";
@@ -184,19 +226,23 @@ code {
             border-bottom: 1px solid black;
         }
     }
+
     figure {
         display: flex;
         flex-flow: column nowrap;
         margin: 1em 0;
         padding: 2px;
+
         img {
             flex: 0 1 auto;
             align-self: center;
             object-position: center;
         }
     }
+
     figure.with-caption {
         background-color: black;
+
         figcaption {
             color: white;
             padding: 10px;
@@ -204,25 +250,29 @@ code {
             font-style: italic;
         }
     }
+
     img {
         height: auto;
         max-height: 70vh;
         object-fit: contain;
-        object-position: left;      
+        object-position: left;
     }
+
     pre.astro-code {
-        padding: 12px;
         font-size: 80%;
-        mask: conic-gradient(from -45deg at bottom,#0000,#000 1deg 89deg,#0000 90deg) bottom/10px 51% repeat-x,
-              conic-gradient(from 135deg at top   ,#0000,#000 1deg 89deg,#0000 90deg) top   /10px 51% repeat-x;
+        padding: 12px;
+        border-top: 2px dotted white;
     }
+
     ul.contains-task-list {
         list-style-type: none;
     }
+
     .youtube {
         position: relative;
         background: #eee;
         aspect-ratio: 16/9;
+
         iframe {
             width: 100%;
             aspect-ratio: 16/9;
@@ -230,6 +280,7 @@ code {
             position: absolute;
             z-index: 2;
         }
+
         .loader {
             z-index: 1;
             position: absolute;
@@ -238,6 +289,7 @@ code {
             transform: translate(-50%, -50%);
         }
     }
+
     aside {
         background-color: #eee;
         background-image: url(/postmark.svg);
@@ -250,7 +302,9 @@ code {
         overflow: hidden;
         font-size: 90%;
         padding: 10px 20px 10px 60px;
-        &::before, &::after {
+
+        &::before,
+        &::after {
             position: absolute;
             left: 0;
             content: " ";
@@ -260,12 +314,15 @@ code {
             display: block;
             background-image: repeating-linear-gradient(-45deg, #eee, #eee 15px, #000000 15px, #000000 30px);
         }
+
         &::before {
             top: 0;
         }
-        &::after { 
+
+        &::after {
             bottom: 0;
         }
+
         .icon {
             position: absolute;
             top: 15px;
@@ -276,4 +333,3 @@ code {
         }
     }
 }
-

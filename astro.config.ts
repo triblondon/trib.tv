@@ -26,7 +26,7 @@ export default defineConfig({
       remarkTickList
     ],
     shikiConfig: {
-      theme: 'rose-pine-dawn',
+      theme: 'github-dark-high-contrast',  // everforest-dark, github-dark-high-contrast, nord
     },
   },
 
