@@ -3,7 +3,6 @@
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39
 - Update countries travelled to list + connect to HA
 - Lazy load video: https://web.dev/articles/lazy-loading-video
-- Fix iOS weird font sizing
 
 
 ## Things to blog about?

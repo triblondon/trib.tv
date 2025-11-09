@@ -39,7 +39,9 @@
         background-position: 100% calc(0*100%/3), 0 calc(1*100%/3), 100% calc(2*100%/3), 0 calc(3*100%/3)
     }
 }
-
+html {
+    -webkit-text-size-adjust: 100%;
+}
 body {
     background: linear-gradient(180deg, var(--color-bg) 0, var(--color-bg) 800px, #333 1000px);
     min-height: 100%;
@@ -175,6 +177,11 @@ code {
     line-height: 1.5;
     font-size: 17px;
     min-width: 0;
+
+    p {
+        line-height: 1.5;
+        font-size: 17px;
+    }
 
     * {
         max-width: 100%;
