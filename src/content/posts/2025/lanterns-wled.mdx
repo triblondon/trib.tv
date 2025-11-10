@@ -27,7 +27,7 @@ A consistent number of LEDs per lantern makes things easier with WLED, because [
 
 Now we need something to stick the LED strip to.  Because the smaller lantern already had a base with an LED on it, and the way the stiffening wires connect to the bases was also different, I designed a slightly different mount for each lantern type, and 3D printed 20 of them:
 
-IMAGE - ONSHAPE
+![LED mounts to fit into lanterns](onshape-bases.png)
 
 Wires could then be soldered to the strip - three on one end (5V, data in and ground) and one on the other end (data out).  The bundle of wires is then zip-tied to the 3D printed mount, and threaded up through the top of the lantern.
 
@@ -46,11 +46,11 @@ USB cables have at least 4 conductors (typically 6, actually), but it seems hard
 
 I strung up a couple of lanterns with a 4mm USB cable, a 3mm Unifi patch cable, and a 1mm waxed jewellery cord.  And I dunno why I'm obsesed over this but these thick cables just aren't gonna do it for me.
 
-Next up, I tried moving to *individual conductors*.  Someone on a forum thread suggested enamelled copper wire so I bought some of that.  This stuff is really beautiful - copper conductors coated in a very thin layer of transparent enamel.  But it's also fragile, kinks easily, and proved be be really hard to solder onto reliably.
+Next up, I tried moving to *individual conductors*.  Someone on a forum thread suggested [enamelled copper wire](https://www.amazon.co.uk/dp/B0CFLX8M18) so I bought some of that.  This stuff is really beautiful - copper conductors coated in a very thin layer of transparent enamel.  But it's also fragile, kinks easily, and proved be be really hard to solder onto reliably.
 
-Finally I disovered *wire-wrapping wire*, almost as thin as enamelled wire but with a conventional plastic sheath - the reel I bought had a conductor diameter of 0.2mm and outer wire diameter of 0.6mm.  A bundle of four of these wires looks cool, gives me cyberpunky vibes like messy overhead power infrastructure.
+Finally I disovered [wire-wrapping wire](https://www.amazon.co.uk/dp/B08MKK114D), almost as thin as enamelled wire but with a conventional plastic sheath - the reel I bought had a conductor diameter of 0.2mm and outer wire diameter of 0.6mm.  A bundle of four of these wires looks cool, gives me cyberpunky vibes like messy overhead power infrastructure.
 
-IMAGE - BANGKOK / KOWLOON WC ?
+![Supposedly the interior of Kowloon walled city](kwc.jpg)
 
 Super easy to strip and solder, nice and flexible.  We have a winner.
 
@@ -71,11 +71,11 @@ This enables all the 5V power connections to be tied together (and all the groun
 
 TODO - photo of interior of junction box
 
-The [USB sockets I used came with four wires](https://www.aliexpress.com/TODO), which was ideal for me. 
+The [USB sockets I used came with four wires](https://www.aliexpress.com/item/1005004397896079.html), which was ideal for me. 
 
 ### Controller and WLED setup
 
-I used to make WLED controllers from ESP32 boards myself, but it's now easy to buy [dedicated WLED controller hardware with WLED preloaded](https://www.aliexpress.com/TODO), basically an ESP32 with a built in level shifter in a nice case with lever terminals for inputs and outputs, and power passthrough.  Some come with microphone too in case you want to run WLED's sound reactive build.  For the sake of an extra five quid, I see no reason to do all that myself, so I picked up a few of the prefabricated controllers from AliExpress.
+I used to make WLED controllers from ESP32 boards myself, but it's now easy to buy [dedicated WLED controller hardware with WLED preloaded](https://www.aliexpress.com/item/1005007355428984.html), basically an ESP32 with a built in level shifter in a nice case with lever terminals for inputs and outputs, and power passthrough.  Some come with microphone too in case you want to run WLED's sound reactive build.  For the sake of an extra five quid, I see no reason to do all that myself, so I picked up a few of the prefabricated controllers from AliExpress.
 
 IMAGE - PHOTO OF CONTROLLER
 
