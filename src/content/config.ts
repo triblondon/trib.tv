@@ -8,7 +8,7 @@ const posts = defineCollection({
     layout: z.string().default('PostLayout.astro'),
     author: z.string().default('Andrew Betts'),
     tags: z.array(z.string()).default([]),
-    status: z.enum(['draft', 'published']).default('published'),
+    status: z.enum(['draft', 'published', 'unlisted']).default('published'),
   })
 });
 
