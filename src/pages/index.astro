@@ -288,8 +288,8 @@ const locationData = await getCurrentLocation();
     <script>
         const updateTime = () => {
             const el = document.getElementById('local-time');
-            const utcOffsetHours = Number.parseInt(el.dataset.utcOffset);
-            if (utcOffsetHours) {
+            if (el.dataset.utcOffset && el.dataset.utcOffset.match(/^[-+]?\d+$/)) {
+                const utcOffsetHours = Number.parseInt(el.dataset.utcOffset);
                 const clientLocalTime = new Date();
                 const utcTime = clientLocalTime.getTime() + (clientLocalTime.getTimezoneOffset() * 60000);
                 const andrewLocalTime = new Date(utcTime + (utcOffsetHours * 60 * 60 * 1000));
