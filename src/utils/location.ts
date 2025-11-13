@@ -10,31 +10,42 @@ const LOCATION_DEFAULTS: LocationData = {
     currentUtcOffsetHours: null,
     tz: {
         name: 'Unknown'
-    }
+    },
+    history: []
 }
 
-
-export const locationCounts: LocationCounts = (locationHistory as LocationHistoryRecord[]).reduce((acc, trip) => {
-    if (!(trip.cciso in acc)) acc[trip.cciso] = { cciso: trip.cciso, count: 0, last: 0 }
-    acc[trip.cciso].count++;
-    acc[trip.cciso].last = Math.max(acc[trip.cciso].last, (new Date(trip.date)).getTime());
-    return acc;
-}, {});
-
-export const locationsContent = Object.values(locationCounts)
-    .sort((a, b) => b.count > a.count ? 1 : -1)
-    .map(rec => {
-        const isoKey = rec.cciso.toLowerCase();
-        const name = (isoKey in allCountries) ? allCountries[isoKey].name : rec.cciso;
-        return { ...rec, name, last: new Date(rec.last) };
-    })
-    ;
-
-export const getCurrentLocation = async (): Promise<LocationData> => {
+const fetchData = async (): Promise<LocationData> => {
     try {
         const response = await fetch('https://triblondon-tribtvlocationmeta.web.val.run/trib-tv');
         return await response.json();
     } catch (e) {
         return LOCATION_DEFAULTS;
     }
+};
+
+export const getLocationData = async (): Promise<LocationData> => {
+    const locations = locationHistory as LocationHistoryRecord[];
+    const data = await fetchData();
+    if (Array.isArray(data.history)) {
+        data.history.forEach(rec => {
+            locations.push(rec as LocationHistoryRecord);
+        });
+    }
+    const locationCounts: LocationCounts = locations.reduce((acc, trip) => {
+        if (!(trip.cciso in acc)) acc[trip.cciso] = { cciso: trip.cciso, count: 0, last: 0 }
+        acc[trip.cciso].count++;
+        acc[trip.cciso].last = Math.max(acc[trip.cciso].last, (new Date(trip.date)).getTime());
+        return acc;
+    }, {});
+
+    const locationsHistoryContent = Object.values(locationCounts)
+        .sort((a, b) => b.count > a.count ? 1 : -1)
+        .map(rec => {
+            const isoKey = rec.cciso.toLowerCase();
+            const name = (isoKey in allCountries) ? allCountries[isoKey].name : rec.cciso;
+            return { ...rec, name, last: new Date(rec.last) };
+        })
+    ;
+    data.history = locationsHistoryContent;
+    return data;
 }

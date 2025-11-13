@@ -1,8 +1,7 @@
-- Tag/trip pages
-- Poke Fastly when netlify build completes
+- Speculation rules
+- Invert icon outline colour when on highlight
+- Lazy load locally hosted videos: https://web.dev/articles/lazy-loading-video
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39
-- Update countries travelled to list + connect to HA
-- Lazy load video: https://web.dev/articles/lazy-loading-video
 
 
 ## Things to blog about?

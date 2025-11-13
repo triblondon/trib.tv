@@ -9,7 +9,7 @@ import IconList from "../components/label/IconList.astro";
 import ContentList from "../components/label/ContentList.astro";
 import Marquee from "../components/Marquee.astro";
 import { getPosts, postToContentItem } from "../utils/posts";
-import { getCurrentLocation, locationsContent } from "../utils/location";
+import { getLocationData } from "../utils/location";
 
 const MAX_POSTS = 5;
 
@@ -17,7 +17,7 @@ const allPosts = await getPosts();
 const contentItems = allPosts.slice(0, MAX_POSTS).map(postToContentItem);
 const numPosts = allPosts.length;
 
-const locationData = await getCurrentLocation();
+const locationData = await getLocationData();
 
 ---
 
@@ -271,7 +271,7 @@ const locationData = await getCurrentLocation();
                 </tr></thead
             >
             <tbody>
-                {locationsContent.map(rec => (
+                {(locationData.history as any).map(rec => (
                     <tr><td>{rec.cciso}</td><td>{rec.name}</td><td>{rec.count}</td><td>{rec.last.getFullYear()}</td></tr>
                 ))}
             </tbody>

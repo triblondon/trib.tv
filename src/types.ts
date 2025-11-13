@@ -25,12 +25,13 @@ export type LocationData = {
     currentUtcOffsetHours: number;
     tz: {
         name: string;
-    }
+    },
+    history?: unknown[];
 }
 
 export type LocationHistoryRecord = {
-    title: string;
-    loc: string;
+    title?: string;
+    loc?: string;
     cciso: string;
     date: string;
 }
