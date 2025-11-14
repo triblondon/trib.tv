@@ -5,9 +5,9 @@ import TickBoxItem from './TickBoxItem.astro';
 
 const links = [
     { path: '/', title: "Home" },
-    { path: '/about', title: "About" },
-    { path: '/cv', title: "Resume" },
-    { path: '/posts', title: "Posts", includeSubPaths: true }
+    { path: '/about/', title: "About" },
+    { path: '/cv/', title: "Resume" },
+    { path: '/posts/', title: "Posts", includeSubPaths: true }
 ]
 
 const thisPath = Astro.url.pathname.replace(/\/$/, '');
