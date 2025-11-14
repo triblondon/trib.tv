@@ -11,7 +11,7 @@ const links = [
 ]
 
 const thisPath = Astro.url.pathname.replace(/\/$/, '');
-const isActivePath = (pathStr: string, includeSubPaths?: boolean) => (pathStr === thisPath || (includeSubPaths && thisPath.startsWith(pathStr+'/')))
+const isActivePath = (pathStr: string, includeSubPaths?: boolean) => (pathStr.replace(/\/$/, '') === thisPath || (includeSubPaths && thisPath.startsWith(pathStr.replace(/\/$/, '')+'/')))
 
 ---
 <style>
