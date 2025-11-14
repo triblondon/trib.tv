@@ -37,5 +37,36 @@ const { pageTitle, showHeader, robots } = {
         {showHeader && (<Header />)}
         <slot />
         <Footer />
+        <script>
+            const applyTouchClass = (e: TouchEvent) => {
+                if (e.target instanceof HTMLElement) {
+                    const a = e.target.closest('a');
+                    const action = e.type === 'touchstart' ? 'add' : 'remove';
+                    if (a) a.classList[action]('pressed');
+                }
+            };
+            document.addEventListener('touchstart', applyTouchClass);
+            document.addEventListener('touchend', applyTouchClass);
+        </script>
+        <script type="speculationrules">
+        {
+            "prerender": [
+                { 
+                    "where": { "selector_matches": ".pre-render" },
+                    "eagerness": "eager"
+                }
+            ],
+            "prefetch": [
+                {
+                    "urls": ["/"],
+                    "eagerness": "immediate"
+                },
+                { 
+                    "where": { "href_matches": "/*" },
+                    "eagerness": "moderate"
+                }
+            ]
+        }
+        </script>
     </body>
 </html>

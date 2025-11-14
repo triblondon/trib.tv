@@ -82,7 +82,7 @@ const { items, startOffset } = Astro.props;
 
 <div class="blog-list block-links">
     {items.map((item, idx) => (
-        <a href={item.url} class:list={["blog-item", { "draft": item.isDraft }]}>
+        <a href={item.url} class:list={["blog-item", { "draft": item.isDraft, "pre-render": idx === 0 }]}>
             <div class="seq link-bg">{(items.length - idx) + startOffset}</div>
             <div class="title link-bg"><h3>{item.title}</h3></div>
             <div class="date link-bg">{formatDate(item.pubDate)}</div>

@@ -65,7 +65,7 @@ a {
         transition-delay: 0.1s;
     }
 
-    &:active {
+    &:active, &.pressed {
         color: #fff;
         background-color: #1391ff;
     }
@@ -91,7 +91,9 @@ a.block-link,
     }
 
     &:active,
-    &:active>.link-bg {
+    &:active>.link-bg,
+    &.pressed,
+    &.pressed>.link-bg {
         color: #fff;
         background-color: #1391ff;
     }

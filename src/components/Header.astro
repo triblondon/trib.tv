@@ -1,12 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import barCodeImage from '../assets/images/barcode.svg';
-import checkboxChecked from '../assets/images/icons/checkbox-checked.svg';
-import checkboxUnChecked from '../assets/images/icons/checkbox.svg';
 import TickBoxItem from './TickBoxItem.astro';
 
 const links = [
     { path: '/', title: "Home" },
+    { path: '/about', title: "About" },
     { path: '/cv', title: "Resume" },
     { path: '/posts', title: "Posts", includeSubPaths: true }
 ]
