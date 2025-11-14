@@ -31,6 +31,26 @@ const { pageTitle, showHeader, robots } = {
         <meta name="theme-color" content="#ffffff">
         <meta name="description" content="Web developer, standards and engineering nerd, cocktail enthusiast, maker.">
         {robots.length > 0 ? <meta name="robots" content={robots.join(', ')} /> : null}
+        <script is:inline type="speculationrules">
+        {
+            "prerender": [
+                { 
+                    "where": { "selector_matches": ".pre-render" },
+                    "eagerness": "eager"
+                }
+            ],
+            "prefetch": [
+                {
+                    "urls": ["/"],
+                    "eagerness": "immediate"
+                },
+                { 
+                    "where": { "href_matches": "/*" },
+                    "eagerness": "moderate"
+                }
+            ]
+        }
+        </script>
     </head>
 
     <body>
@@ -54,26 +74,6 @@ const { pageTitle, showHeader, robots } = {
                     }
                 });
             };
-        </script>
-        <script is:inline type="speculationrules">
-        {
-            "prerender": [
-                { 
-                    "where": { "selector_matches": ".pre-render" },
-                    "eagerness": "eager"
-                }
-            ],
-            "prefetch": [
-                {
-                    "urls": ["/"],
-                    "eagerness": "immediate"
-                },
-                { 
-                    "where": { "href_matches": "/*" },
-                    "eagerness": "moderate"
-                }
-            ]
-        }
         </script>
     </body>
 </html>
