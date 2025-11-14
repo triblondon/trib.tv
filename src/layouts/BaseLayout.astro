@@ -38,17 +38,24 @@ const { pageTitle, showHeader, robots } = {
         <slot />
         <Footer />
         <script>
-            const applyTouchClass = (e: TouchEvent) => {
-                if (e.target instanceof HTMLElement) {
-                    const a = e.target.closest('a');
-                    const action = e.type === 'touchstart' ? 'add' : 'remove';
-                    if (a) a.classList[action]('pressed');
-                }
+            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+                document.addEventListener('click', e => {
+                    if (e.target instanceof HTMLElement) {
+                        const a = e.target.closest('a');
+                        if (a) {
+                            e.preventDefault();
+                            a.classList.add('pressed');
+                            requestAnimationFrame(() => {
+                                setTimeout(() => {
+                                    window.location.href = a.href;
+                                }, 80);
+                            });
+                        }
+                    }
+                });
             };
-            document.addEventListener('touchstart', applyTouchClass);
-            document.addEventListener('touchend', applyTouchClass);
         </script>
-        <script type="speculationrules">
+        <script is:inline type="speculationrules">
         {
             "prerender": [
                 { 
