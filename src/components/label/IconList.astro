@@ -38,7 +38,7 @@ ul {
 </style>
 <ul class="block-links label">
     {items.filter(item => (item.icon in icons)).map(item => {
-        const img = (<img src={icons[item.icon]} alt={`${item.icon} icon`} />)
+        const img = (<img src={icons[item.icon]} class='icon' alt={`${item.icon} icon`} />)
         return item.href ? (
             <li><a href={item.href}>{img}{item.title && (<span>{item.title}</span>)}</a></li>
         ) : (
