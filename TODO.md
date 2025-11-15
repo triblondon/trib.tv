@@ -1,7 +1,7 @@
 - Speculation rules
 - Lazy load locally hosted videos: https://web.dev/articles/lazy-loading-video
 - Highlight countries travelled to using https://github.com/johan/world.geo.json/blob/master/countries.geo.json?short_path=afdfc39
-- Use photos from 1st Choice photo shoot
+- Use photos from Image 1st photo shoot
 
 
 ## Things to blog about?
