@@ -62,7 +62,13 @@ a {
     padding: 2px 3px;
     margin: -2px -3px;
 
-    &:hover {
+    &:active, &.pressed {
+        color: #fff;
+        background-color: #1391ff;
+    }
+}
+@media (hover: hover) {
+    a:hover {
         background-color: var(--color-accent);
         color: #fff;
         transition-delay: 0.1s;
@@ -71,11 +77,6 @@ a {
             background-color: transparent !important;
             border-color: transparent !important;
         }
-    }
-
-    &:active, &.pressed {
-        color: #fff;
-        background-color: #1391ff;
     }
 }
 
@@ -89,26 +90,30 @@ a.block-link,
     padding: initial;
     margin: initial;
 
-    &:hover,
-    &:hover>* {
-        color: #fff;
-        transition-delay: 0.1s;
-    }
-    &:hover,
-    &:hover>.link-bg {
-        background-color: var(--color-accent);
-    }
-
-    &:hover img.icon {
-        filter: invert(1);
-    }
-
     &:active,
     &:active>.link-bg,
     &.pressed,
     &.pressed>.link-bg {
         color: #fff;
         background-color: #1391ff;
+    }
+}
+@media (hover: hover) {
+    a.block-link,
+    .block-links a {
+        &:hover,
+        &:hover>* {
+            color: #fff;
+            transition-delay: 0.1s;
+        }
+        &:hover,
+        &:hover>.link-bg {
+            background-color: var(--color-accent);
+        }
+
+        &:hover img.icon {
+            filter: invert(1);
+        }
     }
 }
 

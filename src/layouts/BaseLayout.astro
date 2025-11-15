@@ -57,5 +57,40 @@ const { pageTitle, showHeader, robots } = {
         {showHeader && (<Header />)}
         <slot />
         <Footer />
+        <script>
+            (function() {
+                const isTouchCapable = ('ontouchstart' in window || navigator.maxTouchPoints > 0);
+
+                const processInteraction = (e: Event) => {
+                    if (!(e.target instanceof HTMLElement)) return;
+                    const a = e.target.closest('a');
+                    if (!a) return;
+                    if (e.type === 'touchstart' && e instanceof TouchEvent) {
+                        document.querySelectorAll('a.pressed').forEach(el => el.classList.remove('pressed'));
+                        a.classList.add('pressed');
+                        a.dataset.touchX = String(e.changedTouches[0].clientX);
+                        a.dataset.touchY = String(e.changedTouches[0].clientY);
+                    } else if (e.type === 'touchmove' && e instanceof TouchEvent && a.classList.contains('pressed')) {
+                        const touchX = parseFloat(a.dataset.touchX || '0');
+                        const touchY = parseFloat(a.dataset.touchY || '0');
+                        const deltaX = Math.abs(e.changedTouches[0].clientX - touchX);
+                        const deltaY = Math.abs(e.changedTouches[0].clientY - touchY);
+                        const big = deltaX > 10 || deltaY > 10;
+                        if (big) a.classList.remove('pressed');
+                    } else if (e.type === 'touchend' && a.classList.contains('pressed')) {
+                        e.preventDefault();
+                        requestAnimationFrame(() => {
+                            window.location.href = a.href;
+                        });
+                    }
+                };
+
+                if (isTouchCapable) {
+                    document.addEventListener('touchstart', processInteraction, { passive: true });
+                    document.addEventListener('touchmove', processInteraction, { passive: true });
+                    document.addEventListener('touchend', processInteraction);
+                }
+            })();
+        </script>
     </body>
 </html>
