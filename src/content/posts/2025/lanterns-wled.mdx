@@ -4,7 +4,7 @@ pubDate: 2025-10-11
 description: I used to live in Japan and love the paper lanterns that adorn buildings all over Japan and China. I wanted to decorate my staircase with lanterns, but I want them to glow up every evening.  Battery-powered tealights aren't gonna cut it.
 author: Andrew Betts
 tags: ["WLED", "ESP32", "DIY", "Home automation", "Home Assistant", "LED"]
-status: unlisted
+status: published
 ---
 
 Paper lanterns are a really cool vibe. But lighting them up daily means they need to be wired into mains power. This is often done around temples or restaurants with a single bulb hanging inside the lantern as part of a festoon lighting string.  I wanted a slightly cleaner look with no visible bulb.  I also wanted a super thin hanging wire which didn't look like an electrical cable, and I wanted the lanterns to animate - ie. glow by fading their brightness on and off like candlelight.
@@ -69,7 +69,10 @@ To make this as reliable as possible, I used prefabricated USB cables, cut them 
 
 This enables all the 5V power connections to be tied together (and all the grounds), providing power injection at every lantern, and wiring the data-out from each lantern to the data-in of the next one.
 
-TODO - photo of interior of junction box
+:::figure
+![Junction box wiring](junction-box-wiring.jpg)
+Input top right, feeding three outputs.  The final output (top left) is intended to be a feed to the next junction box.  Data IN on the input goes to data IN on the first output, then each output's data OUT goes to the next's data IN.  The final output's data OUT goes to the data OUT on the input, allowing for 'spurs' in the line.
+:::
 
 The [USB sockets I used came with four wires](https://www.aliexpress.com/item/1005004397896079.html), which was ideal for me. 
 
@@ -77,7 +80,7 @@ The [USB sockets I used came with four wires](https://www.aliexpress.com/item/10
 
 I used to make WLED controllers from ESP32 boards myself, but it's now easy to buy [dedicated WLED controller hardware with WLED preloaded](https://www.aliexpress.com/item/1005007355428984.html), basically an ESP32 with a built in level shifter in a nice case with lever terminals for inputs and outputs, and power passthrough.  Some come with microphone too in case you want to run WLED's sound reactive build.  For the sake of an extra five quid, I see no reason to do all that myself, so I picked up a few of the prefabricated controllers from AliExpress.
 
-IMAGE - PHOTO OF CONTROLLER
+![Photo of the controller](controller-photo.jpg)
 
 I chopped a USB-A "charge-only" cable (which contains only 2 conductors) in half, connected the positive and negative wires to the power input and ground on the controller, and plugged the USB plug into a USB power supply.  The controller booted up and exposed a `WLED-AP` wifi network, which can be connected to from a phone or laptop to configure the wifi settings on the controller.
 
@@ -110,4 +113,4 @@ Now I just had to position the lanterns and plug them all together using the jun
 
 ### Automation
 
-Clearly we cannot be so gauche as to turn the lanterns on and off *manually* (imagine!), and WLED integrates brilliantly with [Home Assistant](https://www.home-assistant.io).  I already have an automation that turns certain lights on when I get up or enter the house, and another that turns all lights off when I go to bed or leave the house, so the new lanterns light can be added to that automation.  The lanterns now light up whenever I'm home and awake.
+Clearly we cannot be so gauche as to turn the lanterns on and off *manually* (imagine!), and WLED integrates brilliantly with [Home Assistant](https://www.home-assistant.io).  I already have an automation that turns certain lights on when I get up or enter the house, and another that turns all lights off when I go to bed or leave the house, so the new lanterns light can be added to that automation.  The lanterns now light up whenever I'm home and awake - which from my perspective means it seems like they are on all the time.  Magic.
