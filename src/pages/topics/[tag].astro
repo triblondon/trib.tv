@@ -3,29 +3,36 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ContentList from "../../components/label/ContentList.astro";
 import { getPosts, postToContentItem } from "../../utils/posts";
 import type { InferGetStaticPropsType } from "astro";
+import { slugify } from "../../utils/helpers";
+import type { CollectionEntry } from "astro:content";
+
+type TagPageProps = {
+  slug: string;
+  tag: string;
+  posts: CollectionEntry<"posts">[]
+}
+type StaticPathsMap = Record<string, TagPageProps>;
 
 export const getStaticPaths = async () => {
-  const allPosts = await getPosts();
-  const uniqueTags = [
-    ...new Set(allPosts.map((post) => post.data.tags).flat()),
-  ];
-  return uniqueTags.map((tag) => {
-    const filteredPosts = allPosts.filter((post) =>
-      post.data.tags.includes(tag),
-    );
+  const uniqueTags = (await getPosts()).reduce<StaticPathsMap>((tagDict, post) => {
+    post.data.tags.forEach(tag => {
+      const slug = slugify(tag);
+      if (!(slug in tagDict)) tagDict[slug] = { slug, tag, posts: [ post ] }
+      else tagDict[slug].posts.push(post);
+    });
+    return tagDict;
+  }, {});
+  return Object.values(uniqueTags).map(props => {
     return {
-      params: { tag: tag.toLowerCase() },
-      props: {
-        contentItems: filteredPosts.map(postToContentItem),
-      },
+      params: { tag: props.slug },
+      props
     };
   });
 };
 
 type Props = InferGetStaticPropsType<typeof getStaticPaths>;
 
-const { tag } = Astro.params;
-const { contentItems } = Astro.props;
+const { tag, posts } = Astro.props;
 ---
 
 <BaseLayout>
@@ -33,6 +40,6 @@ const { contentItems } = Astro.props;
     <div class="padded">
       <h2>Tag: {tag}</h2>
     </div>
-    <ContentList items={contentItems} />
+    <ContentList items={posts.map(postToContentItem)} />
   </section>
 </BaseLayout>

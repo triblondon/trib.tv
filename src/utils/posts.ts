@@ -16,7 +16,7 @@ export const postToContentItem = (post: CollectionEntry<'posts'>): ContentItem =
     const readingTime = getReadingTime(post.body);
     return {
       title: post.data.title,
-      url: "/posts/" + post.slug,
+      url: "/posts/" + post.slug + "/",
       pubDate: post.data.pubDate,
       wordCount: readingTime.words,
       wordCountString: numberWithCommas(readingTime.words),

@@ -2,6 +2,7 @@
 import IconList from "../components/label/IconList.astro";
 import BaseLayout from "./BaseLayout.astro";
 import type { ContentItem } from "../types";
+import { slugify } from "../utils/helpers";
 
 interface Props {
     entryData: ContentItem;
@@ -82,7 +83,7 @@ const { entryData } = Astro.props;
                 {entryData.tags && entryData.tags.length > 0 && (
                     <dt>Tags</dt>
                     <dd>
-                        {entryData.tags.map((tagStr) => <a href={`/topics/${tagStr.toLowerCase()}`}>{tagStr}</a><br />)}
+                        {entryData.tags.map((tagStr) => <a href={`/topics/${slugify(tagStr)}/`}>{tagStr}</a><br />)}
                     </dd>
                 )}
                 <dt>Length</dt>
