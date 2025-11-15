@@ -322,7 +322,6 @@ code {
         box-shadow: 2px 2px 0 0 #777;
         position: relative;
         overflow: hidden;
-        font-size: 90%;
         padding: 10px 20px 10px 60px;
 
         &::before,
@@ -352,6 +351,10 @@ code {
             width: 60px;
             transform: rotate(-10deg);
             filter: drop-shadow(0px 0px 1px black);
+        }
+
+        p {
+            font-size: 90%;
         }
     }
 }

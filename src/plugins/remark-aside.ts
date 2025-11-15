@@ -19,7 +19,7 @@ export const remarkAside: RemarkPlugin = () => {
                 const asideType = textNode.value.toLowerCase().replace(':', '');
                 const className = 'aside-' + asideType;
 				node.data = { hName: 'aside', hProperties: { className } };
-                const iconImageNode: Image = { type: 'image', url: "icons:" + asideType + ".svg", data: { hProperties: { class: 'icon' } } };
+                const iconImageNode: Image = { type: 'image', url: "icons:" + asideType + ".svg", data: { hProperties: { class: 'icon', alt: '' } } };
                 paraNode.children[0] = iconImageNode; // Replace the strong node with the image node
             }
         });
