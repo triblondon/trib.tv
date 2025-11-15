@@ -15,7 +15,7 @@ One of those doors is now my desk:
 
 This was a major labour of love and involved learning a lot of things I didn't know anything about, so I probably messed up a lot of it, but hey it was fun and I don't hate what I ended up with.  It is not perfect but it's a nice way to preserve the heritage of the house.  Here's the full story!
 
-## Getting inspired
+### Getting inspired
 
 I just can't throw these old doors away, because there's so much of the same glass which is still part of the house.  Here are the sliding doors in the basement, which I kept and are similar in style:
 
@@ -53,7 +53,7 @@ OK so 14 litres of resin, that seems perfectly fine for my first resin project.
 
 I need help.
 
-## Learning how to resin
+### Learning how to resin
 
 Time to consult a professional.  I signed up for an entry level resin course at [The River Shop](https://therivershop.co.uk/), and met [Richard](https://www.linkedin.com/in/richard-wagner-70a293b1) who immediately seemed to be the kind of precision-minded craftsperson that I needed. (I have never been accused of being an 'influencer' of any kind but just for clarity I don't have any relationship to the River Shop except as a customer and they don't know I'm writing this)
 
@@ -71,7 +71,7 @@ It quickly became obvious that there are a bunch of things I need to know to mak
 
 Right, so now I'm a resin expert, let's do this thing.
 
-## Paint stripping
+### Paint stripping
 
 I got myself some paint stripper (I used Bartoline TX10, just because it was in a convenient size on Amazon and had reasonable reviews).  How much do I need.  Dunno.  500ml is surely enough right?   Anyway I slathered that on all over the frame:
 
@@ -91,7 +91,7 @@ Sanding is hard.  OMG.  So boring.  And sadly you can't just snap your fingers l
 
 Sanding done.  No more paint.
 
-## Wood filler
+### Wood filler
 
 A bunch of holes in the frame now needed to be filled, and I plan to stain the wood rather than paint it so I needed a filler that would match the wood and be hidden by the stain.  
 
@@ -103,7 +103,7 @@ I ended up just buying some wood filler that claimed to be stainable and was a r
 
 The biggest areas to fill were the cutouts where I had removed the hinges, but the latch hole (pictured above) was the deepest hole to fill.  There were also a bunch of gouges in the frame that I tried to fill while I was at it.
 
-## Removing the edging and cutting a channel for LEDs
+### Removing the edging and cutting a channel for LEDs
 
 I tried to pull the edging off and hoped I could just break the glue but whatever it's glued on with is stronger than the wood itself so another trip to Library of Things got me a hand router.
 
@@ -123,7 +123,7 @@ But I do have a dremel.  And a 3D printer.  So I got myself a set of routing bit
 
 This was ... not a great idea.  But it kinda worked.
 
-## Cleaning and staining
+### Cleaning and staining
 
 I gave the glass a good clean, and then rubbed on the stain.  I used ebony black [Rustins wood dye](https://www.rustins.ltd/rustins/our-products/wood-preparation/wood-dye-solvent-based-).  It covered my filler beautifully but sadly the older filler just poked striaght through it!
 
@@ -131,7 +131,7 @@ I gave the glass a good clean, and then rubbed on the stain.  I used ebony black
 
 With Kai's advice ringing in my ears, I did give some thought to trying to dig it all out and fill it with sawdust or my better filler, and even thought about maybe giving up on staining and just paint it instead.  But if I did that I wouldn't have needed to spend a whole day sanding it earlier, and I'm a sucker for a sunk cost fallacy, so let's just live with it.
 
-## Adventures in resin
+### Adventures in resin
 
 Right, time to see what we can do with the resin.  I started with some resin my friend Rob had had sitting in his garage for a long time.  It had gone kind of lumpy (I later found out that I could have warmed it up to fix that) but it was good enough to practice mixing and checking the depth of the pour.  Now, how could I pour resin onto the glass in a way that would not bond, and allow me to remove the resin afterwards?
 
@@ -153,7 +153,7 @@ Voila:
 
 Smashed it.  Super happy with this.
 
-## Sanding.  So. Much. Sanding.
+### Sanding.  So. Much. Sanding.
 
 To get the resin to a *perfect* level with the wood, I needed to sand it again.  A lot.  Starting with 40 grit, moving up to 80, 120, 240... and at this point I had a bit of a revelation.  I don't actually want the resin to be clear!  The glass is already marbled.  Frosting the resin slightly will help diffuse the light from the LEDs underneath!
 
@@ -161,7 +161,7 @@ Also, I don't really want to sand up to 2000 grit.  Yeah it was mostly that.
 
 After sanding, the stain needed touching up, so I restained the sanded areas and did the rest of the wood too for good measure.
 
-## Hard wax oil
+### Hard wax oil
 
 Next comes waxing.  The resin and wood need protecting and waterproofing so the surface can be used as a desk top.  I got some Osmo Polyx matte 3062 oil, and brushed it on, then rubbed off the excess with a non-linty cloth (actually I initially used a VERY linty cloth, realised immediately that my desk was now mostly cloth fibres, and had to do the wax again. Dumb.)
 
@@ -171,7 +171,7 @@ Interestingly the wax oil made the resin almost clear.  So much for the frosting
 
 Next up, legs.
 
-## Steel support beams
+### Steel support beams
 
 I want to put this top on an [existing standing desk frame](https://www.amazon.co.uk/MAIDeSITe-Adjustable-Electric-Two-Stage-Automatic/dp/B08CNB7H23/ref=sr_1_5) that I already have, but it's designed to screw into a solid wood desk top and to do so kind of across the middle of the surface.
 
@@ -187,7 +187,7 @@ Library of Things also rents angle grinders, so another £12 later I had my very
 
 The steel needed holes drilled for the bolts and screws, so I started them off with a dremel in a drill press, and enlarged them with a cordless drill.  Drilling metal turns out to be surprisingly ... possible, if not particularly easy.  The barbs are also absolutely lethal.  If you ever do this, wear lots of protection, use a slow drill speed, and oil the drill bit regularly.  It will be messy.
 
-## Closing in on victory
+### Closing in on victory
 
 Finally, all that remains is to wash the steel to remove the drill oil and shards of metal, dry it, bolt it to the standing desk frame, and then slide the new desk top on top.  I secured it with screws at each end of the steel beams.
 
