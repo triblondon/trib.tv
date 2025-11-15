@@ -66,6 +66,11 @@ a {
         background-color: var(--color-accent);
         color: #fff;
         transition-delay: 0.1s;
+        code {
+            transition-delay: 0.1s;
+            background-color: transparent !important;
+            border-color: transparent !important;
+        }
     }
 
     &:active, &.pressed {
