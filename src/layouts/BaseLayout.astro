@@ -57,23 +57,5 @@ const { pageTitle, showHeader, robots } = {
         {showHeader && (<Header />)}
         <slot />
         <Footer />
-        <script>
-            if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
-                document.addEventListener('click', e => {
-                    if (e.target instanceof HTMLElement) {
-                        const a = e.target.closest('a');
-                        if (a) {
-                            e.preventDefault();
-                            a.classList.add('pressed');
-                            requestAnimationFrame(() => {
-                                setTimeout(() => {
-                                    window.location.href = a.href;
-                                }, 80);
-                            });
-                        }
-                    }
-                });
-            };
-        </script>
     </body>
 </html>
