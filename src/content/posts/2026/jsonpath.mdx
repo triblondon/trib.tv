@@ -35,7 +35,7 @@ In JSONPath you can use either a dot or square brackets to descend through the t
 $.paths.[get,put,post]
 ```
 
-Two path separators in a row with no path token in between is a *descendent selector* which allows the parser to navigate through *any number of levels* to reach the next matching token.  That's typically expressed as `..`, eg. `$..properties.*` (which matches children of the key `properties` *whereever it appears in the document*).
+Two path separators in a row with no path token in between is a *descendent selector* (at least in the [jsonpath-plus](https://github.com/JSONPath-Plus/JSONPath) parser) which allows the parser to navigate through *any number of levels* to reach the next matching token.  That's typically expressed as `..`, eg. `$..properties.*` (which matches children of the key `properties` *whereever it appears in the document*).
 
 Since `[]` is a path separator, `.[]` is essentially the same as `..` so even if the `[...]` part of the selector is filtered or constrained, we're essentially saying you can go as deep as you want to find a match.  So let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
 
