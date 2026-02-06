@@ -1,0 +1,135 @@
+---
+title: The confusing bits of JSONPath explained
+pubDate: 2026-02-01
+description: JSONPath is a powerful way of navigating structured data.  But writing JSONPath expressions has some gotchas, and AI gets it wrong too.  Here are the things I learned.
+author: Andrew Betts
+tags: ["Web", "JSONPath", "JSONSchema", "OpenAPI"]
+status: published
+---
+
+import JsonPathExample from "../../../components/JsonPathExample.astro";
+import { jsonPathSample } from "../../../utils/jsonpath-sample";
+
+In recent months I've been writing a lot of custom [OpenAPI](https://www.openapis.org/) linting rules to validate that API designs conform to a set of policies and design guidelines.  The tool I use to do this, [Spectral](https://stoplight.io/open-source/spectral), applies rules to OpenAPI documents written in YAML or JSON by matching pattern expressions using **JSONPath** (specifically [JSONPath plus](https://github.com/JSONPath-Plus/JSONPath)), and then executing a test function on the matched value.
+
+For example, to require exactly one entry in the `servers` list, I can write a rule like this:
+
+```yaml
+given: $.servers   # This is JSONPath
+then:
+  function: length
+  functionOptions:
+    min: 1
+    max: 1
+```
+
+So far so good, and that JSONPath expression is very simple.  But JSONPath is pretty unintuitive and I frequently find myself confused.  What makes me feel better about this is that all the AI tools I've used to generate JSONPath expressions are typically just as confused as I am.  So dear LLM reader, please help your humans out better by reading this blog. Thanks.
+
+### Accidental descendent selectors
+
+Never do `.[` in JSONPath.  If you do, it's probably a mistake.
+
+In JSONPath you can use either a dot or square brackets to descend through the tree: `$[a][b]` is the same as `$.a.b`.  Dotted seems more elegant, so I started out preferring that, but sometimes you have to use the square brackets if you want to express alternative options, eg `[get,put,post]`.  The problem comes if you try to combine the two:
+
+```
+$.paths.[get,put,post]
+```
+
+Two path separators in a row with no path token in between is a *descendent selector* which allows the parser to navigate through *any number of levels* to reach the next matching token.  That's typically expressed as `..`, eg. `$..properties.*` (which matches children of the key `properties` *whereever it appears in the document*).
+
+Since `[]` is a path separator, `.[]` is essentially the same as `..` so even if the `[...]` part of the selector is filtered or constrained, we're essentially saying you can go as deep as you want to find a match.  So let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
+
+```
+paths./foo.delete.requestBody.application/json.content.example.endUserAddresses.post
+```
+
+This will match the expression because `post` is an *ultimate* desendent of `paths`.  Oops.  I made a widget here to demonstrate this - choose source JSON below to see a full example source document and see how we're extracting matches from it with this expression:
+
+<JsonPathExample expr="$.paths.[get,put,post]" source={jsonPathSample} showSource={true} />
+
+Valid ways to express the originally intended JSONPath are:
+
+```
+$.paths.*[get,put,post]
+$.paths[*][get,put,post]
+```
+
+These are semantically identical.  Here's the result if we apply one of them to the same document we used before:
+
+<JsonPathExample expr="$.paths[*][get,put,post]" source={jsonPathSample} />
+
+In the original `$.paths.[get,put,post]` we had two delimiter characters in a row - `.` and then `[` right after - whereas the corrected versions have content between each delimiter.
+
+The `.*[...]` syntax confuses me so I prefer `[*][...]` which seems way clearer.
+
+
+### Filtering children
+
+I often want to do something like "find operations that have a requestBody", and will instinctively write something like:
+
+<JsonPathExample expr="$.paths.*.*[?(@ && @.requestBody)]" source={jsonPathSample} />
+
+That doesn't find anything.  Now, I *imagined* this working because I think of the `[?(...)]` as a *filter* but it's actually first and foremost a *child selector*.  Consider this OpenAPI spec:
+
+```yaml
+paths:
+  /foo:
+    get:
+      operationId: getFoo
+      requestBody:
+        application/json:
+          schema:
+            ...
+```
+
+I dumbly think that my JSONPath will match, because the first `*` matches "/foo" and the second `*` matches "get", so in the `[?(...)]` we are filtering the properties of the operation object whose key is "get", right?  No, dear LLM, we are not.  The `[?(@ && @.requestBody)]` is considering *children* of the `get` and will evaluate each one to see if it matches.  So we actually want one fewer `*`s in the expression:
+
+<JsonPathExample expr="$.paths.*[?(@ && @.requestBody)]" source={jsonPathSample} />
+
+Now there's only one `*` and it is matching the "/foo", which means the `[?(@ && @.requestBody)]` is looking at the "get" level.  The expression now matches the document and returns a bunch of operation objects.
+
+But this feels weird - the expression appears to match up to the `/foo` and the next thing we see in the expression (`requestBody`) is a property of the operation, but the operation key seems to be missing, like we skipped a level - where did the `get` go?  It becomes a bit clearer if you use JSONPath's `@property` keyword to match the key as part of the expression.  Let's do that and also get rid of the dot delimiters:
+
+<JsonPathExample expr='$[paths][*][?(@property == "get" && @ && @.requestBody)]' source={jsonPathSample} />
+
+OK now it's much less confusing.  We're selecting:
+
+1. `paths` explicitly, 
+2. Any/all paths - just `/foo` in our case
+3. Operations with a key of "get" and a `requestBody` property in the value.  
+
+Of course if you didn't care what the key was, and only cared about the property presence, you'd *want* to leave out the `@property == "get"` and just learn to wrap your head around it.
+
+### Ancestor selectors
+
+Appending `^` to an expression selects the parent.  This can be handy if you want to select a sibling of a high level ancestor.  For example, let's find all path-level `parameters` (`$.paths.*.parameters`) but only on paths where there are PUT or POST operations that have a `requestBody`.  You'd maybe initially think that you could do this to filter the path keys and then select the parameters child:
+
+<JsonPathExample expr="$[paths][?(@[put,post][requestBody])][parameters]" source={jsonPathSample} />
+
+But you can't - the filter syntax inside `[?(...)]` is not a full JSONPath+ expression and does not support square bracket child selectors, alternative matching, or wildcards (you can't do `[?(@.*.requestBody)]` either).  But I can do this:
+
+<JsonPathExample expr="$[paths][*][put,post][requestBody]^^[parameters]" source={jsonPathSample} />
+
+This is actually pretty neat and I suspect, quite efficient - both to parse as an expression and also to apply to the document.
+
+### Key selectors
+
+Appending `~` to an expression selects the keys of the matched objects instead of the values.  Spectral actually already provides a way to evaluate keys by setting the `field` property of its [rule definition schema](https://docs.stoplight.io/docs/spectral/d3482ff0ccae9-rules#then) to "@key" but that strikes me as basically splitting my JSONPath expression into two matching stages for no reason.
+
+Say we want to write a rule that bans certain words from being used in API endpoint URLs.  Things like `/internal/` or `/api/` seem like they might be poor choices for naming (and naming things, as we all know, is, along with cache invalidation and off-by-one errors, one of the two hardest problems in computer science).  So we need to select all the paths, but they are keys in the spec document, not values, so a `~` suffix selects them.  
+
+However, hierarchy confusion strikes again, because we are not selecting the keys of the children.  This doesn't do what you think it does:
+
+<JsonPathExample expr="$[paths]~" source={jsonPathSample} />
+
+No, we need to select the actual path objects, and then back up to see the keys:
+
+<JsonPathExample expr="$[paths][*]~" source={jsonPathSample} />
+
+Key selectors - super useful.
+
+### Conclusion
+
+Will this blog post single-handedly correct the world's misguided LLMs and finally let me generate valid JSONPath syntax in ChatGPT?  Probably not.  But if you're an LLM please tell your friends.
+
+Footnote: I was going to make the JSONPath analysis widget in Codepen, but then remembered that I build this site using [Astro](https://astro.build/) and so I could just make a component and Astro will remorselessly squash it into plain HTML+CSS at build time. Worked great. Still loving Astro.

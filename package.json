@@ -18,6 +18,8 @@
     "@types/react": "^19.0.8",
     "@types/react-dom": "^19.0.3",
     "astro": "^5.15.3",
+    "js-yaml": "^4.1.0",
+    "jsonpath-plus": "^10.3.0",
     "leaflet": "^1.9.4",
     "mdast-util-to-string": "^4.0.0",
     "minimatch": "^10.0.1",

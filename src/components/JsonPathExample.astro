@@ -1,0 +1,232 @@
+---
+import { JSONPath } from "jsonpath-plus";
+import yaml from "js-yaml";
+
+import { jsonPathSample } from "../utils/jsonpath-sample";
+
+interface Props {
+  expr: string;
+  source?: unknown;
+  showSource?: boolean;
+  sourceLabel?: string;
+}
+
+const { expr, source, showSource = false, sourceLabel = "Source JSON (YAML)" } = Astro.props;
+const data = (source ?? jsonPathSample) as Record<string, unknown>;
+
+const normalizePath = (path: unknown) => {
+  if (!path) return "";
+  let normalized = Array.isArray(path) ? path.join(".") : String(path);
+  normalized = normalized.replace(/\['([^']+)'\]/g, ".$1");
+  normalized = normalized.replace(/\["([^"]+)"\]/g, ".$1");
+  normalized = normalized.replace(/\[(\d+)\]/g, ".$1");
+  normalized = normalized.replace(/^\$\./, "$." );
+  return normalized;
+};
+
+const formatValue = (value: unknown) => {
+  if (value === null) return { display: "null", raw: "null" };
+  if (Array.isArray(value)) return { display: "Array", raw: "Array" };
+  if (typeof value === "object") return { display: "Object", raw: "Object" };
+  if (typeof value === "string") {
+    const trimmed = value.length > 40 ? `${value.slice(0, 37)}...` : value;
+    return { display: `"${trimmed}"`, raw: value };
+  }
+  return { display: String(value), raw: String(value) };
+};
+
+type Match = { path?: unknown; value?: unknown };
+let matches: Match[] = [];
+let errorMessage: string | null = null;
+
+try {
+  matches = (JSONPath({
+    path: expr,
+    json: data,
+    resultType: "all",
+    wrap: true
+  }) || []) as Match[];
+} catch (error) {
+  const message = error instanceof Error ? error.message : "Unknown error";
+  errorMessage = `Invalid JSONPath expression: ${message}`;
+}
+
+const yamlSource = showSource ? yaml.dump(data, { lineWidth: 80 }) : "";
+---
+
+<section class="jsonpath-example">
+
+  {showSource ? (
+    <div class="panel">
+      <details class="details">
+        <summary>
+          <span class="label">{sourceLabel}</span>
+        </summary>
+        <pre class="yaml-plain"><code>{yamlSource}</code></pre>
+      </details>
+    </div>
+  ) : null}
+
+  <div class="expr">
+    <code>{expr}</code>
+  </div>
+  
+  <div class="panel">
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Path</th>
+            <th>Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          {errorMessage ? (
+            <tr>
+              <td colspan={2} class="notice">{errorMessage}</td>
+            </tr>
+          ) : matches.length === 0 ? (
+            <tr>
+              <td colspan={2} class="notice">No matches found.</td>
+            </tr>
+          ) : (
+            matches.map((match) => {
+              const formatted = formatValue(match.value);
+              return (
+                <tr>
+                  <td class="path-cell">{normalizePath(match.path)}</td>
+                  <td title={formatted.raw !== formatted.display ? formatted.raw : undefined}>
+                    {formatted.display}
+                  </td>
+                </tr>
+              );
+            })
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<style>
+  .jsonpath-example {
+    margin: 14px 0 20px;
+    display: grid;
+    gap: 10px;
+  }
+
+  .expr {
+    background: #1d1d1d;
+    border: 1px solid #101010;
+    padding: 12px 14px;
+  }
+
+  .expr code {
+    display: block;
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+    font-size: 16px;
+    color: #f9f9f9;
+  }
+
+  .panel {
+    background: #f7f7f5;
+    border: 1px solid #1f1f1f;
+    padding: 10px 12px;
+  }
+
+  .table-wrap {
+    border: 1px solid #1f1f1f;
+    overflow: hidden;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+  }
+
+  th,
+  td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #1f1f1f;
+    vertical-align: top;
+  }
+
+  th {
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #0b0b0b;
+    background: #ffffff;
+  }
+
+  tr:nth-child(even) td {
+    background: #f1f1ee;
+  }
+
+  .path-cell {
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+    font-size: 13px;
+  }
+
+  .notice {
+    font-size: 13px;
+    color: #4b4b4b;
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+  }
+
+  .details summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+    gap: 8px;
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+  }
+
+  .details summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .details summary::after {
+    content: "▾";
+    display: inline-block;
+    font-size: 14px;
+    line-height: 1;
+    width: 14px;
+    text-align: center;
+    color: #0b0b0b;
+    transition: transform 120ms ease;
+  }
+
+  .details[open] summary::after {
+    transform: rotate(180deg);
+  }
+
+  .label {
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #0b0b0b;
+    font-weight: 600;
+  }
+
+  .yaml-plain {
+    margin: 8px 0 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    overflow-x: auto;
+    font-size: 13px;
+    line-height: 1.6;
+    font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
+  }
+
+  @media (max-width: 720px) {
+    .expr code {
+      font-size: 14px;
+    }
+  }
+</style>
