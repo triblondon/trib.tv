@@ -31,47 +31,47 @@ So far so good - if the document contains a top level `servers` property, Spectr
 
 Never do `.[` in JSONPath.  If you do, it's probably a mistake.
 
-In JSONPath you can use either a dot or square brackets to descend through the tree: `$[a][b]` is the same as `$.a.b`.  Dotted seems more elegant, so I started out preferring that, but sometimes you have to use the square brackets if you want to express alternative options, eg `[get,put,post]`.  The problem comes if you try to combine the two:
+In JSONPath you can use either a dot or square brackets to descend through the tree: `$[a][b]` is the same as `$.a.b`.  Dotted seems more elegant, so I started out preferring that, but sometimes you have to use the square brackets if you want to express alternative options, eg `[get,post]`.  The problem comes if you try to combine the two:
 
 ```
-$.paths.[get,put,post]
+$.paths.[get,post]
 ```
 
-Two path separators in a row with no path token in between is a *descendent selector* (at least in the [jsonpath-plus](https://github.com/JSONPath-Plus/JSONPath) parser) which allows the parser to navigate through *any number of levels* to reach the next matching token.  That's typically expressed as `..`, eg. `$..properties.*` (which matches children of the key `properties` *whereever it appears in the document*).
+Two path separators in a row with no path token in between is a *descendent selector* (at least in the [jsonpath-plus](https://github.com/JSONPath-Plus/JSONPath) parser) which allows the parser to navigate through *any number of levels* to reach the next matching token.
 
-Since `[]` is a path separator, `.[]` is essentially the same as `..` so even if the `[…]` part of the selector is filtered or constrained, we're essentially saying you can go as deep as you want to find a match.  So let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
+Since `.` and `[]` are both valid path separators, `.[]` is essentially the same as `..`, so we're saying you can go as deep as you want to find a match.  Let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
 
 ```
-paths./foo.delete.requestBody.application/json.content.example.endUserAddresses.post
+paths./foo.put.requestBody.application/json.content.example.endUserAddresses.post
 ```
 
-This will match the expression because `post` is an *ultimate* desendent of `paths`.  Oops.  I made a widget here to demonstrate this - choose source JSON below to see a full example source document and see how we're extracting matches from it with this expression:
+This will match the expression because `post` is an *ultimate* desendent of `paths./foo.put`, so even though we're looking for operation objects for get and post, we also get an example request body for a *put* operation.  Not only is it matching an operation method that we didn't want, but it's returning the wrong type of value.  Oops.  I made a widget to demonstrate this - choose source JSON below to see a full example source document and then look at the matches produced by the expression:
 
-<JsonPathExample expr="$.paths.[get,put,post]" source={jsonPathSample} showSource={true} />
+<JsonPathExample expr="$.paths.[get,post]" source={jsonPathSample} showSource={true} />
 
 Valid ways to express the originally intended JSONPath are:
 
 ```
-$.paths.*[get,put,post]
-$.paths[*][get,put,post]
+$.paths.*[get,post]
+$.paths[*][get,post]
 ```
 
 These are semantically identical.  Here's the result if we apply one of them to the same document we used before:
 
-<JsonPathExample expr="$.paths[*][get,put,post]" source={jsonPathSample} />
+<JsonPathExample expr="$.paths[*][get,post]" source={jsonPathSample} />
 
-In the original `$.paths.[get,put,post]` we had two delimiter characters in a row - `.` and then `[` right after - whereas the corrected versions have content between each delimiter.
+Better!  In the original `$.paths.[get,post]` we had two delimiter characters in a row - `.` and then `[` right after - whereas the corrected versions have content between each delimiter.
 
 The `.*[…]` syntax confuses me so I prefer `[*][…]` which seems way clearer.
 
 
 ### Filtering children
 
-I often want to do something like "find operations that have a requestBody", and will instinctively write something like:
+I often want to do something like "find operations that have a requestBody", and used to instinctively write something like:
 
 <JsonPathExample expr="$.paths.*.*[?(@ && @.requestBody)]" source={jsonPathSample} />
 
-That doesn't find anything.  Now, I *imagined* this working because I think of the `[?(…)]` as a *filter* but it's actually first and foremost a *child selector*.  Consider this OpenAPI spec:
+That doesn't find anything.  I *imagined* this would work because I thought of the `[?(…)]` as a *filter* but it's actually a *child selector*.  Consider this OpenAPI spec:
 
 ```yaml
 paths:
@@ -84,23 +84,31 @@ paths:
             …
 ```
 
-I dumbly think that my JSONPath will match, because the first `*` matches "/foo" and the second `*` matches "get", so in the `[?(…)]` we are filtering the properties of the operation object whose key is "get", right?  No, dear LLM, we are not.  The `[?(@ && @.requestBody)]` is considering *children* of the `get` and will evaluate each one to see if it matches.  So we actually want one fewer `*`s in the expression:
+I dumbly think that my JSONPath will match, because after `paths`, the first `*` matches "/foo" (one of the paths) and the second `*` matches "get" (an operation within that path), so after that, in the `[?(…)]`, we're matching against the properties of the operation object - but we're also *navigating into the matched property*.
 
-<JsonPathExample expr="$.paths.*[?(@ && @.requestBody)]" source={jsonPathSample} />
+It's easier if we change to all-square-bracket notation and change the `*`s to real keys:
 
-Now there's only one `*` and it is matching the "/foo", which means the `[?(@ && @.requestBody)]` is looking at the "get" level.  The expression now matches the document and returns a bunch of operation objects.
+```
+$[paths][/foo][get][?(@ && @.requestBody)]
+```
 
-But this feels weird - the expression appears to match up to the `/foo` and the next thing we see in the expression (`requestBody`) is a property of the operation, but the operation key seems to be missing, like we skipped a level - where did the `get` go?  It becomes a bit clearer if you use JSONPath's `@property` keyword to match the key as part of the expression.  Let's do that and also get rid of the dot delimiters:
+That final segment won't match becuase `@` is the *value* of the candidate properties, not the key.  When the parser reaches `[?(@ && @.requestBody)]`, `@` is `{ "application/json": { "schema": … } }`.  In fact, we need to go up a level:
+
+<JsonPathExample expr="$[paths][*][?(@ && @.requestBody)]" source={jsonPathSample} />
+
+Now there's only one `*` and it is matching the path ("/foo"), which means the `[?(@ && @.requestBody)]` now needs to match the operation.  And the operation does have a `requestBody` property, so it matches and returns the operation, without descending into the `requestBody`.
+
+It just looks weird - the expression appears to match up to the path level ("/foo") and the next thing we see in the expression is a property of the operation ("requestBody"), so it seems like we skipped the operation level.  It becomes a bit clearer if you use JSONPath's `@property` keyword to match the key as part of the expression.  Let's do that and again use square bracket syntax throughout:
 
 <JsonPathExample expr='$[paths][*][?(@property == "get" && @ && @.requestBody)]' source={jsonPathSample} />
 
 OK now it's much less confusing.  We're selecting:
 
-1. `paths` explicitly, 
-2. Any/all paths - just `/foo` in our case
-3. Operations with a key of "get" and a `requestBody` property in the value.  
+1. Paths collection level: Explicitly match `paths`
+2. Individual path level: Any/all paths
+3. Operations level: Select those with a key of "get" and a `requestBody` property in the value.  
 
-Of course if you didn't care what the key was, and only cared about the property presence, you'd *want* to leave out the `@property == "get"` and just learn to wrap your head around it.
+Of course in my use case I didn't care about the operation key, only that the value had a specific property, and that's why the operation key seemed to be AWOL in the expression.
 
 ### Ancestor selectors
 
