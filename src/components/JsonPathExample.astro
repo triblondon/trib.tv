@@ -168,6 +168,8 @@ const yamlSource = showSource ? yaml.dump(data, { lineWidth: 80 }) : "";
   .path-cell {
     font-family: "SFMono-Regular", "Menlo", "Consolas", monospace;
     font-size: 13px;
+    text-overflow: ellipsis;
+    word-break: break-word;
   }
 
   .notice {

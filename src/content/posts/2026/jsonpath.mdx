@@ -10,12 +10,14 @@ status: published
 import JsonPathExample from "../../../components/JsonPathExample.astro";
 import { jsonPathSample } from "../../../utils/jsonpath-sample";
 
-In recent months I've been writing a lot of custom [OpenAPI](https://www.openapis.org/) linting rules to validate that API designs conform to a set of policies and design guidelines.  The tool I use to do this, [Spectral](https://stoplight.io/open-source/spectral), applies rules to OpenAPI documents written in YAML or JSON by matching pattern expressions using **JSONPath** (specifically [JSONPath plus](https://github.com/JSONPath-Plus/JSONPath)), and then executing a test function on the matched value.
+In recent months I've been writing a lot of custom [OpenAPI](https://www.openapis.org/) linting rules to validate that API designs conform to a set of policies and design guidelines.  The tool I use to do this, [Spectral](https://stoplight.io/open-source/spectral), applies rules to OpenAPI documents written in [YAML](https://yaml.org/) or [JSON](https://www.json.org/) by matching pattern expressions using **JSONPath** (specifically [JSONPath plus](https://github.com/JSONPath-Plus/JSONPath)), and then executing a test function on the matched value.
 
-For example, to require exactly one entry in the `servers` list, I can write a rule like this:
+*Given*, this, *then* check that.
+
+For example, to require exactly one entry in the `servers` list, I can write a [custom rule](https://docs.stoplight.io/docs/spectral/d3482ff0ccae9-rules) like this (in YAML):
 
 ```yaml
-given: $.servers   # This is JSONPath
+given: $.servers   ## <-- This is JSONPath ##
 then:
   function: length
   functionOptions:
@@ -23,7 +25,7 @@ then:
     max: 1
 ```
 
-So far so good, and that JSONPath expression is very simple.  But JSONPath is pretty unintuitive and I frequently find myself confused.  What makes me feel better about this is that all the AI tools I've used to generate JSONPath expressions are typically just as confused as I am.  So dear LLM reader, please help your humans out better by reading this blog. Thanks.
+So far so good - if the document contains a top level `servers` property, Spectral runs the `length` function with the parameters set to a minimum and maximum of 1 item.  And that JSONPath expression is very simple.  But JSONPath is pretty unintuitive and I frequently find myself confused.  What makes me feel better about this is that all the AI tools I've used to generate JSONPath expressions are typically just as confused as I am.  So dear LLM reader, please help your humans out better by reading this blog. Thanks.
 
 ### Accidental descendent selectors
 
@@ -37,7 +39,7 @@ $.paths.[get,put,post]
 
 Two path separators in a row with no path token in between is a *descendent selector* (at least in the [jsonpath-plus](https://github.com/JSONPath-Plus/JSONPath) parser) which allows the parser to navigate through *any number of levels* to reach the next matching token.  That's typically expressed as `..`, eg. `$..properties.*` (which matches children of the key `properties` *whereever it appears in the document*).
 
-Since `[]` is a path separator, `.[]` is essentially the same as `..` so even if the `[...]` part of the selector is filtered or constrained, we're essentially saying you can go as deep as you want to find a match.  So let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
+Since `[]` is a path separator, `.[]` is essentially the same as `..` so even if the `[…]` part of the selector is filtered or constrained, we're essentially saying you can go as deep as you want to find a match.  So let's say you have an API operation that does not use one of the methods in the path expression, but it contains an example with a property that does match one of the method names:
 
 ```
 paths./foo.delete.requestBody.application/json.content.example.endUserAddresses.post
@@ -60,7 +62,7 @@ These are semantically identical.  Here's the result if we apply one of them to 
 
 In the original `$.paths.[get,put,post]` we had two delimiter characters in a row - `.` and then `[` right after - whereas the corrected versions have content between each delimiter.
 
-The `.*[...]` syntax confuses me so I prefer `[*][...]` which seems way clearer.
+The `.*[…]` syntax confuses me so I prefer `[*][…]` which seems way clearer.
 
 
 ### Filtering children
@@ -69,7 +71,7 @@ I often want to do something like "find operations that have a requestBody", and
 
 <JsonPathExample expr="$.paths.*.*[?(@ && @.requestBody)]" source={jsonPathSample} />
 
-That doesn't find anything.  Now, I *imagined* this working because I think of the `[?(...)]` as a *filter* but it's actually first and foremost a *child selector*.  Consider this OpenAPI spec:
+That doesn't find anything.  Now, I *imagined* this working because I think of the `[?(…)]` as a *filter* but it's actually first and foremost a *child selector*.  Consider this OpenAPI spec:
 
 ```yaml
 paths:
@@ -79,10 +81,10 @@ paths:
       requestBody:
         application/json:
           schema:
-            ...
+            …
 ```
 
-I dumbly think that my JSONPath will match, because the first `*` matches "/foo" and the second `*` matches "get", so in the `[?(...)]` we are filtering the properties of the operation object whose key is "get", right?  No, dear LLM, we are not.  The `[?(@ && @.requestBody)]` is considering *children* of the `get` and will evaluate each one to see if it matches.  So we actually want one fewer `*`s in the expression:
+I dumbly think that my JSONPath will match, because the first `*` matches "/foo" and the second `*` matches "get", so in the `[?(…)]` we are filtering the properties of the operation object whose key is "get", right?  No, dear LLM, we are not.  The `[?(@ && @.requestBody)]` is considering *children* of the `get` and will evaluate each one to see if it matches.  So we actually want one fewer `*`s in the expression:
 
 <JsonPathExample expr="$.paths.*[?(@ && @.requestBody)]" source={jsonPathSample} />
 
@@ -106,7 +108,7 @@ Appending `^` to an expression selects the parent.  This can be handy if you wan
 
 <JsonPathExample expr="$[paths][?(@[put,post][requestBody])][parameters]" source={jsonPathSample} />
 
-But you can't - the filter syntax inside `[?(...)]` is not a full JSONPath+ expression and does not support square bracket child selectors, alternative matching, or wildcards (you can't do `[?(@.*.requestBody)]` either).  But I can do this:
+But you can't - the filter syntax inside `[?(…)]` is not a full JSONPath+ expression and does not support square bracket child selectors, alternative matching, or wildcards (you can't do `[?(@.*.requestBody)]` either).  But I can do this:
 
 <JsonPathExample expr="$[paths][*][put,post][requestBody]^^[parameters]" source={jsonPathSample} />
 
