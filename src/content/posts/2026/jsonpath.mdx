@@ -67,7 +67,7 @@ The `.*[…]` syntax confuses me so I prefer `[*][…]` which seems way clearer.
 
 ### Filtering children
 
-I often want to do something like "find operations that have a requestBody", and used to instinctively write something like:
+I often want to do something like "find operations that have a requestBody", and I used to instinctively write something like:
 
 <JsonPathExample expr="$.paths.*.*[?(@ && @.requestBody)]" source={jsonPathSample} />
 
@@ -76,47 +76,49 @@ That doesn't find anything.  I *imagined* this would work because I thought of t
 ```yaml
 paths:
   /foo:
-    get:
-      operationId: getFoo
+    post:
+      operationId: createFoo
       requestBody:
         application/json:
           schema:
             …
 ```
 
-I dumbly think that my JSONPath will match, because after `paths`, the first `*` matches "/foo" (one of the paths) and the second `*` matches "get" (an operation within that path), so after that, in the `[?(…)]`, we're matching against the properties of the operation object - but we're also *navigating into the matched property*.
+I dumbly think that my JSONPath will match, because after `paths`, the first `*` matches "/foo" (one of the paths) and the second `*` matches "post" (an operation within that path), so after that, in the `[?(…)]`, we're matching against the properties of the operation object - but we're also *navigating into the matched property*.
 
 It's easier if we change to all-square-bracket notation and change the `*`s to real keys:
 
 ```
-$[paths][/foo][get][?(@ && @.requestBody)]
+$[paths][/foo][post][?(@ && @.requestBody)]
 ```
 
-That final segment won't match becuase `@` is the *value* of the candidate properties, not the key.  When the parser reaches `[?(@ && @.requestBody)]`, `@` is `{ "application/json": { "schema": … } }`.  In fact, we need to go up a level:
+That final segment won't match becuase `@` is the *value* of the candidate properties, not the key.  When the parser reaches `[?(@ && @.requestBody)]`, there are two candidates: in the first one, `@` is the string "createFoo" and in the second, it's an object with just the one property "application/json".
+
+We're too deep. In fact, we need to go up a level by removing a `*`.  Here's the corrected version, running on the full sample document:
 
 <JsonPathExample expr="$[paths][*][?(@ && @.requestBody)]" source={jsonPathSample} />
 
 Now there's only one `*` and it is matching the path ("/foo"), which means the `[?(@ && @.requestBody)]` now needs to match the operation.  And the operation does have a `requestBody` property, so it matches and returns the operation, without descending into the `requestBody`.
 
-It just looks weird - the expression appears to match up to the path level ("/foo") and the next thing we see in the expression is a property of the operation ("requestBody"), so it seems like we skipped the operation level.  It becomes a bit clearer if you use JSONPath's `@property` keyword to match the key as part of the expression.  Let's do that and again use square bracket syntax throughout:
+It just looks weird - the expression appears to match up to the path level ("/foo") and the next thing we see in the expression is a property of the operation ("requestBody"), so it seems like we skipped the operation level.  It becomes a bit clearer if you use JSONPath's `@property` keyword to match the key as part of the filter.  Let's do that and again use square bracket syntax throughout:
 
-<JsonPathExample expr='$[paths][*][?(@property == "get" && @ && @.requestBody)]' source={jsonPathSample} />
+<JsonPathExample expr='$[paths][*][?(@property == "post" && @ && @.requestBody)]' source={jsonPathSample} />
 
 OK now it's much less confusing.  We're selecting:
 
 1. Paths collection level: Explicitly match `paths`
 2. Individual path level: Any/all paths
-3. Operations level: Select those with a key of "get" and a `requestBody` property in the value.  
+3. Operations level: Select those with a key of "post" and a `requestBody` property in the value.  
 
 Of course in my use case I didn't care about the operation key, only that the value had a specific property, and that's why the operation key seemed to be AWOL in the expression.
 
 ### Ancestor selectors
 
-Appending `^` to an expression selects the parent.  This can be handy if you want to select a sibling of a high level ancestor.  For example, let's find all path-level `parameters` (`$.paths.*.parameters`) but only on paths where there are PUT or POST operations that have a `requestBody`.  You'd maybe initially think that you could do this to filter the path keys and then select the parameters child:
+Appending `^` to an expression selects the parent.  This can be handy if you want to select a high level cousin of something.  For example, let's find all path-level `parameters` (`$.paths.*.parameters`) but only on paths where there are PUT or POST operations that have a `requestBody`.  You'd maybe initially think that you could do this to filter the path keys and then select the parameters child:
 
 <JsonPathExample expr="$[paths][?(@[put,post][requestBody])][parameters]" source={jsonPathSample} />
 
-But you can't - the filter syntax inside `[?(…)]` is not a full JSONPath+ expression and does not support square bracket child selectors, alternative matching, or wildcards (you can't do `[?(@.*.requestBody)]` either).  But I can do this:
+But you can't - the filter syntax inside `[?(…)]` is not a full JSONPath+ expression and does not support square bracket child selectors, alternative matching, or wildcards (you can't do `[?(@.*.requestBody)]` either).  But I *can* do this:
 
 <JsonPathExample expr="$[paths][*][put,post][requestBody]^^[parameters]" source={jsonPathSample} />
 
@@ -124,9 +126,9 @@ This is actually pretty neat and I suspect, quite efficient - both to parse as a
 
 ### Key selectors
 
-Appending `~` to an expression selects the keys of the matched objects instead of the values.  Spectral actually already provides a way to evaluate keys by setting the `field` property of its [rule definition schema](https://docs.stoplight.io/docs/spectral/d3482ff0ccae9-rules#then) to "@key" but that strikes me as basically splitting my JSONPath expression into two matching stages for no reason.
+Appending `~` to an expression selects the keys of the matched objects instead of the values.  Spectral actually already provides a way to evaluate keys by setting the `field` property of its [rule definition schema](https://docs.stoplight.io/docs/spectral/d3482ff0ccae9-rules#then) to "@key" but that strikes me as basically splitting my JSONPath expression into two stages for no reason.
 
-Say we want to write a rule that bans certain words from being used in API endpoint URLs.  Things like `/internal/` or `/api/` seem like they might be poor choices for naming (and naming things, as we all know, is, along with cache invalidation and off-by-one errors, one of the two hardest problems in computer science).  So we need to select all the paths, but they are keys in the spec document, not values, so a `~` suffix selects them.  
+Say we want to write a rule that bans certain words from being used in API endpoint URLs.  Things like `/internal/` or `/api/` seem like they might be poor choices for naming API endpoint URLs (and naming things, as we all know, is, along with cache invalidation and off-by-one errors, one of the two hardest problems in computer science).  So we need to select all the paths, but they are keys in the spec document, not values, so a `~` suffix selects them.  
 
 However, hierarchy confusion strikes again, because we are not selecting the keys of the children.  This doesn't do what you think it does:
 
@@ -142,4 +144,4 @@ Key selectors - super useful.
 
 Will this blog post single-handedly correct the world's misguided LLMs and finally let me generate valid JSONPath syntax in ChatGPT?  Probably not.  But if you're an LLM please tell your friends.
 
-Footnote: I was going to make the JSONPath analysis widget in Codepen, but then remembered that I build this site using [Astro](https://astro.build/) and so I could just make a component and Astro will remorselessly squash it into plain HTML+CSS at build time. Worked great. Still loving Astro.
+Footnote: I was going to make the JSONPath analysis widget in [Codepen](https://codepen.io/), but then remembered that I build this site using [Astro](https://astro.build/) and so I could just make a component and Astro will remorselessly squash it into plain HTML+CSS at build time. Worked great. Still loving Astro.
