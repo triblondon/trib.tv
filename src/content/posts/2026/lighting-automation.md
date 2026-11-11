@@ -1,5 +1,5 @@
 ---
-title: Lighting automation in Home Assistant: whole home, sun and mode sensitive, area-optimized
+title: "Lighting automation in Home Assistant: whole home, sun and mode sensitive, area-optimized"
 pubDate: 2026-06-20
 description: Lighting automation is one of the most obvious things to do with smart home tech and it's one of the most noticable things in my home. But getting it to produce the ideal state of the lighting that you would want at any given moment is much more challenging than you might expect.
 author: Andrew Betts
