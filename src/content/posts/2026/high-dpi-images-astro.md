@@ -11,7 +11,7 @@ status: draft
 
 Astro's responsive image capabilities are cool but they have some rough edges.  For example, if I take a small screenshot on my Macbook of a fragment of my screen, save it as a PNG and then include it in my article, it renders at twice the size I expect it to.  This probably looks weirdly big to you:
 
-![VS code UI screenshot](vscode-screenshot.2x.png)
+![VS code UI screenshot](../2025/high-dpi-images-astro/vscode-screenshot.2x.png)
 
 That's because my laptop screen uses **double density pixels**, so if I capture a 500x500 screenshot, my Mac will save a 1000x1000 image.  By the time Astro opens it to optimise it, it just sees it as a 1000x1000 image and doesn't know to display it at 500x500.
 
@@ -52,7 +52,7 @@ Well I have a reputation to maintain so let's do it.
 
 OK I'm nearly done, but I'm still bothered by one more thing.  Most browsers offer the option to download or save images to your computer, or view them in a new window or tab.
 
-![Context menu shows Open image in new tab as an option when right-clicking images on my website](image-save-as.2x.png)
+![Context menu shows Open image in new tab as an option when right-clicking images on my website](../2025/high-dpi-images-astro/image-save-as.2x.png)
 
 When you do this, literally no one wants a WebP or AVIF image, and no-one wants an image that's lower resolution than the best available.  But a browser will typically give you whatver image file has been used to render the *displayed* image.
 
